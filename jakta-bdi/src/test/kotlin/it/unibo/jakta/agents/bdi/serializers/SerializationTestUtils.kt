@@ -3,14 +3,14 @@ package it.unibo.jakta.agents.bdi.serializers
 import io.kotest.matchers.shouldBe
 import it.unibo.jakta.agents.bdi.engine.Jakta.dropWordsWithTrailingNumbers
 import it.unibo.jakta.agents.bdi.engine.beliefs.Belief
+import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin.defaultJsonModule
 import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin.engineJsonModule
-import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin.jsonModule
 import it.unibo.jakta.agents.bdi.engine.events.Trigger
 import it.unibo.jakta.agents.bdi.engine.formatters.DefaultFormatters.termFormatter
 import it.unibo.jakta.agents.bdi.engine.goals.Goal
 
 internal object SerializationTestUtils {
-    internal val modules = listOf(engineJsonModule, jsonModule)
+    internal val modules = listOf(engineJsonModule, defaultJsonModule)
 
     private fun String.normalizeJsonWhitespace(): String =
         this.trim().replace("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)".toRegex(), "")
