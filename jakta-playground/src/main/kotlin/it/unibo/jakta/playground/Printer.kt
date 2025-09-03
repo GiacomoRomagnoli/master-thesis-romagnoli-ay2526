@@ -1,24 +1,39 @@
-package it.unibo.jakta.playground.printer
+package it.unibo.jakta.playground
 
 import it.unibo.jakta.agents.bdi.dsl.goals.TriggerMetadata.meaning
 import it.unibo.jakta.agents.bdi.dsl.mas
 import it.unibo.jakta.agents.bdi.engine.logging.LoggingConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.dsl.DSLExtensions.lmGeneration
-import it.unibo.jakta.playground.ModuleLoader.jsonModule
-import it.unibo.jakta.playground.Utils.readTokenFromEnv
+import it.unibo.jakta.exp.explorer.ModuleLoader.jsonModule
+import java.io.File
+import java.util.Properties
+import kotlin.time.Duration.Companion.seconds
+
+fun readTokenFromEnv(): String? {
+    val envFile = File(".env")
+    return if (!envFile.exists()) {
+        println(".env file not found")
+        null
+    } else {
+        val props = Properties()
+        envFile.inputStream().use { props.load(it) }
+        props.getProperty("API_KEY")
+    }
+}
 
 fun main() =
     mas {
         lmGeneration {
-            model = "deepseek/deepseek-chat-v3-0324:free"
-            temperature = 0.5
-            url = "https://openrouter.ai/api/v1/"
-            token = readTokenFromEnv()
-            maxTokens = 1024
+            model = "" // "deepseek/deepseek-chat-v3-0324:free"
+            temperature = 0.1
+            url = "http://localhost:8080/v1" // "https://openrouter.ai/api/v1/"
+            token = readTokenFromEnv() ?: ""
+            maxTokens = 4096
+            socketTimeout = 360.seconds
+            requestTimeout = 360.seconds
         }
         loggingConfig = LoggingConfig(logToFile = true)
         modules = listOf(jsonModule)
-
         agent("Printer") {
             goals {
                 +achieve("print"(0, 10))
