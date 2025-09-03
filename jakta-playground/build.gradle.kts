@@ -2,34 +2,23 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinx)
-    id("python-dvc")
 }
 
 dependencies {
+    implementation(project(":jakta-evals"))
+    implementation(project(":jakta-exp"))
     implementation(project(":jakta-dsl"))
     implementation(project(":jakta-plan-generation"))
 
     implementation(libs.kotlin.coroutines)
     implementation(libs.ktor.network)
+    implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.bundles.ktor.client)
     implementation(libs.bundles.kotlin.testing)
     implementation(libs.bundles.kotlin.logging)
     implementation(libs.openai)
     implementation(libs.clikt)
     implementation(libs.bundles.koin)
-}
-
-tasks.register<JavaExec>("runExperiment") {
-    val keystoreFile = project.rootProject.file(".env")
-    val properties = Properties()
-    properties.load(keystoreFile.inputStream())
-
-    environment = mapOf("API_KEY" to properties.getProperty("API_KEY"))
-    description = "Run the explorer agent sample with the given experimental config."
-    group = "application"
-
-    classpath = sourceSets.main.get().runtimeClasspath
-    mainClass = "${project.group}.playground.explorer.ExplorerRunnerKt"
 }
 
 tasks.register<JavaExec>("replayExperiment") {
@@ -49,22 +38,23 @@ tasks.register<JavaExec>("runBaseline") {
 }
 
 tasks.register<JavaExec>("analyzePGP") {
-    val keystoreFile = project.rootProject.file(".env")
-    val properties = Properties()
-    properties.load(keystoreFile.inputStream())
+    val environment =
+        runCatching {
+            val keystoreFile = project.rootProject.file(".env")
+            if (!keystoreFile.exists()) return@runCatching emptyMap<String, String>()
 
-    environment = mapOf("API_KEY" to properties.getProperty("API_KEY"))
+            val properties = Properties()
+            keystoreFile.inputStream().use { properties.load(it) }
+            mapOf("API_KEY" to properties.getProperty("API_KEY"))
+        }.getOrElse { exception ->
+            println("Warning: Could not load environment: ${exception.message}")
+            emptyMap()
+        }
+
+    this.environment = environment
     description = "Evaluate each PGP attempt."
     group = "application"
 
     classpath = sourceSets.main.get().runtimeClasspath
-    mainClass = "${project.group}.playground.evaluation.apps.AnalyzePGPKt"
-}
-
-tasks.register<JavaExec>("runDomesticRobot") {
-    description = "Run the domestic robot application."
-    group = "application"
-
-    classpath = sourceSets.main.get().runtimeClasspath
-    mainClass = "${project.group}.playground.domesticrobot.DomesticRobotRunnerKt"
+    mainClass = "${project.group}.playground.evaluation.AnalyzePGPKt"
 }

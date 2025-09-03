@@ -1,9 +1,0 @@
-dvc
-dvc-s3
-jupyter
-pandas
-numpy
-jupyter
-scipy
-deepeval
-python-dotenv
