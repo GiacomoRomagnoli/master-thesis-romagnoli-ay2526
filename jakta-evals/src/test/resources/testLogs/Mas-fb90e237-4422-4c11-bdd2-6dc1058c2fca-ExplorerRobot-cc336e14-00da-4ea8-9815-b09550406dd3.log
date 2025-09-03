@@ -1,0 +1,202 @@
+2025-08-31 15:47:40.289697+02:00 [main] INFO  ExplorerRobot - Added admissible goal: achieve reach(Object)
+2025-08-31 15:47:40.316556+02:00 [main] INFO  ExplorerRobot - Added admissible belief: obstacle(source(self), Direction)
+2025-08-31 15:47:40.319402+02:00 [main] INFO  ExplorerRobot - Added admissible belief: there_is(source(self), Object1, Direction1)
+2025-08-31 15:47:40.320417+02:00 [main] INFO  ExplorerRobot - Added admissible belief: direction(source(self), Direction2)
+2025-08-31 15:47:40.321578+02:00 [main] INFO  ExplorerRobot - Added admissible belief: object(source(self), Object2)
+2025-08-31 15:47:40.324290+02:00 [main] INFO  ExplorerRobot - Added external event: achieve reach(home)
+2025-08-31 15:47:40.327587+02:00 [main] INFO  ExplorerRobot - Added internal action: print
+2025-08-31 15:47:40.328536+02:00 [main] INFO  ExplorerRobot - Added internal action: fail
+2025-08-31 15:47:40.329654+02:00 [main] INFO  ExplorerRobot - Added internal action: stop
+2025-08-31 15:47:40.330312+02:00 [main] INFO  ExplorerRobot - Added internal action: pause
+2025-08-31 15:47:40.330982+02:00 [main] INFO  ExplorerRobot - Added internal action: sleep
+2025-08-31 15:47:40.407306+02:00 [Thread-3] INFO  ExplorerRobot - Added direction(north) from source Percept
+2025-08-31 15:47:40.408836+02:00 [Thread-3] INFO  ExplorerRobot - Added direction(south) from source Percept
+2025-08-31 15:47:40.409535+02:00 [Thread-3] INFO  ExplorerRobot - Added direction(east) from source Percept
+2025-08-31 15:47:40.410210+02:00 [Thread-3] INFO  ExplorerRobot - Added direction(west) from source Percept
+2025-08-31 15:47:40.411164+02:00 [Thread-3] INFO  ExplorerRobot - Added direction(north_east) from source Percept
+2025-08-31 15:47:40.412437+02:00 [Thread-3] INFO  ExplorerRobot - Added direction(north_west) from source Percept
+2025-08-31 15:47:40.413077+02:00 [Thread-3] INFO  ExplorerRobot - Added direction(south_east) from source Percept
+2025-08-31 15:47:40.413719+02:00 [Thread-3] INFO  ExplorerRobot - Added direction(south_west) from source Percept
+2025-08-31 15:47:40.414412+02:00 [Thread-3] INFO  ExplorerRobot - Added direction(here) from source Percept
+2025-08-31 15:47:40.415179+02:00 [Thread-3] INFO  ExplorerRobot - Added object(rock) from source Percept
+2025-08-31 15:47:40.416120+02:00 [Thread-3] INFO  ExplorerRobot - Added object(home) from source Percept
+2025-08-31 15:47:40.416878+02:00 [Thread-3] INFO  ExplorerRobot - Added free(north) from source Percept
+2025-08-31 15:47:40.417566+02:00 [Thread-3] INFO  ExplorerRobot - Added free(east) from source Percept
+2025-08-31 15:47:40.418107+02:00 [Thread-3] INFO  ExplorerRobot - Added free(west) from source Percept
+2025-08-31 15:47:40.418694+02:00 [Thread-3] INFO  ExplorerRobot - Added free(north_east) from source Percept
+2025-08-31 15:47:40.419385+02:00 [Thread-3] INFO  ExplorerRobot - Added free(north_west) from source Percept
+2025-08-31 15:47:40.420258+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(south) from source Percept
+2025-08-31 15:47:40.421005+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(south_east) from source Percept
+2025-08-31 15:47:40.421743+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(south_west) from source Percept
+2025-08-31 15:47:40.423974+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition direction(source(percept), north)
+2025-08-31 15:47:40.424829+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition direction(source(percept), south)
+2025-08-31 15:47:40.425446+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition direction(source(percept), east)
+2025-08-31 15:47:40.426079+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition direction(source(percept), west)
+2025-08-31 15:47:40.427030+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition direction(source(percept), north_east)
+2025-08-31 15:47:40.427718+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition direction(source(percept), north_west)
+2025-08-31 15:47:40.428481+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition direction(source(percept), south_east)
+2025-08-31 15:47:40.429206+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition direction(source(percept), south_west)
+2025-08-31 15:47:40.429800+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition direction(source(percept), here)
+2025-08-31 15:47:40.430342+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition object(source(percept), rock)
+2025-08-31 15:47:40.431439+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition object(source(percept), home)
+2025-08-31 15:47:40.432454+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition free(source(percept), north)
+2025-08-31 15:47:40.433024+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition free(source(percept), east)
+2025-08-31 15:47:40.433545+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition free(source(percept), west)
+2025-08-31 15:47:40.434069+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition free(source(percept), north_east)
+2025-08-31 15:47:40.434645+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition free(source(percept), north_west)
+2025-08-31 15:47:40.435374+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), south)
+2025-08-31 15:47:40.435979+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), south_east)
+2025-08-31 15:47:40.436471+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), south_west)
+2025-08-31 15:47:40.437444+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: achieve reach(home)
+2025-08-31 15:47:40.441635+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: achieve failure reach(home)
+2025-08-31 15:47:40.442518+02:00 [Thread-3] INFO  ExplorerRobot - Requested generation for goal achieve reach(home)
+2025-08-31 15:47:40.458310+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition direction(source(percept), north)
+2025-08-31 15:47:40.459556+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition direction(source(percept), north)
+2025-08-31 15:47:40.468384+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition direction(source(percept), south)
+2025-08-31 15:47:40.468979+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition direction(source(percept), south)
+2025-08-31 15:47:40.476014+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition direction(source(percept), east)
+2025-08-31 15:47:40.476577+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition direction(source(percept), east)
+2025-08-31 15:47:40.484427+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition direction(source(percept), west)
+2025-08-31 15:47:40.484956+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition direction(source(percept), west)
+2025-08-31 15:47:40.492026+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition direction(source(percept), north_east)
+2025-08-31 15:47:40.492907+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition direction(source(percept), north_east)
+2025-08-31 15:47:40.499480+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition direction(source(percept), north_west)
+2025-08-31 15:47:40.500092+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition direction(source(percept), north_west)
+2025-08-31 15:47:40.507604+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition direction(source(percept), south_east)
+2025-08-31 15:47:40.508347+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition direction(source(percept), south_east)
+2025-08-31 15:47:40.515567+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition direction(source(percept), south_west)
+2025-08-31 15:47:40.516150+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition direction(source(percept), south_west)
+2025-08-31 15:47:40.521328+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition direction(source(percept), here)
+2025-08-31 15:47:40.522123+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition direction(source(percept), here)
+2025-08-31 15:47:40.527812+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition object(source(percept), rock)
+2025-08-31 15:47:40.528366+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition object(source(percept), rock)
+2025-08-31 15:47:40.539778+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition object(source(percept), home)
+2025-08-31 15:47:40.540371+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition object(source(percept), home)
+2025-08-31 15:47:40.544841+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition free(source(percept), north)
+2025-08-31 15:47:40.545365+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition free(source(percept), north)
+2025-08-31 15:47:40.550565+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition free(source(percept), east)
+2025-08-31 15:47:40.551137+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition free(source(percept), east)
+2025-08-31 15:47:40.555444+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition free(source(percept), west)
+2025-08-31 15:47:40.556126+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition free(source(percept), west)
+2025-08-31 15:47:40.560939+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition free(source(percept), north_east)
+2025-08-31 15:47:40.561675+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition free(source(percept), north_east)
+2025-08-31 15:47:40.566271+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition free(source(percept), north_west)
+2025-08-31 15:47:40.566897+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition free(source(percept), north_west)
+2025-08-31 15:47:40.570096+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), south)
+2025-08-31 15:47:40.570519+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), south)
+2025-08-31 15:47:40.574207+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), south_east)
+2025-08-31 15:47:40.574619+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), south_east)
+2025-08-31 15:47:40.577681+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), south_west)
+2025-08-31 15:47:40.578084+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), south_west)
+2025-08-31 15:47:40.580992+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: achieve failure reach(home)
+2025-08-31 15:47:40.687867+02:00 [Thread-3] INFO  ExplorerRobot - Created new intention dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:40.690863+02:00 [Thread-3] INFO  ExplorerRobot - Selected plan: achieve failure reach(home)
+2025-08-31 15:47:40.693400+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.228751+02:00 [Thread-3] INFO  ExplorerRobot - The goal achieve reach(home) was successfully generated with the following plans: achieve reach(home), achieve reach(home), achieve reach(home), achieve reach(home)
+2025-08-31 15:47:47.239034+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.240645+02:00 [Thread-3] INFO  ExplorerRobot - Added internal event: achieve reach(home)
+2025-08-31 15:47:47.241703+02:00 [Thread-3] INFO  ExplorerRobot - The goal Achieve(reach(home)) was successfully executed
+2025-08-31 15:47:47.246788+02:00 [Thread-3] INFO  ExplorerRobot - Selected internal event: achieve reach(home)
+2025-08-31 15:47:47.267835+02:00 [Thread-3] INFO  ExplorerRobot - Updated intention dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.269299+02:00 [Thread-3] INFO  ExplorerRobot - Selected plan: achieve reach(home)
+2025-08-31 15:47:47.269963+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.281210+02:00 [Thread-3] INFO  ExplorerRobot - The goal TrackGoalExecution(execute getDirectionToMove(Direction)) was successfully executed
+2025-08-31 15:47:47.282172+02:00 [Thread-3] INFO  ExplorerRobot - The action "getDirectionToMove" was successfully executed with the given arguments: Direction3
+2025-08-31 15:47:47.291438+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.300332+02:00 [Thread-3] INFO  ExplorerRobot - The goal TrackGoalExecution(execute move(east)) was successfully executed
+2025-08-31 15:47:47.301008+02:00 [Thread-3] INFO  ExplorerRobot - The action "move" was successfully executed with the given arguments: east
+2025-08-31 15:47:47.315089+02:00 [Thread-3] INFO  ExplorerRobot - Added free(south_east) from source Percept
+2025-08-31 15:47:47.315885+02:00 [Thread-3] INFO  ExplorerRobot - Removed obstacle(south_east) from source Percept
+2025-08-31 15:47:47.316535+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition free(source(percept), south_east)
+2025-08-31 15:47:47.317996+02:00 [Thread-3] INFO  ExplorerRobot - Removed external event: belief removal obstacle(source(percept), south_east)
+2025-08-31 15:47:47.318635+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition free(source(percept), south_east)
+2025-08-31 15:47:47.319069+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition free(source(percept), south_east)
+2025-08-31 15:47:47.319521+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.319977+02:00 [Thread-3] INFO  ExplorerRobot - Added internal event: achieve reach(home)
+2025-08-31 15:47:47.320361+02:00 [Thread-3] INFO  ExplorerRobot - The goal TrackGoalExecution(achieve reach(home)) was successfully executed
+2025-08-31 15:47:47.320684+02:00 [Thread-3] INFO  ExplorerRobot - The goal Achieve(reach(home)) was successfully executed
+2025-08-31 15:47:47.324063+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief removal obstacle(source(percept), south_east)
+2025-08-31 15:47:47.324551+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief removal obstacle(source(percept), south_east)
+2025-08-31 15:47:47.327912+02:00 [Thread-3] INFO  ExplorerRobot - Selected internal event: achieve reach(home)
+2025-08-31 15:47:47.338847+02:00 [Thread-3] INFO  ExplorerRobot - Updated intention dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.339610+02:00 [Thread-3] INFO  ExplorerRobot - Selected plan: achieve reach(home)
+2025-08-31 15:47:47.340103+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.345226+02:00 [Thread-3] INFO  ExplorerRobot - The action "getDirectionToMove" was successfully executed with the given arguments: Direction3
+2025-08-31 15:47:47.348841+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.350223+02:00 [Thread-3] INFO  ExplorerRobot - The action "move" was successfully executed with the given arguments: south_east
+2025-08-31 15:47:47.375162+02:00 [Thread-3] INFO  ExplorerRobot - Added free(south) from source Percept
+2025-08-31 15:47:47.375780+02:00 [Thread-3] INFO  ExplorerRobot - Added free(south_west) from source Percept
+2025-08-31 15:47:47.376144+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(east) from source Percept
+2025-08-31 15:47:47.376486+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(west) from source Percept
+2025-08-31 15:47:47.376796+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(north_east) from source Percept
+2025-08-31 15:47:47.377073+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(south_east) from source Percept
+2025-08-31 15:47:47.377370+02:00 [Thread-3] INFO  ExplorerRobot - Added there_is(home, south) from source Percept
+2025-08-31 15:47:47.377672+02:00 [Thread-3] INFO  ExplorerRobot - Removed obstacle(south_west) from source Percept
+2025-08-31 15:47:47.378011+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition free(source(percept), south)
+2025-08-31 15:47:47.378352+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition free(source(percept), south_west)
+2025-08-31 15:47:47.378689+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), east)
+2025-08-31 15:47:47.378992+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), west)
+2025-08-31 15:47:47.379314+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), north_east)
+2025-08-31 15:47:47.379686+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), south_east)
+2025-08-31 15:47:47.379996+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition there_is(source(percept), home, south)
+2025-08-31 15:47:47.380338+02:00 [Thread-3] INFO  ExplorerRobot - Removed external event: belief removal obstacle(source(percept), south_west)
+2025-08-31 15:47:47.380668+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition free(source(percept), south)
+2025-08-31 15:47:47.380959+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition free(source(percept), south)
+2025-08-31 15:47:47.381365+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.381722+02:00 [Thread-3] INFO  ExplorerRobot - Added internal event: achieve reach(home)
+2025-08-31 15:47:47.381991+02:00 [Thread-3] INFO  ExplorerRobot - The goal Achieve(reach(home)) was successfully executed
+2025-08-31 15:47:47.385106+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition free(source(percept), south_west)
+2025-08-31 15:47:47.385498+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition free(source(percept), south_west)
+2025-08-31 15:47:47.388567+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), east)
+2025-08-31 15:47:47.388965+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), east)
+2025-08-31 15:47:47.393441+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), west)
+2025-08-31 15:47:47.393835+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), west)
+2025-08-31 15:47:47.398057+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), north_east)
+2025-08-31 15:47:47.398433+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), north_east)
+2025-08-31 15:47:47.402714+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), south_east)
+2025-08-31 15:47:47.403125+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), south_east)
+2025-08-31 15:47:47.407419+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition there_is(source(percept), home, south)
+2025-08-31 15:47:47.407862+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition there_is(source(percept), home, south)
+2025-08-31 15:47:47.412192+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief removal obstacle(source(percept), south_west)
+2025-08-31 15:47:47.412721+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief removal obstacle(source(percept), south_west)
+2025-08-31 15:47:47.417281+02:00 [Thread-3] INFO  ExplorerRobot - Selected internal event: achieve reach(home)
+2025-08-31 15:47:47.435240+02:00 [Thread-3] INFO  ExplorerRobot - Updated intention dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.436935+02:00 [Thread-3] INFO  ExplorerRobot - Selected plan: achieve reach(home)
+2025-08-31 15:47:47.437689+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.439331+02:00 [Thread-3] INFO  ExplorerRobot - The goal TrackGoalExecution(execute move(south)) was successfully executed
+2025-08-31 15:47:47.439680+02:00 [Thread-3] INFO  ExplorerRobot - The action "move" was successfully executed with the given arguments: south
+2025-08-31 15:47:47.465219+02:00 [Thread-3] INFO  ExplorerRobot - Added free(west) from source Percept
+2025-08-31 15:47:47.465817+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(south) from source Percept
+2025-08-31 15:47:47.466145+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(north_west) from source Percept
+2025-08-31 15:47:47.466480+02:00 [Thread-3] INFO  ExplorerRobot - Added obstacle(south_west) from source Percept
+2025-08-31 15:47:47.466805+02:00 [Thread-3] INFO  ExplorerRobot - Added there_is(home, here) from source Percept
+2025-08-31 15:47:47.467077+02:00 [Thread-3] INFO  ExplorerRobot - Removed there_is(home, south) from source Percept
+2025-08-31 15:47:47.467418+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition free(source(percept), west)
+2025-08-31 15:47:47.467776+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), south)
+2025-08-31 15:47:47.468076+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), north_west)
+2025-08-31 15:47:47.468429+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition obstacle(source(percept), south_west)
+2025-08-31 15:47:47.468750+02:00 [Thread-3] INFO  ExplorerRobot - Added external event: belief addition there_is(source(percept), home, here)
+2025-08-31 15:47:47.469720+02:00 [Thread-3] INFO  ExplorerRobot - Removed external event: belief removal there_is(source(percept), home, south)
+2025-08-31 15:47:47.470463+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition free(source(percept), west)
+2025-08-31 15:47:47.470952+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition free(source(percept), west)
+2025-08-31 15:47:47.471423+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.472511+02:00 [Thread-3] INFO  ExplorerRobot - Added internal event: achieve reach(home)
+2025-08-31 15:47:47.472992+02:00 [Thread-3] INFO  ExplorerRobot - The goal TrackGoalExecution(achieve reach(home)) was successfully executed
+2025-08-31 15:47:47.473696+02:00 [Thread-3] INFO  ExplorerRobot - The goal Achieve(reach(home)) was successfully executed
+2025-08-31 15:47:47.479918+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), south)
+2025-08-31 15:47:47.480614+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), south)
+2025-08-31 15:47:47.484863+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), north_west)
+2025-08-31 15:47:47.485203+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), north_west)
+2025-08-31 15:47:47.489883+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition obstacle(source(percept), south_west)
+2025-08-31 15:47:47.490413+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition obstacle(source(percept), south_west)
+2025-08-31 15:47:47.494612+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief addition there_is(source(percept), home, here)
+2025-08-31 15:47:47.494992+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief addition there_is(source(percept), home, here)
+2025-08-31 15:47:47.499023+02:00 [Thread-3] INFO  ExplorerRobot - Selected external event: belief removal there_is(source(percept), home, south)
+2025-08-31 15:47:47.499398+02:00 [Thread-3] WARN  ExplorerRobot - No plan found for trigger belief removal there_is(source(percept), home, south)
+2025-08-31 15:47:47.504162+02:00 [Thread-3] INFO  ExplorerRobot - Selected internal event: achieve reach(home)
+2025-08-31 15:47:47.517448+02:00 [Thread-3] INFO  ExplorerRobot - Updated intention dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.517997+02:00 [Thread-3] INFO  ExplorerRobot - Selected plan: achieve reach(home)
+2025-08-31 15:47:47.518465+02:00 [Thread-3] INFO  ExplorerRobot - Running goal of dbc4e9af-673e-4c0c-a791-cd7d85565332
+2025-08-31 15:47:47.520330+02:00 [Thread-3] INFO  ExplorerRobot - Agent's controller entered stop state
+2025-08-31 15:47:47.520716+02:00 [Thread-3] INFO  ExplorerRobot - The goal TrackGoalExecution(execute stop) was successfully executed
+2025-08-31 15:47:47.521002+02:00 [Thread-3] INFO  ExplorerRobot - The action "stop" was successfully executed
