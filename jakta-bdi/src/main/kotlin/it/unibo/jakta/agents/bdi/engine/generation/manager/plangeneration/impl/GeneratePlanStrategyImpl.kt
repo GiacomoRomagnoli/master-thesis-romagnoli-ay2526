@@ -46,9 +46,7 @@ internal class GeneratePlanStrategyImpl(
         /*
          * Request the plan generation.
          */
-        val planGenResult = updatedGenerationStrategy.requestBlockingGeneration(generationState)
-
-        return when (planGenResult) {
+        return when (val planGenResult = updatedGenerationStrategy.requestBlockingGeneration(generationState)) {
             is GenerationFailureResult -> errorHandler.handleFailure(intention, context, planGenResult)
             is PlanGenerationResult ->
                 processPlanGenerationResult(

@@ -10,7 +10,7 @@ import org.koin.dsl.koinApplication
 import org.koin.dsl.module
 
 object JaktaKoin {
-    val jsonModule =
+    val defaultJsonModule =
         module {
             single {
                 val providers = getAll<SerializersModuleProvider>()
@@ -32,7 +32,7 @@ object JaktaKoin {
 
     private val koinApp =
         koinApplication {
-            modules(jsonModule)
+            modules(defaultJsonModule)
         }
 
     internal val koin = koinApp.koin
