@@ -5,11 +5,11 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.dsl.LMGenerationConfigS
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.strategy.LMGenerationStrategy
 
 object GenerationStrategies {
-    fun lmGeneration(generationCfg: LMGenerationConfig.LMGenerationConfigContainer) =
-        LMGenerationStrategy.of(generationCfg)
+    fun lmGeneration(generationCfg: LMGenerationConfigScope.() -> Unit) =
+        LMGenerationStrategy.of(lmConfig(generationCfg))
 
-    fun lmGeneration(generationCfg: LMGenerationConfigScope.() -> Unit): LMGenerationStrategy {
-        val res = LMGenerationConfigScope().also(generationCfg).build().fromConfig()
-        return LMGenerationStrategy.of(res)
+    fun lmConfig(generationCfg: LMGenerationConfigScope.() -> Unit): LMGenerationConfig.LMGenerationConfigContainer {
+        val configPatch = LMGenerationConfigScope().also(generationCfg).build()
+        return configPatch.patch(LMGenerationConfig.LMGenerationConfigContainer())
     }
 }

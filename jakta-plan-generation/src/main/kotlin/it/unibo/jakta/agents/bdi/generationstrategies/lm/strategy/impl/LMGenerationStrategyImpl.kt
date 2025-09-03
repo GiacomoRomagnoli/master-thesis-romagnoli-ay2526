@@ -83,33 +83,12 @@ internal class LMGenerationStrategyImpl(
         }
     }
 
-    override fun updateGenerationConfig(generationConfig: GenerationConfig): GenerationStrategy {
-        val configUpdate = generationConfig as? LMGenerationConfig.LMGenerationConfigUpdate ?: return this
-
-        val mergedRemarks =
-            if (configUpdate.remarks != null) {
-                generationConfig.remarks?.plus(this.generationConfig.remarks) ?: emptyList()
-            } else {
-                this.generationConfig.remarks
-            }
-
-        val mergedConfig =
-            LMGenerationConfig.LMGenerationConfigContainer(
-                modelId = configUpdate.modelId ?: this.generationConfig.modelId,
-                temperature = configUpdate.temperature ?: this.generationConfig.temperature,
-                maxTokens = configUpdate.maxTokens ?: this.generationConfig.maxTokens,
-                lmServerUrl = configUpdate.lmServerUrl ?: this.generationConfig.lmServerUrl,
-                lmServerToken = configUpdate.lmServerToken ?: this.generationConfig.lmServerToken,
-                contextFilters = configUpdate.contextFilters.ifEmpty { this.generationConfig.contextFilters },
-                systemPromptBuilder = configUpdate.systemPromptBuilder ?: this.generationConfig.systemPromptBuilder,
-                remarks = mergedRemarks,
-                requestTimeout = configUpdate.requestTimeout ?: this.generationConfig.requestTimeout,
-                connectTimeout = configUpdate.connectTimeout ?: this.generationConfig.connectTimeout,
-                socketTimeout = configUpdate.socketTimeout ?: this.generationConfig.socketTimeout,
-            )
-
-        return LMGenerationStrategy.of(mergedConfig)
-    }
+    override fun updateGenerationConfig(generationConfig: GenerationConfig): GenerationStrategy =
+        when (generationConfig) {
+            is LMGenerationConfig.LMGenerationConfigUpdate ->
+                LMGenerationStrategy.of(generationConfig.patch(this.generationConfig))
+            else -> this
+        }
 
     override fun toString(): String =
         "LMGenerationStrategyImpl(" +

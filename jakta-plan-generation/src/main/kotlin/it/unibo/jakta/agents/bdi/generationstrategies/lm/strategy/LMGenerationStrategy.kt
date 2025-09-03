@@ -15,6 +15,8 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.Parser
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.request.RequestHandler
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.request.RequestProcessor
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.strategy.impl.LMGenerationStrategyImpl
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 interface LMGenerationStrategy : GenerationStrategy {
     override val generator: LMPlanGenerator
@@ -49,9 +51,9 @@ interface LMGenerationStrategy : GenerationStrategy {
                     logging = LoggingConfig(logger = Logger.Simple),
                     timeout =
                         Timeout(
-                            request = lmGenCfg.requestTimeout,
-                            connect = lmGenCfg.connectTimeout,
-                            socket = lmGenCfg.socketTimeout,
+                            request = lmGenCfg.requestTimeout.toDuration(DurationUnit.MILLISECONDS),
+                            connect = lmGenCfg.connectTimeout.toDuration(DurationUnit.MILLISECONDS),
+                            socket = lmGenCfg.socketTimeout.toDuration(DurationUnit.MILLISECONDS),
                         ),
                 )
             return OpenAI(config)

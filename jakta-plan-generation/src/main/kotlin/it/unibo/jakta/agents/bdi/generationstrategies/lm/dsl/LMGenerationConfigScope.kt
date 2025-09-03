@@ -7,10 +7,12 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.Cont
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.SystemPromptBuilder
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.UserPromptBuilder
 import kotlin.time.Duration
+import kotlin.time.DurationUnit
 
 class LMGenerationConfigScope : ScopeBuilder<LMGenerationConfigUpdate> {
     var model: String? = null
     var temperature: Double? = null
+    var topP: Double? = null
     var maxTokens: Int? = null
     var url: String? = null
     var token: String? = null
@@ -39,6 +41,7 @@ class LMGenerationConfigScope : ScopeBuilder<LMGenerationConfigUpdate> {
         LMGenerationConfigUpdate(
             model,
             temperature,
+            topP,
             maxTokens,
             url,
             token,
@@ -49,8 +52,8 @@ class LMGenerationConfigScope : ScopeBuilder<LMGenerationConfigUpdate> {
             systemPromptBuilder?.name,
             userPromptBuilder?.name,
             remarks,
-            requestTimeout,
-            connectTimeout,
-            socketTimeout,
+            requestTimeout?.toLong(DurationUnit.MILLISECONDS),
+            connectTimeout?.toLong(DurationUnit.MILLISECONDS),
+            socketTimeout?.toLong(DurationUnit.MILLISECONDS),
         )
 }

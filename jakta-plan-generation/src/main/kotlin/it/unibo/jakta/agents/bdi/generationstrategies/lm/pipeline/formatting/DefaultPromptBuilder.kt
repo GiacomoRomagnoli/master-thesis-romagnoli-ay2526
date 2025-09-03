@@ -22,14 +22,14 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.imp
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.impl.UserPromptBuilderImpl.Companion.user
 
 object DefaultPromptBuilder {
-    val systemPrompt =
+    val defaultSystemPrompt =
         system("SystemPrompt") {
             section("System Message") {
                 fromFile("system.md")
             }
         }
 
-    private fun createUserPrompt(
+    fun createUserPrompt(
         name: String,
         withRemarks: Boolean,
         admissibleBeliefsFormatter: Formatter<AdmissibleBelief>,

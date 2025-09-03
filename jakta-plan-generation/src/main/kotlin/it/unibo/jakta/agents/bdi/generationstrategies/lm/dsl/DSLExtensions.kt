@@ -16,8 +16,6 @@ object DSLExtensions {
         return this
     }
 
-    fun lmGeneration(config: LMGenerationConfigScope.() -> Unit) = GenerationStrategies.lmGeneration(config)
-
     infix fun PlanScope.givenLMConfig(given: LMGenerationConfigScope.() -> Unit): PlanScope {
         generationConfig = LMGenerationConfigScope().also(given).build()
         return this

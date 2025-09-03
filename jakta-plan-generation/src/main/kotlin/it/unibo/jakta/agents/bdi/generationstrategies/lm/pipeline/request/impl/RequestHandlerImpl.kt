@@ -33,11 +33,11 @@ internal class RequestHandlerImpl(
     private fun makeTextCompletionRequest(
         cfg: LMGenerationConfigContainer,
         state: LMGenerationState,
-    ): ChatCompletionRequest =
-        ChatCompletionRequest(
-            model = ModelId(cfg.modelId),
-            temperature = cfg.temperature,
-            messages = state.chatHistory,
-            maxCompletionTokens = cfg.maxTokens,
-        )
+    ) = ChatCompletionRequest(
+        model = ModelId(cfg.modelId),
+        temperature = cfg.temperature,
+        topP = cfg.topP,
+        messages = state.chatHistory,
+        maxCompletionTokens = cfg.maxTokens,
+    )
 }
