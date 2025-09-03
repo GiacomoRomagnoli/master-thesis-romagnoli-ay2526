@@ -1,4 +1,4 @@
-package it.unibo.jakta.playground.evaluation.gendata
+package it.unibo.jakta.evals.retrievers.gendata
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -11,8 +11,9 @@ import io.ktor.serialization.kotlinx.json.json
 import it.unibo.jakta.agents.bdi.engine.serialization.modules.JaktaJsonComponent
 import java.io.Closeable
 
-class OpenRouterClient(
+class GenerationClient(
     private val authToken: String,
+    private val urlString: String = DEFAULT_URL,
 ) : Closeable {
     private val client =
         HttpClient(CIO) {
@@ -25,7 +26,7 @@ class OpenRouterClient(
         try {
             val response: GenerationResponse =
                 client
-                    .get("https://openrouter.ai/api/v1/generation") {
+                    .get(urlString) {
                         header("Authorization", "Bearer $authToken")
                         parameter("id", generationId)
                     }.body()
@@ -38,5 +39,9 @@ class OpenRouterClient(
 
     override fun close() {
         client.close()
+    }
+
+    companion object {
+        const val DEFAULT_URL = "https://openrouter.ai/api/v1/generation"
     }
 }

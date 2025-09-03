@@ -1,6 +1,6 @@
-package it.unibo.jakta.playground.evaluation.plandata
+package it.unibo.jakta.evals.metrics.plandata
 
-data class SemanticAlignmentResult(
+data class SemanticMisalignmentResult(
     val notParsed: Int,
     val alreadyAdmissible: Set<Any>,
     val admissibleNotUsed: Set<Any>,

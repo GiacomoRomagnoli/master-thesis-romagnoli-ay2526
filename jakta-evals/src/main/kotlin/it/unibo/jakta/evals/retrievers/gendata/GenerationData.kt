@@ -1,4 +1,4 @@
-package it.unibo.jakta.playground.evaluation.gendata
+package it.unibo.jakta.evals.retrievers.gendata
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

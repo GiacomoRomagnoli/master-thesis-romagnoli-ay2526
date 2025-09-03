@@ -1,4 +1,4 @@
-package it.unibo.jakta.playground.evaluation.plandata
+package it.unibo.jakta.evals.metrics.plandata
 
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.engine.plans.PlanID
