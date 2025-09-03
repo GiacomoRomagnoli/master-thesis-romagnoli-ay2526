@@ -1,0 +1,37 @@
+# Gradle build output
+/build
+.gradle
+**/build/
+**/out/
+
+# IDE files
+.idea
+*.iml
+*.ipr
+*.iws
+.vscode
+*.swp
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Dependency caches
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar  # keep wrapper jar
+!**/gradlew
+!**/gradlew.bat
+
+# Test results
+**/test-results/
+**/reports/
+
+# Native-image artifacts (if you don’t want to copy them into Docker context)
+src/main/resources/META-INF/native-image/**
+
+# Docker
+Dockerfile
+.dockerignore
