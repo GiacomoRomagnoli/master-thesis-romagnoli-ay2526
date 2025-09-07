@@ -15,14 +15,13 @@ object ExplorerRobot {
         goals {
             admissible {
                 +achieve("reach"("Object")).meaning {
-                    "reach a situation where ${args[0]} is in the position of the agent" +
-                        " (i.e. there_is(${args[0]}, here))"
+                    "reach a situation where ${args[0]} is in the position of the agent"
                 }
             }
             +achieve("reach"("home"))
         }
         plans {
-            +"current_position"(X, Y) onlyIf {
+            +"current_position"(X, Y).fromPercept onlyIf {
                 "object"("home", X, Y)
             } then {
                 add("reached"("home"))
@@ -31,17 +30,20 @@ object ExplorerRobot {
         }
         beliefs {
             admissible {
-                +fact { "obstacle"("Direction") }.meaning {
-                    "there is an $functor to the ${args[0]}"
+                +fact { "grid_size"("X", "Y") }.meaning {
+                    "the grid has width ${args[0]} and height ${args[1]}"
                 }
-                +fact { "there_is"("Object", "Direction") }.meaning {
-                    "there is an ${args[0]} in the given ${args[1]}"
+                +fact { "current_position"("X", "Y") }.meaning {
+                    "the agent is at coordinates (${args[0]}, ${args[1]})"
                 }
-                +fact { "direction"("Direction") }.meaning {
-                    "${args[0]} is a direction"
+                +fact { "object"("Object", "X", "Y") }.meaning {
+                    "${args[0]} is at coordinates (${args[1]}, ${args[2]})"
                 }
-                +fact { "object"("Object") }.meaning {
-                    "${args[0]} is an object"
+                +fact { "obstacle"("X", "Y") }.meaning {
+                    "there is an obstacle at coordinates (${args[0]}, ${args[1]})"
+                }
+                +fact { "valid_move"("XStart", "YStart", "XEnd", "YEnd") }.meaning {
+                    "the agent can move from (${args[0]}, ${args[1]}) to (${args[2]}, ${args[3]})"
                 }
             }
         }

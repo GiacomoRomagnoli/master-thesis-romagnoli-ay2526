@@ -23,6 +23,8 @@ internal object GuardParser {
                             .replace(Regex("\\bnot\\b"), "~")
                             .replace("true", "True")
                             .replace("false", "False")
+                            .replace("∨", "|")
+                            .replace("∧", "&")
                             .replace(Regex("\\bor\\b"), "|")
                             .replace(Regex("\\band\\b"), "&")
 

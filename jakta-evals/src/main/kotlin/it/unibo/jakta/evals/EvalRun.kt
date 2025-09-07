@@ -24,8 +24,8 @@ import java.io.File
  */
 @OptIn(ExperimentalSerializationApi::class)
 class EvalRun : CliktCommand() {
-    val expDir: String by option()
-        .default(DEFAULT_EXP_DIR)
+    val runDir: String by option()
+        .default(DEFAULT_RUN_DIR)
         .help("The directory where the experiments' traces are stored.")
 
     val retrieveGenerationData: Boolean by option()
@@ -45,10 +45,10 @@ class EvalRun : CliktCommand() {
     }
 
     override fun run() {
-        val runEvaluator = RunEvaluator(expDir, retrieveGenerationData, authToken)
+        val runEvaluator = RunEvaluator(runDir, retrieveGenerationData, authToken)
         val result =
             runEvaluator.eval().also {
-                it.ifEmpty { println("Nothing found at $expDir") }
+                it.ifEmpty { println("Nothing found at $runDir") }
             }
         result.forEach { res ->
             val metricsDirectory = File("${metricsDir}${res.runId}").apply { mkdirs() }
@@ -63,7 +63,7 @@ class EvalRun : CliktCommand() {
     }
 
     companion object {
-        const val DEFAULT_EXP_DIR = "experiments/"
+        const val DEFAULT_RUN_DIR = "experiments/"
         const val DEFAULT_TOKEN = ""
         const val DEFAULT_METRICS_DIR = "metrics/"
 

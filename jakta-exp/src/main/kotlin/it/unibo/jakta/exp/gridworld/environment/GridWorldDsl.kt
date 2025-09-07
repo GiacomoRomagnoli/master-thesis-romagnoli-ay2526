@@ -11,13 +11,13 @@ object GridWorldDsl {
             from(gridWorldEnvironment)
             actions {
                 action(move).meaning {
-                    "move in the given ${args[0]}"
+                    "move from (${args[0]}, ${args[1]}) to (${args[2]}, ${args[3]})"
                 }
             }
         }
 
     val move =
-        externalAction("move", "direction") {
+        externalAction("move", "XStart", "YStart", "XEnd", "YEnd") {
             val env = environment as? GridWorldEnvironment
             if (env != null) {
                 val updatedEnvState = env.parseAction(actionName)

@@ -11,7 +11,7 @@ class GridWorldPercepts {
         Belief.wrap(
             Struct.of("grid_size", Atom.of("${grid.width}"), Atom.of("${grid.height}")),
             wrappingTag = Belief.SOURCE_PERCEPT,
-            purpose = "the grid has size ${grid.width}x${grid.height}",
+            purpose = "the grid has width ${grid.width} and height ${grid.height}",
         )
 
     fun createCurrentPositionBelief(state: GridWorldState) =
@@ -22,7 +22,7 @@ class GridWorldPercepts {
                 Atom.of("${state.agentPosition.y}"),
             ),
             wrappingTag = Belief.SOURCE_PERCEPT,
-            purpose = "the agent is at (${state.agentPosition.x}, ${state.agentPosition.y})",
+            purpose = "the agent is at coordinates (${state.agentPosition.x}, ${state.agentPosition.y})",
         )
 
     fun createObjectBeliefs(state: GridWorldState) =
@@ -35,7 +35,7 @@ class GridWorldPercepts {
                     Atom.of("${pos.y}"),
                 ),
                 wrappingTag = Belief.SOURCE_PERCEPT,
-                purpose = "$objectName is at (${pos.x}, ${pos.y})",
+                purpose = "$objectName is at coordinates (${pos.x}, ${pos.y})",
             )
         }
 
@@ -44,7 +44,7 @@ class GridWorldPercepts {
             Belief.wrap(
                 Struct.of("obstacle", Atom.of("${pos.x}"), Atom.of("${pos.y}")),
                 wrappingTag = Belief.SOURCE_PERCEPT,
-                purpose = "there is an obstacle at (${pos.x}, ${pos.y})",
+                purpose = "there is an obstacle at coordinates (${pos.x}, ${pos.y})",
             )
         }
 

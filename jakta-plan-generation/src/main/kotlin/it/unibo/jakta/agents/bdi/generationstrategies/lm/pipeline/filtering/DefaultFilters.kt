@@ -11,7 +11,8 @@ import it.unibo.jakta.agents.bdi.engine.plans.PlanLibrary
 object DefaultFilters {
     /**
      * Filters out special generation plans from the context that are used when no plan is available,
-     * preventing them from being shown to the language model.
+     * preventing them from being shown to the language model. It also removes any achievement or test goal
+     * failure plan.
      */
     val metaPlanFilter =
         object : ContextFilter {

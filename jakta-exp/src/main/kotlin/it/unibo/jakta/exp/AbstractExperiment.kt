@@ -198,7 +198,7 @@ abstract class AbstractExperiment : CliktCommand() {
         val DEFAULT_EXP_TIMEOUT = 1.seconds.toLong(DurationUnit.MILLISECONDS)
         const val DEFAULT_LOG_DIR = "logs"
         val DEFAULT_SYSTEM_PROMPT = SystemPromptType.PROMPT_WITHOUT_BDI_AGENT_DEFINITION
-        val DEFAULT_USER_PROMPT = UserPromptType.PROMPT_WITH_HINTS
+        val DEFAULT_USER_PROMPT = UserPromptType.PROMPT_WITH_HINTS_AND_REMARKS
         val DEFAULT_ENV_TYPE = EnvironmentType.Standard
         val DEFAULT_LOG_LEVEL = Log4jLevel.INFO
         const val MIN_TEMPERATURE = 0.0

@@ -1,5 +1,10 @@
 package it.unibo.jakta.exp.gridworld.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+@SerialName("Grid")
 data class Grid(
     val width: Int,
     val height: Int,

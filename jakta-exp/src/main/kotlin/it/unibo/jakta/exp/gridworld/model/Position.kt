@@ -1,7 +1,11 @@
 package it.unibo.jakta.exp.gridworld.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlin.math.abs
 
+@Serializable
+@SerialName("Position")
 data class Position(
     val x: Int,
     val y: Int,

@@ -10,6 +10,7 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.Defa
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.strategy.LMGenerationStrategy
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.strategy.impl.GenerationStrategies.lmConfig
 import it.unibo.jakta.exp.AbstractExperiment
+import it.unibo.jakta.exp.explorer.CustomFilter.beliefBaseAdditionPlanFilter
 import it.unibo.jakta.exp.explorer.ExplorerRobot.explorerRobot
 import it.unibo.jakta.exp.explorer.MockGenerationStrategy.createLMGenStrategyWithMockedAPI
 import it.unibo.jakta.exp.explorer.MockGenerationStrategy.getChatMessages
@@ -56,10 +57,14 @@ class ExplorerExperiment : AbstractExperiment() {
             requestTimeout = 240.seconds
             systemPromptBuilder = this@ExplorerExperiment.systemPromptType.builder
             userPromptBuilder = this@ExplorerExperiment.userPromptType.builder
-            contextFilters = listOf(metaPlanFilter, printActionFilter)
+            contextFilters = listOf(metaPlanFilter, printActionFilter, beliefBaseAdditionPlanFilter)
             requestTimeout = this@ExplorerExperiment.requestTimeout.toDuration(DurationUnit.MILLISECONDS)
             connectTimeout = this@ExplorerExperiment.connectTimeout.toDuration(DurationUnit.MILLISECONDS)
             socketTimeout = this@ExplorerExperiment.socketTimeout.toDuration(DurationUnit.MILLISECONDS)
+
+            remark(
+                "The belief `current_position` is provided by a sensor and updated automatically, so you must not update it manually",
+            )
         }.let { cfg ->
             if (this.replayExp) {
                 val lmResponses = getChatMessages(this.expReplayPath).mapNotNull { msg -> msg.content }
