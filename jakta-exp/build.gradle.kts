@@ -1,7 +1,12 @@
+import com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer
+import org.graalvm.buildtools.gradle.tasks.NativeRunTask
+import java.util.Properties
+
 plugins {
     application
     alias(libs.plugins.kotlinx)
     id("org.graalvm.buildtools.native") version "0.11.0"
+    alias(libs.plugins.shadow)
 }
 
 dependencies {
@@ -21,6 +26,20 @@ val expMainClass = "${project.group}.exp.explorer.ExplorerRunnerKt"
 val enableAgent = project.hasProperty("agent")
 val enableDebug = project.hasProperty("debug")
 
+tasks.shadowJar {
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to expMainClass,
+                "Multi-Release" to "true",
+            ),
+        )
+    }
+
+    transform(Log4j2PluginsCacheFileTransformer())
+    mergeServiceFiles()
+}
+
 graalvmNative {
     binaries {
         named("main") {
@@ -38,6 +57,9 @@ graalvmNative {
                 "--initialize-at-run-time=kotlin.random.FallbackThreadLocalRandom",
                 "--enable-url-protocols=https,http",
             )
+            if (project.hasProperty("args")) {
+                runtimeArgs.addAll(project.property("args").toString().split(" "))
+            }
             verbose.set(true)
             javaLauncher.set(
                 javaToolchains.launcherFor {
@@ -61,4 +83,30 @@ graalvmNative {
 
 application {
     mainClass.set(expMainClass)
+}
+
+fun loadEnv(): Map<String, String> {
+    val envFile = rootProject.file(".env")
+    if (!envFile.exists()) return emptyMap()
+
+    return runCatching {
+        val props =
+            Properties().apply {
+                envFile.inputStream().use { load(it) }
+            }
+        props.entries.associate { it.key.toString() to it.value.toString() }
+    }.getOrElse { exception ->
+        println("Warning: Could not load environment: ${exception.message}")
+        emptyMap()
+    }
+}
+
+listOf("run", "runShadow").forEach { taskName ->
+    tasks.named<JavaExec>(taskName).configure {
+        environment(loadEnv())
+    }
+}
+
+tasks.withType<NativeRunTask>().configureEach {
+    environment.putAll(loadEnv())
 }
