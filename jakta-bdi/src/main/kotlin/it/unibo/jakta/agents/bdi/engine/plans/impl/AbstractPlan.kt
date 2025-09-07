@@ -23,7 +23,8 @@ internal abstract class AbstractPlan : Plan {
         if (isRelevant(event)) {
             val mgu = event.trigger.value mguWith this.trigger.value
             val actualGuard = guard.apply(mgu).castToStruct()
-            // TODO what if the conditions are not in and?
+            // TODO what if the conditions are not only in and?
+            // -> The result of the check becomes misleading even if the check itself isn't
             val guards = actualGuard.flatten().associateWith { beliefBase.solve(it, ignoreSource).isYes }
             PlanApplicabilityResult(event.trigger, guards)
         } else {

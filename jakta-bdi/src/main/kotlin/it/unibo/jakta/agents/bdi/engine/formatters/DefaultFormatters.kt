@@ -34,7 +34,6 @@ import it.unibo.jakta.agents.bdi.engine.goals.Test
 import it.unibo.jakta.agents.bdi.engine.goals.TrackGoalExecution
 import it.unibo.jakta.agents.bdi.engine.goals.UpdateBelief
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
-import it.unibo.jakta.agents.bdi.engine.visitors.GuardFlattenerVisitor.Companion.flatten
 import it.unibo.tuprolog.core.TermFormatter
 import it.unibo.tuprolog.core.operators.OperatorSet
 
@@ -158,11 +157,7 @@ object DefaultFormatters {
                 plan.trigger.purpose?.let { append("% $it\n") }
                 append(triggerFormatter.format(plan.trigger))
                 append(" : ")
-                append(
-                    plan.guard.flatten().joinToString {
-                        "\n${termFormatter.format(it).prependIndent("    ")}"
-                    },
-                )
+                append(termFormatter.format(plan.guard))
                 append(" <- ")
                 append(
                     plan.goals.joinToString(";") {

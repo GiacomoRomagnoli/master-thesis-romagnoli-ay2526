@@ -17,10 +17,8 @@ object FileUtils {
     fun writeToFile(
         content: String,
         file: File,
-        description: String,
     ) = try {
         file.writeText(content)
-        println("$description written to ${file.name}")
     } catch (e: IOException) {
         println("Error writing to file: ${e.message}")
     }
