@@ -51,36 +51,36 @@ For authentication details, refer to: https://openrouter.ai/docs/api-reference/a
 ### Base Configuration
 - `--run-id`: Identifier of the experimental run (by default a UUID)
 - `--model-id`: ID of the model to use (default: `test`)
-- `--lm-server-url`: URL of the server with OpenAI-compliant API
-- `--lm-server-token`: Secret API key for authentication (can also use `API_KEY` environment variable)
+- `--lm-server-url`: URL of the server with OpenAI-compliant API (default: http://localhost:8080)
+- `--lm-server-token`: Secret API key for authentication (uses the `API_KEY` environment variable by default)
 
 ### Model Parameters
-- `--temperature`: Sampling temperature between 0.0-2.0. Higher values (0.8) = more random, lower values (0.2) = more focused/deterministic (default: varies)
-- `--top-p`: Limits model choices to top tokens whose probabilities add up to P. Lower = more predictable (default: varies)
-- `--max-tokens`: Maximum number of tokens for generated answers (default: varies)
+- `--temperature`: Sampling temperature between 0.0-2.0. Higher values (0.8) = more random, lower values (0.2) = more focused/deterministic (default: 0.5)
+- `--top-p`: Limits model choices to top tokens whose probabilities add up to P. Lower = more predictable (default: 1.0)
+- `--max-tokens`: Maximum number of tokens for generated answers (default: 2048)
 
 ### Prompts & Environment
-- `--system-prompt-type`: Type of system prompt to use (enum values)
-- `--user-prompt-type`: Type of user prompt to use (enum values)
-- `--environment-type`: Type of environment to use (enum values)
+- `--system-prompt-type`: Type of system prompt to use
+- `--user-prompt-type`: Type of user prompt to use
+- `--environment-type`: Type of environment to use
 
 ### Logging Configuration
-- `--log-level`: Minimum log level (enum values)
+- `--log-level`: Minimum log level (default: INFO)
 - `--log-to-console`: Output logs to standard output (default: true)
-- `--log-to-file`: Output logs to local filesystem (flag)
-- `--log-dir`: Directory for log output (default: varies)
-- `--log-to-server`: Send logs to a log server (flag)
-- `--log-server-url`: URL of the log server
+- `--log-to-file`: Output logs to local filesystem (default: false)
+- `--log-dir`: Directory for log output (default: "logs")
+- `--log-to-server`: Send logs to a log server (default: false)
+- `--log-server-url`: URL of the log server (default: http://localhost:8081)
 
 ### Experiment Control
-- `--exp-timeout-millis`: Experiment timeout in milliseconds (e.g., `50000` = 50 seconds)
-- `--replay-exp`: Replay a past experiment instead of creating new one (flag)
-- `--exp-replay-path`: Path to experiment log directory or specific chat file to replay
+- `--exp-timeout-millis`: Experiment timeout in milliseconds (default: two minutes)
+- `--replay-exp`: Replay a past experiment instead of creating new one (default: false)
+- `--exp-replay-path`: Path to experiment log directory or specific chat file to replay (default: logs)
 
 ### Network Timeouts
-- `--request-timeout`: Time to process HTTP call from request to response (milliseconds)
-- `--connect-timeout`: Time to establish connection with server (milliseconds)
-- `--socket-timeout`: Maximum inactivity time between data packets (milliseconds)
+- `--request-timeout`: Time to process HTTP call from request to response in milliseconds (default: two minutes)
+- `--connect-timeout`: Time to establish connection with server in milliseconds (default: ten seconds)
+- `--socket-timeout`: Maximum inactivity time between data packets in milliseconds (default: one minute)
 
 ## Running Experiments
 

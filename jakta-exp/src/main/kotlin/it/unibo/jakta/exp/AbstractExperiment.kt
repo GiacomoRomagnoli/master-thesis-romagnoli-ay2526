@@ -16,6 +16,7 @@ import it.unibo.jakta.agents.bdi.engine.logging.LoggingConfig
 import it.unibo.jakta.agents.bdi.engine.logging.loggers.LoggerFactory
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_CONNECT_TIMEOUT
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_MODEL_ID
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_REQUEST_TIMEOUT
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_SOCKET_TIMEOUT
 import it.unibo.jakta.exp.explorer.ModuleLoader
@@ -25,7 +26,7 @@ import it.unibo.jakta.exp.prompt.SystemPromptType
 import it.unibo.jakta.exp.prompt.UserPromptType
 import java.util.UUID
 import kotlin.system.exitProcess
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 
 abstract class AbstractExperiment : CliktCommand() {
@@ -38,7 +39,7 @@ abstract class AbstractExperiment : CliktCommand() {
 
     val modelId: String by option()
         .help("ID of the model to use.")
-        .default("test")
+        .default(DEFAULT_MODEL_ID)
 
     val temperature: Double by option()
         .double()
@@ -124,7 +125,7 @@ abstract class AbstractExperiment : CliktCommand() {
         .help("Whether to output logs to a log server.")
 
     val logServerUrl: String by option()
-        .default(DefaultGenerationConfig.DEFAULT_LM_SERVER_URL)
+        .default(DEFAULT_LOG_SERVER_URL)
         .help("Url of the server where logs are sent.")
         .check("value must be a valid URL") { it.matches(urlRegex) }
 
@@ -195,12 +196,13 @@ abstract class AbstractExperiment : CliktCommand() {
     abstract fun createGenerationStrategy(): GenerationStrategy?
 
     companion object {
-        val DEFAULT_EXP_TIMEOUT = 1.seconds.toLong(DurationUnit.MILLISECONDS)
+        val DEFAULT_EXP_TIMEOUT = 2.minutes.toLong(DurationUnit.MILLISECONDS)
         const val DEFAULT_LOG_DIR = "logs"
         val DEFAULT_SYSTEM_PROMPT = SystemPromptType.PROMPT_WITHOUT_BDI_AGENT_DEFINITION
         val DEFAULT_USER_PROMPT = UserPromptType.PROMPT_WITH_HINTS_AND_REMARKS
         val DEFAULT_ENV_TYPE = EnvironmentType.Standard
         val DEFAULT_LOG_LEVEL = Log4jLevel.INFO
+        const val DEFAULT_LOG_SERVER_URL = "http://localhost:8081"
         const val MIN_TEMPERATURE = 0.0
         const val MAX_TEMPERATURE = 2.0
         const val MIN_TOP_P = 0.0
