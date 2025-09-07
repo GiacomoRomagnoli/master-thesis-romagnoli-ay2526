@@ -5,9 +5,13 @@ import it.unibo.jakta.agents.bdi.engine.beliefs.AdmissibleBelief
 import it.unibo.jakta.agents.bdi.engine.events.AdmissibleGoal
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationConfig
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
+@SerialName("PGPInvocation")
 data class PGPInvocation(
-    val pgpId: String,
+    val pgpId: String?,
     val history: List<ChatMessage>,
     val rawMessageContents: List<String>,
     val generatedPlans: List<Plan> = emptyList(),
@@ -18,7 +22,7 @@ data class PGPInvocation(
     val admissibleBeliefNotParsed: Int = 0,
     val timeUntilCompletion: Long? = 0,
     val executable: Boolean = true,
-    val reachesDestination: Boolean = true,
+    val achievesGoal: Boolean = true,
     val generationConfig: LMGenerationConfig? = null,
     val chatCompletionId: String? = null,
 )

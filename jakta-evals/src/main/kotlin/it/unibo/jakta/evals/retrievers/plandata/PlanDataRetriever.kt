@@ -12,6 +12,7 @@ import it.unibo.jakta.agents.bdi.engine.context.ContextUpdate
 import it.unibo.jakta.agents.bdi.engine.events.AdmissibleGoal
 import it.unibo.jakta.agents.bdi.engine.executionstrategies.feedback.PGPSuccess
 import it.unibo.jakta.agents.bdi.engine.logging.events.ActionEvent
+import it.unibo.jakta.agents.bdi.engine.logging.loggers.JaktaLogger.Companion.extractLastId
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.logging.events.LMGenerationRequested
@@ -28,13 +29,10 @@ class PlanDataRetriever(
     private val masLogFile: File,
     private val agentLogFile: File,
     private val pgpLogFile: File,
-    private val masId: String,
-    private val agentId: String,
-    private val pgpId: String,
 ) : Retriever<PlanData> {
     override fun retrieve(): PlanData {
         val invocationContext = buildInvocationContext(masLogFile, agentLogFile)
-        val pgpInvocation = buildPGPInvocation(pgpId, agentLogFile, pgpLogFile)
+        val pgpInvocation = buildPGPInvocation(agentLogFile, pgpLogFile)
         return PlanData(invocationContext, pgpInvocation)
     }
 
@@ -66,6 +64,8 @@ class PlanDataRetriever(
             true
         }
 
+        val masId = extractLastId(masLogFile.name)
+        val agentId = extractLastId(agentLogFile.name)
         return InvocationContext(
             masId = masId,
             agentId = agentId,
@@ -77,7 +77,6 @@ class PlanDataRetriever(
     }
 
     private fun buildPGPInvocation(
-        pgpId: String,
         agentLogStream: File,
         pgpLogStream: File,
     ): PGPInvocation {
@@ -127,6 +126,8 @@ class PlanDataRetriever(
         val generatedAdmissibleGoals = mutableListOf<AdmissibleGoal>()
         val generatedAdmissibleBeliefs = mutableListOf<AdmissibleBelief>()
 
+        val pgpId = extractLastId(pgpLogFile.name)
+
         processFile(agentLogStream) { logEntry ->
             when (val ev = logEntry.message.event) {
                 is PGPSuccess.GenerationCompleted -> {
@@ -164,7 +165,7 @@ class PlanDataRetriever(
             admissibleBeliefNotParsed = admissibleBeliefNotParsed,
             timeUntilCompletion = timeOfCompletion,
             executable = generatedPlans.isNotEmpty(),
-            reachesDestination = reachesDestination,
+            achievesGoal = reachesDestination,
             generationConfig = genCfg,
             chatCompletionId = chatCompletionId,
         )

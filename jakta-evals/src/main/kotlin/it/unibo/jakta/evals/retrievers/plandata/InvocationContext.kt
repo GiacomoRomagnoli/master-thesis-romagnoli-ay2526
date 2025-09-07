@@ -4,7 +4,11 @@ import it.unibo.jakta.agents.bdi.engine.actions.ActionSignature
 import it.unibo.jakta.agents.bdi.engine.beliefs.AdmissibleBelief
 import it.unibo.jakta.agents.bdi.engine.events.AdmissibleGoal
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
+@SerialName("InvocationContext")
 data class InvocationContext(
     val masId: String?,
     val agentId: String?,

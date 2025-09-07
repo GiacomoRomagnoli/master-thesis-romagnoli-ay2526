@@ -7,8 +7,8 @@ import it.unibo.jakta.exp.gridworld.model.Position
 class PathEvaluator(
     private val scenario: SearchScenario,
     private val llmPath: List<Position>?,
-) : Evaluator<PathEvaluationResult> {
-    override fun eval(): PathEvaluationResult {
+) : Evaluator<PathEvaluation> {
+    override fun eval(): PathEvaluation {
         val optimalResult =
             AStarSearch.findPath(
                 scenario.grid,
@@ -26,7 +26,7 @@ class PathEvaluator(
         val isValidPlan = llmPath?.let { validatePath(scenario.grid, it, scenario.start, scenario.goal) } ?: false
         val isSuccess = isValidPlan && llmPath.lastOrNull() == scenario.goal
 
-        return PathEvaluationResult(
+        return PathEvaluation(
             scenario = scenario,
             isValidPlan = isValidPlan,
             isSuccess = isSuccess,

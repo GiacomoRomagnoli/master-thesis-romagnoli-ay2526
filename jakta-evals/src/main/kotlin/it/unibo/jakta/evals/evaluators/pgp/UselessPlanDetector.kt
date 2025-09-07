@@ -1,4 +1,4 @@
-package it.unibo.jakta.evals.metrics.plandata
+package it.unibo.jakta.evals.evaluators.pgp
 
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.engine.plans.PlanID
@@ -49,6 +49,7 @@ class UselessPlanDetector {
             return false
         }
 
+        // TODO the results are not reliable with nested guards that use `and` and `or`
         val targetConditions = targetPlan.guard.flatten()
         val shadowingConditions = shadowingPlan.guard.flatten()
 

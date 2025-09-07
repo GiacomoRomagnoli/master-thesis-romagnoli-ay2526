@@ -4,8 +4,6 @@ import it.unibo.jakta.agents.bdi.engine.goals.Achieve
 import it.unibo.jakta.agents.bdi.engine.goals.Act
 import it.unibo.jakta.agents.bdi.engine.visitors.GuardFlattenerVisitor.Companion.flatten
 import it.unibo.jakta.evals.evaluators.Evaluator
-import it.unibo.jakta.evals.metrics.plandata.SemanticMisalignmentResult
-import it.unibo.jakta.evals.metrics.plandata.UselessPlanDetector
 import it.unibo.jakta.evals.retrievers.plandata.InvocationContext
 import it.unibo.jakta.evals.retrievers.plandata.PGPInvocation
 import it.unibo.tuprolog.core.Struct
@@ -14,10 +12,10 @@ import it.unibo.tuprolog.core.Truth
 class PGPEvaluator(
     val context: InvocationContext,
     val inv: PGPInvocation,
-) : Evaluator<PGPEvaluationResult> {
+) : Evaluator<PGPEvaluation> {
     private val detector = UselessPlanDetector()
 
-    override fun eval(): PGPEvaluationResult {
+    override fun eval(): PGPEvaluation {
         val plans = inv.generatedPlans
         val averageAmountBeliefs =
             plans
@@ -95,26 +93,15 @@ class PGPEvaluator(
                 .filterNot { actionNames.contains(it) }
                 .size
 
-        return PGPEvaluationResult(
-            masId = context.masId,
-            agentId = context.agentId,
-            pgpId = inv.pgpId,
-            parsedPlans = plans,
+        return PGPEvaluation(
             amountGeneratedPlans = plans.size,
             averageAmountBeliefs = averageAmountBeliefs,
             averageAmountOperations = averageAmountOperations,
             amountGeneralPlan = amountGeneralPlan,
-            amountInventedGoals = inv.generatedAdmissibleGoals.size,
-            amountInventedBeliefs = inv.generatedAdmissibleBeliefs.size,
             amountUselessPlans = uselessPlansResult.size,
-            amountNotParseablePlans = inv.plansNotParsed,
             amountInadequateUsageGoals = amountInadequateGoals,
             amountInadequateUsageBeliefs = amountInadequateBeliefs,
             amountInadequateUsageActions = amountInadequateActions,
-            timeUntilCompletion = inv.timeUntilCompletion,
-            executable = inv.executable,
-            achievesGoal = inv.reachesDestination,
-            generationConfig = inv.generationConfig,
         )
     }
 

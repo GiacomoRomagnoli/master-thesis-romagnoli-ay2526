@@ -1,8 +1,12 @@
 package it.unibo.jakta.evals.evaluators.path
 
 import it.unibo.jakta.exp.gridworld.model.Position
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-data class PathEvaluationResult(
+@Serializable
+@SerialName("PathEvaluationResult")
+data class PathEvaluation(
     val scenario: SearchScenario,
     val isValidPlan: Boolean,
     val isSuccess: Boolean,

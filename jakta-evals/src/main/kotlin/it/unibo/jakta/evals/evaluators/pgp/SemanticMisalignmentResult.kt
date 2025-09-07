@@ -1,4 +1,4 @@
-package it.unibo.jakta.evals.metrics.plandata
+package it.unibo.jakta.evals.evaluators.pgp
 
 data class SemanticMisalignmentResult(
     val notParsed: Int,
