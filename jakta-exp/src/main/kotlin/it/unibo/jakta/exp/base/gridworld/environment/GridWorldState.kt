@@ -1,4 +1,4 @@
-package it.unibo.jakta.exp.ecai.gridworld.environment
+package it.unibo.jakta.exp.base.gridworld.environment
 
 import it.unibo.jakta.playground.gridworld.model.Cell
 import it.unibo.jakta.playground.gridworld.model.Direction

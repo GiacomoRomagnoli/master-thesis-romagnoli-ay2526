@@ -1,9 +1,9 @@
 # Experiments Guide
 
-There are three ways to run an experiment:
-1. **Direct execution**: by using the `run` Gradle task;
-2. **Fat JAR**: by building a fat jar and execute it;
-3. **Native executable**: by building a native executable and execute it (requires GraalVM).
+There are two kinds of experiment:
+
+- **Base experiment**: simpler variant, used for initial prototyping;
+- **Ablation experiment**: slightly more complex variant, used as part of the ablation study to assess the capability of LLMs of generating plans that are a bit more articulated.
 
 ## Prerequisites
 
@@ -91,7 +91,15 @@ For authentication details, refer to: https://openrouter.ai/docs/api-reference/a
 
 ## Running Experiments
 
-### Running Ablation Experiments
+### Running the Base Experiment
+
+Using a Gradle task:
+
+```shell
+./gradlew :jakta-exp:runBaseExperiment --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --remarks prompt_snippets/base_exp_explorer_remarks.txt --temperature 0.1"
+```
+
+### Running the Ablation Experiment
 
 Option 1: Gradle task
 
@@ -117,22 +125,14 @@ Option 3: native executable
 API_KEY="<api-key>" ./jakta-exp/build/native/nativeCompile/jakta-exp --lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --temperature 0.1
 ```
 
-### Running ECAI Experiments
-
-Using a Gradle task:
-
-```shell
-./gradlew :jakta-exp:runEcaiExperiment --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --remarks prompt_snippets/ecai_explorer_remarks.txt --temperature 0.1"
-```
-
 ## Replaying a past experiment
 
 To replay a past experiment:
 
 ```shell
 ./gradlew :jakta-exp:run --args="--log-to-file --run-timeout-millis 30000 --replay-exp --exp-replay-path logs/<run-id>"
-# or for ECAI experiments
-./gradlew :jakta-exp:runEcaiExperiment --args="--log-to-file --run-timeout-millis 30000 --replay-exp --exp-replay-path logs/<run-id>"
+# or for the base experiment
+./gradlew :jakta-exp:runBaseExperiment --args="--log-to-file --run-timeout-millis 30000 --replay-exp --exp-replay-path logs/<run-id>"
 ```
 
 Where `<run-id>` is the id of a previous experiment, which is printed on console when an experiment starts and ends. It is also used to name the directory where the results are put (provided by the `--log-dir` parameter).
@@ -166,8 +166,8 @@ Given this directory structure, the gradle task `evalRun` can be run:
 
 ```shell
 ./gradlew :jakta-evals:evalRun --args="--run-dir ../jakta-exp/logs/<run-id>/"
-# or for ECAI experiments
-./gradlew :jakta-evals:ecaiEvalRun --args="--run-dir ../jakta-exp/logs/<run-id>/"
+# or for the base experiment
+./gradlew :jakta-evals:baseEvalRun --args="--run-dir ../jakta-exp/logs/<run-id>/"
 ```
 
 This will create the `metrics/` directory under the `jakta-evals` module:

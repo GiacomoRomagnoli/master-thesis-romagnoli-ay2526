@@ -1,13 +1,13 @@
-package it.unibo.jakta.exp.ecai.gridworld.environment
+package it.unibo.jakta.exp.base.gridworld.environment
 
 import it.unibo.jakta.agents.bdi.dsl.MasScope
 import it.unibo.jakta.agents.bdi.dsl.actions.ActionMetadata.meaning
 import it.unibo.jakta.agents.bdi.dsl.externalAction
 import it.unibo.jakta.agents.bdi.engine.beliefs.Belief
 import it.unibo.jakta.exp.GridWorldEnvironment
-import it.unibo.jakta.exp.ecai.explorer.logging.MoveActionSuccess
-import it.unibo.jakta.exp.ecai.gridworld.environment.EcaiGridWorld.Companion.state
-import it.unibo.jakta.exp.ecai.gridworld.logging.ObjectReachedEvent
+import it.unibo.jakta.exp.base.explorer.logging.MoveActionSuccess
+import it.unibo.jakta.exp.base.gridworld.environment.BaseExpGridWorld.Companion.state
+import it.unibo.jakta.exp.base.gridworld.logging.ObjectReachedEvent
 import it.unibo.tuprolog.core.Struct
 import it.unibo.tuprolog.core.Substitution
 import it.unibo.tuprolog.core.Var
@@ -17,7 +17,7 @@ object GridWorldDsl {
     private const val DEFAULT_SEED = 7
     private val random = Random(DEFAULT_SEED)
 
-    fun MasScope.gridWorld(gridWorldEnvironment: GridWorldEnvironment = EcaiGridWorld()) =
+    fun MasScope.gridWorld(gridWorldEnvironment: GridWorldEnvironment = BaseExpGridWorld()) =
         environment {
             from(gridWorldEnvironment)
             actions {
@@ -54,7 +54,7 @@ object GridWorldDsl {
 
     val move =
         externalAction("move", "direction") {
-            val env = environment as? EcaiGridWorld
+            val env = environment as? BaseExpGridWorld
             if (env != null) {
                 val updatedEnvState = env.parseAction(actionName)
                 val oldPosition = env.data.state()?.agentPosition

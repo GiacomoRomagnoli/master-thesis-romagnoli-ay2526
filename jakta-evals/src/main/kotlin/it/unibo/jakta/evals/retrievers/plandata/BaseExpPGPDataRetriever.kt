@@ -13,10 +13,10 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.logging.events.LMMessag
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.Parser
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserFailure
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserSuccess
-import it.unibo.jakta.exp.ecai.gridworld.logging.ObjectReachedEvent
+import it.unibo.jakta.exp.base.gridworld.logging.ObjectReachedEvent
 import java.io.File
 
-class EcaiPGPDataRetriever(
+class BaseExpPGPDataRetriever(
     masLogFile: File,
     agentLogFile: File,
     pgpLogFile: File,

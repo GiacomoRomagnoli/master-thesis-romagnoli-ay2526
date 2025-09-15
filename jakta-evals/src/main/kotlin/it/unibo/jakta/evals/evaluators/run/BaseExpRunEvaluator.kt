@@ -7,10 +7,10 @@ import it.unibo.jakta.evals.evaluators.Evaluator
 import it.unibo.jakta.evals.evaluators.pgp.PGPEvaluator
 import it.unibo.jakta.evals.retrievers.gendata.GenerationClient
 import it.unibo.jakta.evals.retrievers.gendata.GenerationDataRetriever
-import it.unibo.jakta.evals.retrievers.plandata.EcaiPGPDataRetriever
+import it.unibo.jakta.evals.retrievers.plandata.BaseExpPGPDataRetriever
 import java.io.File
 
-class EcaiRunEvaluator(
+class BaseExpRunEvaluator(
     val expDir: String,
     val retrieveGenerationData: Boolean = false,
     val authToken: String? = null,
@@ -25,7 +25,7 @@ class EcaiRunEvaluator(
                 println("Found $agentLogFile")
                 extractPgpLogFiles(expDir, agentId).forEach { (pgpLogFile, pgpId) ->
                     println("Found $pgpLogFile")
-                    val planDataRetriever = EcaiPGPDataRetriever(masLogFile, agentLogFile, pgpLogFile, pgpId)
+                    val planDataRetriever = BaseExpPGPDataRetriever(masLogFile, agentLogFile, pgpLogFile, pgpId)
                     val planData = planDataRetriever.retrieve()
                     val pgpEvaluator = PGPEvaluator(planData.invocationContext, planData.pgpInvocation)
                     val pgpEvaluation = pgpEvaluator.eval()

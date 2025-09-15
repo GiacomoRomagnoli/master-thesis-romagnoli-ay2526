@@ -1,8 +1,8 @@
-package it.unibo.jakta.exp.ecai.gridworld.logging
+package it.unibo.jakta.exp.base.gridworld.logging
 
 import it.unibo.jakta.agents.bdi.engine.executionstrategies.feedback.ActionSuccess
 import it.unibo.jakta.agents.bdi.engine.serialization.modules.SerializableTerm
-import it.unibo.jakta.exp.ecai.gridworld.environment.GridWorldDsl.move
+import it.unibo.jakta.exp.base.gridworld.environment.GridWorldDsl.move
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

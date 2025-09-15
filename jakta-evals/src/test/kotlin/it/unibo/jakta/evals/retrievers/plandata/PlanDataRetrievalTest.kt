@@ -7,14 +7,14 @@ import it.unibo.jakta.evals.SharedUtils.PGP_ID
 import it.unibo.jakta.evals.SharedUtils.testAgentLogFile
 import it.unibo.jakta.evals.SharedUtils.testMasLogFile
 import it.unibo.jakta.evals.SharedUtils.testPgpLogFile
-import it.unibo.jakta.exp.ecai.EcaiExpRunner.modulesToLoad
+import it.unibo.jakta.exp.base.BaseExpRunner.modulesToLoad
 
 class PlanDataRetrievalTest : FunSpec() {
     init {
         JaktaKoin.loadAdditionalModules(modulesToLoad)
 
         test("PlanDataRetriever should retrieve PlanData from streams") {
-            val retriever = EcaiPGPDataRetriever(testMasLogFile, testAgentLogFile, testPgpLogFile, PGP_ID)
+            val retriever = BaseExpPGPDataRetriever(testMasLogFile, testAgentLogFile, testPgpLogFile, PGP_ID)
             val planData = retriever.retrieve()
             val pgpInvocation = planData.pgpInvocation
             val invocationContext = planData.invocationContext

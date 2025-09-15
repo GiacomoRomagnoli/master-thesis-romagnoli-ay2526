@@ -49,15 +49,15 @@ tasks.register<JavaExec>("evalRun") {
     mainClass = "${project.group}.evals.AblationEvalRunKt"
 }
 
-tasks.register<JavaExec>("ecaiEvalRun") {
+tasks.register<JavaExec>("baseEvalRun") {
     description = "Evaluate the results of one or more experiments."
     group = "application"
 
     classpath = sourceSets.main.get().runtimeClasspath
-    mainClass = "${project.group}.evals.EcaiEvalRunKt"
+    mainClass = "${project.group}.evals.BaseExpEvalRunKt"
 }
 
-listOf("evalRun", "ecaiEvalRun").forEach { taskName ->
+listOf("evalRun", "baseEvalRun").forEach { taskName ->
     tasks.named<JavaExec>(taskName).configure {
         environment(loadEnv())
     }

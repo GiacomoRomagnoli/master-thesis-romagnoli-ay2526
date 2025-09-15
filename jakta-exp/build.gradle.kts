@@ -100,15 +100,15 @@ fun loadEnv(): Map<String, String> {
     }
 }
 
-tasks.register<JavaExec>("runEcaiExperiment") {
+tasks.register<JavaExec>("runBaseExperiment") {
     description = "Run the explorer agent sample with the baseline plans."
     group = "application"
 
     classpath = sourceSets.main.get().runtimeClasspath
-    mainClass = "${project.group}.exp.ecai.EcaiExpRunner"
+    mainClass = "${project.group}.exp.base.BaseExpRunner"
 }
 
-listOf("run", "runEcaiExperiment", "runShadow").forEach { taskName ->
+listOf("run", "runBaseExperiment", "runShadow").forEach { taskName ->
     tasks.named<JavaExec>(taskName).configure {
         environment(loadEnv())
     }

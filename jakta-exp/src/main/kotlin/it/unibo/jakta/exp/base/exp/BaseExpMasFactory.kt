@@ -1,4 +1,4 @@
-package it.unibo.jakta.exp.ecai.exp
+package it.unibo.jakta.exp.base.exp
 
 import it.unibo.jakta.agents.bdi.dsl.mas
 import it.unibo.jakta.agents.bdi.engine.Mas
@@ -7,11 +7,11 @@ import it.unibo.jakta.agents.bdi.engine.generation.GenerationStrategy
 import it.unibo.jakta.agents.bdi.engine.logging.LoggingConfig
 import it.unibo.jakta.exp.GridWorldEnvironment
 import it.unibo.jakta.exp.MasFactory
-import it.unibo.jakta.exp.ecai.EcaiExpRunner.jsonModule
-import it.unibo.jakta.exp.ecai.explorer.ExplorerRobot.explorerRobot
-import it.unibo.jakta.exp.ecai.gridworld.environment.GridWorldDsl.gridWorld
+import it.unibo.jakta.exp.base.BaseExpRunner.jsonModule
+import it.unibo.jakta.exp.base.explorer.ExplorerRobot.explorerRobot
+import it.unibo.jakta.exp.base.gridworld.environment.GridWorldDsl.gridWorld
 
-internal class EcaiMasFactory : MasFactory {
+internal class BaseExpMasFactory : MasFactory {
     override fun createMas(
         logConfig: LoggingConfig,
         genStrat: GenerationStrategy?,

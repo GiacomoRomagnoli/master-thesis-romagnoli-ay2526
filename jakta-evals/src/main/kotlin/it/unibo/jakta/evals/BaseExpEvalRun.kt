@@ -1,12 +1,12 @@
 package it.unibo.jakta.evals
 
 import com.github.ajalt.clikt.core.main
-import it.unibo.jakta.evals.evaluators.run.EcaiRunEvaluator
+import it.unibo.jakta.evals.evaluators.run.BaseExpRunEvaluator
 import java.io.File
 
-class EcaiEvalRun : EvalRun() {
+class BaseExpEvalRun : EvalRun() {
     override fun run() {
-        val runEvaluator = EcaiRunEvaluator(runDir, retrieveGenerationData, authToken)
+        val runEvaluator = BaseExpRunEvaluator(runDir, retrieveGenerationData, authToken)
         val result =
             runEvaluator.eval().also {
                 it.ifEmpty { println("No PGPs found at $runDir") }
@@ -24,4 +24,4 @@ class EcaiEvalRun : EvalRun() {
     }
 }
 
-fun main(args: Array<String>) = EcaiEvalRun().main(args)
+fun main(args: Array<String>) = BaseExpEvalRun().main(args)

@@ -13,7 +13,7 @@ import it.unibo.jakta.agents.bdi.engine.formatters.DefaultFormatters.planFormatt
 import it.unibo.jakta.agents.bdi.engine.serialization.modules.JaktaJsonComponent
 import it.unibo.jakta.evals.evaluators.run.RunEvaluation
 import it.unibo.jakta.evals.retrievers.plandata.PGPInvocation
-import it.unibo.jakta.exp.ecai.EcaiExpRunner.modulesToLoad
+import it.unibo.jakta.exp.base.BaseExpRunner.modulesToLoad
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.encodeToStream
 import java.io.File

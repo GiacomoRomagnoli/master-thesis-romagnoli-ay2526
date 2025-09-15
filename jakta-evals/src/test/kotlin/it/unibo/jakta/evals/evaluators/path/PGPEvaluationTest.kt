@@ -9,7 +9,7 @@ import it.unibo.jakta.evals.SharedUtils.testMasLogFile
 import it.unibo.jakta.evals.SharedUtils.testPgpLogFile
 import it.unibo.jakta.evals.evaluators.pgp.PGPEvaluator
 import it.unibo.jakta.evals.retrievers.plandata.AblationPGPDataRetriever
-import it.unibo.jakta.exp.ecai.EcaiExpRunner.modulesToLoad
+import it.unibo.jakta.exp.base.BaseExpRunner.modulesToLoad
 
 class PGPEvaluationTest : FunSpec() {
     init {

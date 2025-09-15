@@ -1,4 +1,4 @@
-package it.unibo.jakta.exp.ecai.gridworld.environment
+package it.unibo.jakta.exp.base.gridworld.environment
 
 import it.unibo.jakta.agents.bdi.engine.AgentID
 import it.unibo.jakta.agents.bdi.engine.Jakta.capitalize
@@ -15,7 +15,7 @@ import it.unibo.jakta.playground.gridworld.model.Direction
 import it.unibo.tuprolog.core.Atom
 import kotlin.collections.forEach
 
-class EcaiGridWorld(
+class BaseExpGridWorld(
     agentIDs: Map<String, AgentID> = emptyMap(),
     externalActions: Map<String, ExternalAction> = emptyMap(),
     messageBoxes: Map<AgentID, MessageQueue> = emptyMap(),
@@ -43,7 +43,7 @@ class EcaiGridWorld(
         }
     }
 
-    override fun updateData(newData: Map<String, Any>): EcaiGridWorld =
+    override fun updateData(newData: Map<String, Any>): BaseExpGridWorld =
         copy(data = newData).also {
             getPercepts().forEach { b -> logger?.info { b.purpose?.capitalize() } }
         }
@@ -84,8 +84,8 @@ class EcaiGridWorld(
         perception: Perception,
         data: Map<String, Any>,
         logger: MasLogger?,
-    ): EcaiGridWorld =
-        EcaiGridWorld(
+    ): BaseExpGridWorld =
+        BaseExpGridWorld(
             agentIDs,
             externalActions,
             messageBoxes,

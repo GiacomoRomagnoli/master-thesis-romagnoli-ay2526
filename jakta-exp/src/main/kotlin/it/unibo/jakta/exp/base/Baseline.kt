@@ -1,11 +1,11 @@
-package it.unibo.jakta.exp.ecai
+package it.unibo.jakta.exp.base
 
 import it.unibo.jakta.agents.bdi.dsl.mas
 import it.unibo.jakta.agents.bdi.dsl.plans
 import it.unibo.jakta.agents.bdi.engine.logging.LoggingConfig
-import it.unibo.jakta.exp.ecai.EcaiExpRunner.modulesToLoad
-import it.unibo.jakta.exp.ecai.explorer.ExplorerRobot.explorerRobot
-import it.unibo.jakta.exp.ecai.gridworld.environment.GridWorldDsl.gridWorld
+import it.unibo.jakta.exp.base.BaseExpRunner.modulesToLoad
+import it.unibo.jakta.exp.base.explorer.ExplorerRobot.explorerRobot
+import it.unibo.jakta.exp.base.gridworld.environment.GridWorldDsl.gridWorld
 import it.unibo.tuprolog.core.Var
 
 private val Direction = Var.of("Direction")
