@@ -1,5 +1,6 @@
 package it.unibo.jakta.agents.bdi.generationstrategies.lm
 
+import com.aallam.openai.api.chat.Effort
 import it.unibo.jakta.agents.bdi.engine.generation.GenerationConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_CONNECT_TIMEOUT
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_LM_SERVER_URL
@@ -24,6 +25,7 @@ sealed interface LMGenerationConfig : GenerationConfig {
     val modelId: String?
     val temperature: Double?
     val topP: Double?
+    val reasoningEffort: Effort?
     val maxTokens: Int?
     val lmServerUrl: String?
     val lmServerToken: String?
@@ -44,6 +46,7 @@ sealed interface LMGenerationConfig : GenerationConfig {
         override val modelId: String = DEFAULT_MODEL_ID,
         override val temperature: Double = DEFAULT_TEMPERATURE,
         override val topP: Double = DEFAULT_TOP_P,
+        override val reasoningEffort: Effort? = null,
         override val maxTokens: Int = DEFAULT_MAX_TOKENS,
         override val lmServerUrl: String = DEFAULT_LM_SERVER_URL,
         @Transient
@@ -69,6 +72,7 @@ sealed interface LMGenerationConfig : GenerationConfig {
         override val modelId: String? = null,
         override val temperature: Double? = null,
         override val topP: Double? = null,
+        override val reasoningEffort: Effort? = null,
         override val maxTokens: Int? = null,
         override val lmServerUrl: String? = null,
         @Transient

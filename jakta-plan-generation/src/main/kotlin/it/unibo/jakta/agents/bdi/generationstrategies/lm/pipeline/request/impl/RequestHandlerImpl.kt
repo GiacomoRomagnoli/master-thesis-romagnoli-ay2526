@@ -37,6 +37,7 @@ internal class RequestHandlerImpl(
         model = ModelId(cfg.modelId),
         temperature = cfg.temperature,
         topP = cfg.topP,
+        reasoningEffort = cfg.reasoningEffort,
         messages = state.chatHistory,
         maxCompletionTokens = cfg.maxTokens,
     )

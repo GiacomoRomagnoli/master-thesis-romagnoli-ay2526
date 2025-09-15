@@ -94,7 +94,6 @@ internal class ParserImpl : Parser {
                         ?.let { p -> newPlans.add(p) } ?: run {
                         errors.add(PlanParseFailure(it))
                     }
-                else -> it
             }
         }
 

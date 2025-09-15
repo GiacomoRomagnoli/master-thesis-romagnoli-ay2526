@@ -1,5 +1,6 @@
 package it.unibo.jakta.agents.bdi.generationstrategies.lm.dsl
 
+import com.aallam.openai.api.chat.Effort
 import it.unibo.jakta.agents.bdi.dsl.ScopeBuilder
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationConfig.LMGenerationConfigUpdate
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.Remark
@@ -13,6 +14,7 @@ class LMGenerationConfigScope : ScopeBuilder<LMGenerationConfigUpdate> {
     var model: String? = null
     var temperature: Double? = null
     var topP: Double? = null
+    var reasoningEffort: Effort? = null
     var maxTokens: Int? = null
     var url: String? = null
     var token: String? = null
@@ -22,26 +24,14 @@ class LMGenerationConfigScope : ScopeBuilder<LMGenerationConfigUpdate> {
     var contextFilters: List<ContextFilter> = emptyList()
     var systemPromptBuilder: SystemPromptBuilder? = null
     var userPromptBuilder: UserPromptBuilder? = null
-
-    private val remarks = mutableListOf<Remark>()
-
-    fun remark(remark: String) {
-        remarks += Remark(remark)
-    }
-
-    fun remarks(vararg remark: String) {
-        remarks.addAll(remark.map { Remark(it) })
-    }
-
-    fun remarks(remarks: Iterable<Remark>) {
-        this.remarks.addAll(remarks)
-    }
+    var remarks: List<Remark>? = emptyList()
 
     override fun build() =
         LMGenerationConfigUpdate(
             model,
             temperature,
             topP,
+            reasoningEffort,
             maxTokens,
             url,
             token,

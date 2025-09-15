@@ -27,18 +27,9 @@ class LMPGPLogger(
             pgpID: PgpID,
             loggingConfig: LoggingConfig,
         ): LMPGPLogger {
-            val id =
-                if (loggingConfig.logToSingleFile) {
-                    masID.id
-                } else {
-                    "${masID.id}-${agentID.name}-${agentID.id}-${pgpID.name}-${pgpID.id}"
-                }
-            val delegate =
-                LoggerFactory.create(
-                    "Mas",
-                    id,
-                    loggingConfig,
-                )
+            val loggerName = "Mas-${masID.id}-${agentID.name}-${agentID.id}-${pgpID.name}-${pgpID.id}"
+            val logFileName = if (loggingConfig.logToSingleFile) masID.id else "Pgp_${pgpID.name}"
+            val delegate = LoggerFactory.create(loggerName, loggingConfig, logFileName)
             return LMPGPLogger(masID, agentID, pgpID, delegate)
         }
     }
