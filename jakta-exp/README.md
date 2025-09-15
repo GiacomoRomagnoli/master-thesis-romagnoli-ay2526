@@ -1,4 +1,4 @@
-# Running Experiments
+# Experiments Guide
 
 There are three ways to run an experiment:
 1. **Direct execution**: by using the `run` Gradle task;
@@ -50,19 +50,23 @@ For authentication details, refer to: https://openrouter.ai/docs/api-reference/a
 
 ### Base Configuration
 - `--run-id`: Identifier of the experimental run (by default a UUID)
-- `--model-id`: ID of the model to use (default: `test`)
-- `--lm-server-url`: URL of the server with OpenAI-compliant API (default: http://localhost:8080)
-- `--lm-server-token`: Secret API key for authentication (uses the `API_KEY` environment variable by default)
+- `--run-timeout-millis`: Experiment timeout in milliseconds (default: two minutes)
+- `--replay-exp`: Replay a past experiment instead of creating new one (default: false)
+- `--exp-replay-path`: Path to experiment log directory or specific chat file to replay (default: logs)
 
-### Model Parameters
+### Model Configuration
+- `--model-id`: ID of the model to use (default: `test`)
 - `--temperature`: Sampling temperature between 0.0-2.0. Higher values (0.8) = more random, lower values (0.2) = more focused/deterministic (default: 0.5)
 - `--top-p`: Limits model choices to top tokens whose probabilities add up to P. Lower = more predictable (default: 1.0)
+- `--reasoning-effort`: Set the level of reasoning effort for processing (default: none)
 - `--max-tokens`: Maximum number of tokens for generated answers (default: 2048)
 
-### Prompts & Environment
-- `--system-prompt-type`: Type of system prompt to use
-- `--user-prompt-type`: Type of user prompt to use
-- `--environment-type`: Type of environment to use
+### Language Model Server Configuration
+- `--lm-server-url`: URL of the server with OpenAI-compliant API (default: http://localhost:8080)
+- `--lm-server-token`: Secret API key for authentication (uses the `API_KEY` environment variable by default)
+- `--request-timeout`: Time to process HTTP call from request to response in milliseconds (default: two minutes)
+- `--connect-timeout`: Time to establish connection with server in milliseconds (default: ten seconds)
+- `--socket-timeout`: Maximum inactivity time between data packets in milliseconds (default: one minute)
 
 ### Logging Configuration
 - `--log-level`: Minimum log level (default: INFO)
@@ -72,24 +76,30 @@ For authentication details, refer to: https://openrouter.ai/docs/api-reference/a
 - `--log-to-server`: Send logs to a log server (default: false)
 - `--log-server-url`: URL of the log server (default: http://localhost:8081)
 
-### Experiment Control
-- `--exp-timeout-millis`: Experiment timeout in milliseconds (default: two minutes)
-- `--replay-exp`: Replay a past experiment instead of creating new one (default: false)
-- `--exp-replay-path`: Path to experiment log directory or specific chat file to replay (default: logs)
-
-### Network Timeouts
-- `--request-timeout`: Time to process HTTP call from request to response in milliseconds (default: two minutes)
-- `--connect-timeout`: Time to establish connection with server in milliseconds (default: ten seconds)
-- `--socket-timeout`: Maximum inactivity time between data packets in milliseconds (default: one minute)
+### Prompt Configuration
+- `--without-admissible-beliefs`: Whether to exclude or not admissible beliefs from the prompt (default: false)
+- `--without-admissible-goals`: Whether to exclude or not admissible goals from the prompt (default: false)
+- `--expected-result-explanation-level`: The level of detail with which the expected result is explained in the prompt (one of {standard (default), detailed})
+- `--asl-syntax-explanation-level`: The level of detail with which the AgentSpeak syntax is explained in the prompt (one of {standard (default), detailed})
+- `--with-bdi-agent-definition`: Whether to include or not a definition of what a BDI agent is in the prompt (default: false)
+- `--few-shot`: Whether to include or not plan generation examples in the prompt (default: false)
+- `--without-logic-description`: Whether to exclude or not logic descriptions of beliefs and goals from the prompt (default: false)
+- `--without-nl-description`: Whether to exclude or not natural language descriptions of beliefs and goals from the prompt (default: false)
+- `--prompt-technique`: The kind of technique to use for prompting (one of {NoCoT (default), CoT, CoTMulti})
+- `--remarks`: Path to the file that stores remarks to include in the prompt (default: none)
+- `--environment-type`: The type of environment to use (one of {Standard (default), HSpace or Channel})
 
 ## Running Experiments
 
-### Option 1: Gradle Task (Direct)
+### Running Ablation Experiments
+
+Option 1: Gradle task
+
 ```shell
 ./gradlew :jakta-exp:run --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1"
 ```
 
-### Option 2: Fat JAR
+Option 2: fat JAR
 ```shell
 # Using Gradle wrapper
 ./gradlew :jakta-exp:runShadow --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1"
@@ -98,7 +108,7 @@ For authentication details, refer to: https://openrouter.ai/docs/api-reference/a
 API_KEY="<api-key>" java -jar ./jakta-exp/build/libs/jakta-exp-<jakta-version>-all.jar --lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1
 ```
 
-### Option 3: Native Executable
+Option 3: native executable
 ```shell
 # Using Gradle wrapper
 ./gradlew :jakta-exp:nativeRun -Pargs="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1"
@@ -107,7 +117,27 @@ API_KEY="<api-key>" java -jar ./jakta-exp/build/libs/jakta-exp-<jakta-version>-a
 API_KEY="<api-key>" ./jakta-exp/build/native/nativeCompile/jakta-exp --lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1
 ```
 
-## Analyzing the results
+### Running ECAI Experiments
+
+Using a Gradle task:
+
+```shell
+./gradlew :jakta-exp:runEcaiExperiment --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1"
+```
+
+## Replaying a past experiment
+
+To replay a past experiment:
+
+```shell
+./gradlew :jakta-exp:run --args="--log-to-file --run-timeout-millis 30000 --replay-exp --exp-replay-path logs/<run-id>"
+# or for ECAI experiments
+./gradlew :jakta-exp:runEcaiExperiment --args="--log-to-file --run-timeout-millis 30000 --replay-exp --exp-replay-path logs/<run-id>"
+```
+
+Where `<run-id>` is the id of a previous experiment, which is printed on console when an experiment starts and ends. It is also used to name the directory where the results are put (provided by the `--log-dir` parameter).
+
+## Analyzing the results of an experiment
 
 Once an experiment is executed in one of the ways outlined before, the expected directory structure, relative to the root of the repo, will be:
 
@@ -135,7 +165,9 @@ For each trace both a `.log` and a `.jsonl` are produced. The first provides a b
 Given this directory structure, the gradle task `evalRun` can be run:
 
 ```shell
-./gradlew :jakta-evals:evalRun --run-dir ../jakta-exp/logs/<run-id>/
+./gradlew :jakta-evals:evalRun --args="--run-dir ../jakta-exp/logs/<run-id>/"
+# or for ECAI experiments
+./gradlew :jakta-evals:ecaiEvalRun --args="--run-dir ../jakta-exp/logs/<run-id>/"
 ```
 
 This will create the `metrics/` directory under the `jakta-evals` module:

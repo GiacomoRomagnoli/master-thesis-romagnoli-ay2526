@@ -13,7 +13,7 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig
 import it.unibo.jakta.exp.Experiment.Companion.urlRegex
 import kotlin.text.matches
 
-class LmServerConfig : OptionGroup(name = "Server Configuration") {
+class LmServerConfig : OptionGroup(name = "Language Model Server Configuration") {
     val lmServerUrl: String by option()
         .default(DefaultGenerationConfig.DEFAULT_LM_SERVER_URL)
         .help("Url of the server with an OpenAI-compliant API.")

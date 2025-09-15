@@ -59,8 +59,8 @@ class Experiment(
     }
 
     override fun run() {
-        expRunnerLogger.info("Experiment started")
         val runId = runId ?: UUID.randomUUID().toString()
+        expRunnerLogger.info("Started experiment with run id: $runId")
         val logConfig = loggingConfigFactory.createLoggingConfig(runId, expLoggingConfig)
         expRunnerLogger.info(logConfig)
 
