@@ -5,7 +5,7 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.pattern.*;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 
-import static it.unibo.jakta.agents.bdi.engine.logging.loggers.JaktaLogger.extractLastComponent;
+import static it.unibo.jakta.agents.bdi.engine.logging.LogFileUtils.extractLastComponent;
 
 @Plugin(name = "JaktaLoggerNamePatternConverter", category = PatternConverter.CATEGORY)
 @ConverterKeys({"c", "logger"})

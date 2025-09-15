@@ -15,11 +15,13 @@ class MasLogger(
     override fun log(event: () -> LogEvent) = logger.implementation(masID, event)
 
     companion object {
+        const val MAS_LOG_FILENAME = "Mas"
+
         fun create(
             masID: MasID,
             loggingConfig: LoggingConfig,
         ): MasLogger {
-            val delegate = LoggerFactory.create("Mas", masID.id, loggingConfig)
+            val delegate = LoggerFactory.create("Mas-${masID.id}", loggingConfig, MAS_LOG_FILENAME)
             return MasLogger(masID, delegate)
         }
     }

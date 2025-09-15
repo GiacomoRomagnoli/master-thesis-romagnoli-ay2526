@@ -1,6 +1,6 @@
 package it.unibo.jakta.agents.bdi.engine.logging
 
-import it.unibo.jakta.agents.bdi.engine.logging.loggers.JaktaLogger
+import it.unibo.jakta.agents.bdi.engine.logging.LogFileUtils.extractHostnameAndPort
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.core.config.Configurator
 import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder
@@ -100,7 +100,7 @@ object LoggerConfigurator {
         logServerURL: String,
         layout: LayoutComponentBuilder,
     ) {
-        val (host, port) = JaktaLogger.extractHostnameAndPort(logServerURL)
+        val (host, port) = extractHostnameAndPort(logServerURL)
         if (port != null && TCP_APPENDER_NAME !in configuredAppenders) {
             configBuilder
                 .newAppender(TCP_APPENDER_NAME, "Socket")

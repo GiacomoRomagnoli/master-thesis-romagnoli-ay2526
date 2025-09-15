@@ -33,7 +33,9 @@ object JaktaParser {
 
     private fun parseStruct(input: String): Struct? =
         try {
-            val processedInput = convertVariables(input)
+            val processedInput =
+                convertVariables(input)
+                    .removeSuffix("()")
             Jakta.parseStruct(processedInput)
         } catch (_: ParseException) {
             null

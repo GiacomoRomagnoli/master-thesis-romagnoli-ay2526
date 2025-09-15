@@ -47,4 +47,8 @@ object JaktaKoin {
     fun loadAdditionalModules(vararg modules: Module) {
         koin.loadModules(modules.toList())
     }
+
+    fun loadAdditionalModules(modules: List<Module>) {
+        koin.loadModules(modules)
+    }
 }

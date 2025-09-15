@@ -10,7 +10,7 @@ import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.message.ObjectMessage;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 
-import static it.unibo.jakta.agents.bdi.engine.logging.loggers.JaktaLogger.resolveObjectMessage;
+import static it.unibo.jakta.agents.bdi.engine.logging.LogFileUtils.resolveObjectMessage;
 
 @Plugin(name = "JaktaLogEventMessagePatternConverter", category = PatternConverter.CATEGORY)
 @ConverterKeys({"d", "descr", "description"})

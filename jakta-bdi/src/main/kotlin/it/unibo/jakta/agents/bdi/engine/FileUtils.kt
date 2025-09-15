@@ -23,7 +23,7 @@ object FileUtils {
         println("Error writing to file: ${e.message}")
     }
 
-    private inline fun <reified T> lineProcessor(
+    private inline fun <reified T> logLineProcessor(
         reader: BufferedReader,
         logger: JaktaLogger? = null,
         processFunction: (T) -> Boolean,
@@ -54,12 +54,12 @@ object FileUtils {
         return shouldContinue
     }
 
-    fun processFile(
+    fun processLog(
         file: File,
         logger: JaktaLogger? = null,
         processFunction: (LogEntry) -> Boolean,
     ) {
         val reader = file.bufferedReader()
-        lineProcessor(reader, logger, processFunction)
+        logLineProcessor(reader, logger, processFunction)
     }
 }

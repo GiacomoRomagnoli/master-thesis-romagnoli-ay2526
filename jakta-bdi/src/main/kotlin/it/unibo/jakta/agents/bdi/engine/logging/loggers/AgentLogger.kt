@@ -27,13 +27,9 @@ class AgentLogger(
             agentID: AgentID,
             loggingConfig: LoggingConfig,
         ): AgentLogger {
-            val id = if (loggingConfig.logToSingleFile) masID.id else "${masID.id}-${agentID.name}-${agentID.id}"
-            val delegate =
-                LoggerFactory.create(
-                    "Mas",
-                    id,
-                    loggingConfig,
-                )
+            val loggerName = "Mas-${masID.id}-${agentID.name}-${agentID.id}"
+            val logFileName = if (loggingConfig.logToSingleFile) masID.id else agentID.name
+            val delegate = LoggerFactory.create(loggerName, loggingConfig, logFileName)
             return AgentLogger(masID, agentID, delegate)
         }
     }

@@ -7,30 +7,29 @@ import it.unibo.jakta.agents.bdi.engine.logging.loggers.appenders.Appenders.buil
 import org.apache.logging.log4j.Logger
 
 class LoggerFactory private constructor(
-    private val name: String,
+    private val loggerName: String,
     private val logFileName: String,
     private val loggingConfig: LoggingConfig,
 ) {
     val logger: Logger by lazy {
-        val appenders = buildAppenders(name, logFileName, loggingConfig)
-        LoggerConfigurator.addLogger(name, loggingConfig.logLevel, appenders)
-        JaktaLogger.logger(name)
+        val appenders = buildAppenders(loggerName, logFileName, loggingConfig)
+        LoggerConfigurator.addLogger(loggerName, loggingConfig.logLevel, appenders)
+        JaktaLogger.logger(loggerName)
     }
 
     companion object {
         fun create(
-            prefix: String,
-            id: String,
+            loggerName: String,
             loggingConfig: LoggingConfig,
+            logFileName: String = loggerName,
         ): LoggerFactory {
-            val name = "$prefix-$id"
             val logFileName =
                 if (loggingConfig.logToSingleFile) {
-                    "${loggingConfig.logDir}${separator}trace-$id"
+                    "${loggingConfig.logDir}${separator}trace-$logFileName"
                 } else {
-                    "${loggingConfig.logDir}${separator}$name"
+                    "${loggingConfig.logDir}${separator}$logFileName"
                 }
-            return LoggerFactory(name, logFileName, loggingConfig)
+            return LoggerFactory(loggerName, logFileName, loggingConfig)
         }
     }
 }

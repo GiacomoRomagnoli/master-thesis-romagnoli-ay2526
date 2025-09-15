@@ -11,7 +11,7 @@ import org.apache.logging.log4j.layout.template.json.util.JsonWriter;
 import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.message.ObjectMessage;
 
-import static it.unibo.jakta.agents.bdi.engine.logging.loggers.JaktaLogger.resolveObjectMessage;
+import static it.unibo.jakta.agents.bdi.engine.logging.LogFileUtils.resolveObjectMessage;
 
 public final class JaktaLogEventResolver implements EventResolver {
 
