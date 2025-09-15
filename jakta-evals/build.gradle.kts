@@ -25,24 +25,40 @@ application {
     mainClass.set("${project.group}.evals.server.ApplicationKt")
 }
 
+fun loadEnv(): Map<String, String> {
+    val envFile = rootProject.file(".env")
+    if (!envFile.exists()) return emptyMap()
+
+    return runCatching {
+        val props =
+            Properties().apply {
+                envFile.inputStream().use { load(it) }
+            }
+        props.entries.associate { it.key.toString() to it.value.toString() }
+    }.getOrElse { exception ->
+        println("Warning: Could not load environment: ${exception.message}")
+        emptyMap()
+    }
+}
+
 tasks.register<JavaExec>("evalRun") {
-    val environment =
-        runCatching {
-            val keystoreFile = project.rootProject.file(".env")
-            if (!keystoreFile.exists()) return@runCatching emptyMap<String, String>()
-
-            val properties = Properties()
-            keystoreFile.inputStream().use { properties.load(it) }
-            mapOf("API_KEY" to properties.getProperty("API_KEY"))
-        }.getOrElse { exception ->
-            println("Warning: Could not load environment: ${exception.message}")
-            emptyMap()
-        }
-
-    this.environment = environment
     description = "Evaluate the results of one or more experiments."
     group = "application"
 
     classpath = sourceSets.main.get().runtimeClasspath
-    mainClass = "${project.group}.evals.EvalRunKt"
+    mainClass = "${project.group}.evals.AblationEvalRunKt"
+}
+
+tasks.register<JavaExec>("ecaiEvalRun") {
+    description = "Evaluate the results of one or more experiments."
+    group = "application"
+
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass = "${project.group}.evals.EcaiEvalRunKt"
+}
+
+listOf("evalRun", "ecaiEvalRun").forEach { taskName ->
+    tasks.named<JavaExec>(taskName).configure {
+        environment(loadEnv())
+    }
 }
