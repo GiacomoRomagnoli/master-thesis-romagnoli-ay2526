@@ -6,6 +6,7 @@ import it.unibo.jakta.agents.bdi.engine.visitors.GuardFlattenerVisitor.Companion
 import it.unibo.jakta.evals.evaluators.Evaluator
 import it.unibo.jakta.evals.retrievers.plandata.InvocationContext
 import it.unibo.jakta.evals.retrievers.plandata.PGPInvocation
+import it.unibo.tuprolog.core.Indicator
 import it.unibo.tuprolog.core.Struct
 import it.unibo.tuprolog.core.Truth
 
@@ -41,13 +42,16 @@ class PGPEvaluator(
                 .flatMap { it.guard.flatten() }
                 .distinct()
 
-        val amountInadequateBeliefs =
-            compare(
+        val semanticMisalignmentResultBeliefs =
+            computeSemanticMisalignment(
                 context.admissibleBeliefs.map { it.rule.head },
                 inv.generatedAdmissibleBeliefs.map { it.rule.head },
                 admissibleBeliefUsages,
                 inv.admissibleBeliefNotParsed,
-            ).let {
+            )
+
+        val amountInadequateBeliefs =
+            semanticMisalignmentResultBeliefs.let {
                 it.notParsed +
                     (
                         it.usedNotAdmissible +
@@ -66,13 +70,16 @@ class PGPEvaluator(
                         }
                 }.distinct()
 
-        val amountInadequateGoals =
-            compare(
+        val semanticMisalignmentResultGoals =
+            computeSemanticMisalignment(
                 context.admissibleGoals.map { it.trigger.value },
                 inv.generatedAdmissibleGoals.map { it.trigger.value },
                 admissibleGoalUsages,
                 inv.admissibleGoalsNotParsed,
-            ).let {
+            )
+
+        val amountInadequateGoals =
+            semanticMisalignmentResultGoals.let {
                 it.notParsed +
                     (
                         it.usedNotAdmissible +
@@ -106,33 +113,33 @@ class PGPEvaluator(
     }
 
     companion object {
-        fun compare(
+        fun computeSemanticMisalignment(
             admissibleDefault: Iterable<Struct>,
             admissibleGenerated: Iterable<Struct>,
             usagesList: Iterable<Struct>,
             notParsed: Int = 0,
         ): SemanticMisalignmentResult {
-            val admissibleDefault = extractElements(admissibleDefault)
-            val admissibleGenerated = extractElements(admissibleGenerated)
-            val admissible = admissibleDefault + admissibleGenerated
-            val usages = extractElements(usagesList)
+            val admissibleDefault = getIndicator(admissibleDefault)
+            val admissibleGenerated = getIndicator(admissibleGenerated)
+            val usages = getIndicator(usagesList)
+            val admissible = admissibleDefault + admissibleGenerated + Truth.TRUE.indicator
 
             return SemanticMisalignmentResult(
-                notParsed = notParsed,
                 alreadyAdmissible = admissibleDefault intersect admissibleGenerated,
                 admissibleNotUsed = admissibleGenerated - usages,
                 usedNotAdmissible = usages - admissible,
+                notParsed = notParsed,
             )
         }
 
-        private fun extractElements(structs: Iterable<Struct>): Set<String> =
+        private fun getIndicator(structs: Iterable<Struct>): Set<Indicator> =
             structs
                 .map {
                     if (it.functor == "not" || it.functor == "~") {
                         val s = it.args[0].castToStruct()
-                        "${s.functor}/${s.arity}"
+                        s.indicator
                     } else {
-                        "${it.functor}/${it.arity}"
+                        it.indicator
                     }
                 }.toSet()
     }

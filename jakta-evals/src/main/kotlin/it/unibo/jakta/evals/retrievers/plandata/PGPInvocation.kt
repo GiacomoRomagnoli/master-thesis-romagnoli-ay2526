@@ -20,7 +20,7 @@ data class PGPInvocation(
     val plansNotParsed: Int = 0,
     val admissibleGoalsNotParsed: Int = 0,
     val admissibleBeliefNotParsed: Int = 0,
-    val timeUntilCompletion: Long? = 0,
+    val completionTime: Long? = 0,
     val executable: Boolean = true,
     val achievesGoal: Boolean = true,
     val generationConfig: LMGenerationConfig? = null,

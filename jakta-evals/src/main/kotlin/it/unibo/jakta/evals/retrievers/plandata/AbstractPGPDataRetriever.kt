@@ -1,7 +1,7 @@
 package it.unibo.jakta.evals.retrievers.plandata
 
 import com.aallam.openai.api.chat.ChatMessage
-import it.unibo.jakta.agents.bdi.engine.FileUtils.processFile
+import it.unibo.jakta.agents.bdi.engine.FileUtils.processLog
 import it.unibo.jakta.agents.bdi.engine.actions.ActionSignature
 import it.unibo.jakta.agents.bdi.engine.actions.effects.AdmissibleBeliefChange
 import it.unibo.jakta.agents.bdi.engine.actions.effects.AdmissibleGoalChange
@@ -11,8 +11,8 @@ import it.unibo.jakta.agents.bdi.engine.beliefs.AdmissibleBelief
 import it.unibo.jakta.agents.bdi.engine.context.ContextUpdate
 import it.unibo.jakta.agents.bdi.engine.events.AdmissibleGoal
 import it.unibo.jakta.agents.bdi.engine.executionstrategies.feedback.PGPSuccess
+import it.unibo.jakta.agents.bdi.engine.logging.LogFileUtils.extractLastId
 import it.unibo.jakta.agents.bdi.engine.logging.events.ActionEvent
-import it.unibo.jakta.agents.bdi.engine.logging.loggers.JaktaLogger.Companion.extractLastId
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.logging.events.LMGenerationRequested
@@ -21,31 +21,31 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.logging.events.LMMessag
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.Parser
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserFailure
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserSuccess
-import it.unibo.jakta.evals.retrievers.Retriever
 import java.io.File
 
 // TODO detect plans not subsumed by others that are never executed (using TrackGoalExecution)
-class PlanDataRetriever(
+abstract class AbstractPGPDataRetriever(
     private val masLogFile: File,
     private val agentLogFile: File,
     private val pgpLogFile: File,
-) : Retriever<PlanData> {
+    private val pgpId: String,
+) : PGPDataRetriever {
     override fun retrieve(): PlanData {
         val invocationContext = buildInvocationContext(masLogFile, agentLogFile)
         val pgpInvocation = buildPGPInvocation(agentLogFile, pgpLogFile)
         return PlanData(invocationContext, pgpInvocation)
     }
 
-    private fun buildInvocationContext(
+    override fun buildInvocationContext(
         masLogFile: File,
         agentLogFile: File,
     ): InvocationContext {
         val actions = mutableListOf<ActionSignature>()
 
-        processFile(masLogFile) { logEntry ->
+        processLog(masLogFile) { logEntry ->
             val event = logEntry.message.event
             if (event is ActionEvent.ActionAddition) {
-                event.action?.let { actions.add(it.actionSignature) }
+                actions.add(event.actionSignature)
             }
             true
         }
@@ -54,7 +54,7 @@ class PlanDataRetriever(
         val admissibleGoals = mutableListOf<AdmissibleGoal>()
         val admissibleBeliefs = mutableListOf<AdmissibleBelief>()
 
-        processFile(agentLogFile) { logEntry ->
+        processLog(agentLogFile) { logEntry ->
             when (val ev = logEntry.message.event) {
                 is ActionEvent.ActionAddition -> actions.add(ev.actionSignature)
                 is PlanChange if ev.changeType == ContextUpdate.ADDITION -> plans.add(ev.plan)
@@ -76,7 +76,7 @@ class PlanDataRetriever(
         )
     }
 
-    private fun buildPGPInvocation(
+    override fun buildPGPInvocation(
         agentLogStream: File,
         pgpLogStream: File,
     ): PGPInvocation {
@@ -85,7 +85,7 @@ class PlanDataRetriever(
         var genCfg: LMGenerationConfig? = null
         var chatCompletionId: String? = null
 
-        processFile(pgpLogStream) { logEntry ->
+        processLog(pgpLogStream) { logEntry ->
             when (val event = logEntry.message.event) {
                 is LMMessageReceived -> {
                     chatCompletionId = event.chatCompletionId
@@ -126,16 +126,12 @@ class PlanDataRetriever(
         val generatedAdmissibleGoals = mutableListOf<AdmissibleGoal>()
         val generatedAdmissibleBeliefs = mutableListOf<AdmissibleBelief>()
 
-        val pgpId = extractLastId(pgpLogFile.name)
-
-        processFile(agentLogStream) { logEntry ->
+        processLog(agentLogStream) { logEntry ->
             when (val ev = logEntry.message.event) {
                 is PGPSuccess.GenerationCompleted -> {
-                    if (ev.pgpId.id == pgpId) {
-                        generatedPlans.addAll(ev.plans)
-                        generatedAdmissibleGoals.addAll(ev.admissibleGoals)
-                        generatedAdmissibleBeliefs.addAll(ev.admissibleBeliefs)
-                    }
+                    generatedPlans.addAll(ev.plans)
+                    generatedAdmissibleGoals.addAll(ev.admissibleGoals)
+                    generatedAdmissibleBeliefs.addAll(ev.admissibleBeliefs)
                 }
                 is BeliefChange -> {
                     if (ev.changeType == ContextUpdate.ADDITION &&
@@ -163,7 +159,7 @@ class PlanDataRetriever(
             plansNotParsed = plansNotParsed,
             admissibleGoalsNotParsed = admissibleGoalsNotParsed,
             admissibleBeliefNotParsed = admissibleBeliefNotParsed,
-            timeUntilCompletion = timeOfCompletion,
+            completionTime = timeOfCompletion,
             executable = generatedPlans.isNotEmpty(),
             achievesGoal = reachesDestination,
             generationConfig = genCfg,

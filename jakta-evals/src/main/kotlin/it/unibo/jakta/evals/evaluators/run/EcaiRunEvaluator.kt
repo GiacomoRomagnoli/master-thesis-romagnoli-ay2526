@@ -7,11 +7,10 @@ import it.unibo.jakta.evals.evaluators.Evaluator
 import it.unibo.jakta.evals.evaluators.pgp.PGPEvaluator
 import it.unibo.jakta.evals.retrievers.gendata.GenerationClient
 import it.unibo.jakta.evals.retrievers.gendata.GenerationDataRetriever
-import it.unibo.jakta.evals.retrievers.plandata.PlanDataRetriever
+import it.unibo.jakta.evals.retrievers.plandata.EcaiPGPDataRetriever
 import java.io.File
 
-// TODO add path evaluation
-class RunEvaluator(
+class EcaiRunEvaluator(
     val expDir: String,
     val retrieveGenerationData: Boolean = false,
     val authToken: String? = null,
@@ -20,17 +19,16 @@ class RunEvaluator(
         val masLogFiles = findMasLogFiles(expDir).ifEmpty { return emptyList() }
         val runEvaluations = mutableListOf<RunEvaluation>()
 
-        masLogFiles.forEach { masLogFile ->
+        masLogFiles.forEach { (masLogFile, masId) ->
             println("Found $masLogFile")
-            extractAgentLogFiles(expDir, masLogFile).forEach { agentLogFile ->
+            extractAgentLogFiles(expDir, masId).forEach { (agentLogFile, agentId) ->
                 println("Found $agentLogFile")
-                extractPgpLogFiles(expDir, agentLogFile).forEach { pgpLogFile ->
+                extractPgpLogFiles(expDir, agentId).forEach { (pgpLogFile, pgpId) ->
                     println("Found $pgpLogFile")
-                    val planDataRetriever = PlanDataRetriever(masLogFile, agentLogFile, pgpLogFile)
+                    val planDataRetriever = EcaiPGPDataRetriever(masLogFile, agentLogFile, pgpLogFile, pgpId)
                     val planData = planDataRetriever.retrieve()
                     val pgpEvaluator = PGPEvaluator(planData.invocationContext, planData.pgpInvocation)
                     val pgpEvaluation = pgpEvaluator.eval()
-//                    val pathEvaluator = PathEvaluator()
 
                     val chatCompletionId = planData.pgpInvocation.chatCompletionId
                     val generationData =

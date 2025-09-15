@@ -2,19 +2,18 @@ package it.unibo.jakta.evals
 
 import com.aallam.openai.api.chat.ChatMessage
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.core.main
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.help
 import com.github.ajalt.clikt.parameters.options.option
 import it.unibo.jakta.agents.bdi.engine.FileUtils.writeToFile
 import it.unibo.jakta.agents.bdi.engine.Jakta.capitalize
+import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin
 import it.unibo.jakta.agents.bdi.engine.formatters.DefaultFormatters.planFormatter
 import it.unibo.jakta.agents.bdi.engine.serialization.modules.JaktaJsonComponent
 import it.unibo.jakta.evals.evaluators.run.RunEvaluation
-import it.unibo.jakta.evals.evaluators.run.RunEvaluator
 import it.unibo.jakta.evals.retrievers.plandata.PGPInvocation
-import it.unibo.jakta.exp.explorer.ModuleLoader
+import it.unibo.jakta.exp.ecai.EcaiExpRunner.modulesToLoad
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.encodeToStream
 import java.io.File
@@ -23,7 +22,7 @@ import java.io.File
  * Command-line tool for evaluating the results of the experiments.
  */
 @OptIn(ExperimentalSerializationApi::class)
-class EvalRun : CliktCommand() {
+abstract class EvalRun : CliktCommand() {
     val runDir: String by option()
         .default(DEFAULT_RUN_DIR)
         .help("The directory where the experiments' traces are stored.")
@@ -41,25 +40,7 @@ class EvalRun : CliktCommand() {
         .help("The secret API key to use for authentication with the server")
 
     init {
-        ModuleLoader.loadModules()
-    }
-
-    override fun run() {
-        val runEvaluator = RunEvaluator(runDir, retrieveGenerationData, authToken)
-        val result =
-            runEvaluator.eval().also {
-                it.ifEmpty { println("Nothing found at $runDir") }
-            }
-        result.forEach { res ->
-            val metricsDirectory = File("${metricsDir}${res.runId}").apply { mkdirs() }
-            println("Writing results to $metricsDirectory")
-            writeEvaluationResult(metricsDirectory, res, "evaluation_result")
-            res.planData?.pgpInvocation?.let { writeGenerationResult(metricsDirectory, it, "generation_result") }
-            res.planData
-                ?.pgpInvocation
-                ?.history
-                ?.let { writeChatHistory(metricsDirectory, it, "chat_history") }
-        }
+        JaktaKoin.loadAdditionalModules(modulesToLoad)
     }
 
     companion object {
@@ -110,5 +91,3 @@ class EvalRun : CliktCommand() {
                 }
     }
 }
-
-fun main(args: Array<String>) = EvalRun().main(args)
