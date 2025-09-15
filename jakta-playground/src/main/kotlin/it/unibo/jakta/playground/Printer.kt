@@ -4,7 +4,6 @@ import it.unibo.jakta.agents.bdi.dsl.goals.TriggerMetadata.meaning
 import it.unibo.jakta.agents.bdi.dsl.mas
 import it.unibo.jakta.agents.bdi.engine.logging.LoggingConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.dsl.DSLExtensions.lmGeneration
-import it.unibo.jakta.exp.explorer.ModuleLoader.jsonModule
 import java.io.File
 import java.util.Properties
 import kotlin.time.Duration.Companion.seconds
@@ -33,7 +32,6 @@ fun main() =
             requestTimeout = 360.seconds
         }
         loggingConfig = LoggingConfig(logToFile = true)
-        modules = listOf(jsonModule)
         agent("Printer") {
             goals {
                 +achieve("print"(0, 10))
