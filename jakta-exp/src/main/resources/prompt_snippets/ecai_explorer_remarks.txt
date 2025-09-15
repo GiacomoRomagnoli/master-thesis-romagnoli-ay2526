@@ -1,0 +1,2 @@
+In order to move to a Direction, you first need to get that direction with the getDirectionToMove action.
+The there_is belief is only present in the belief base if the agent is adjacent to an object. At the start, the Home object is not in the perceptive field of the agent, so you need to create plans that handle the absence of the there_is belief.
