@@ -25,7 +25,7 @@ To build a native executable using GraalVM Native Image. This process requires t
 
 ```shell
 # Runs with the agent to collect metadata for native compilation
-./gradlew :jakta-exp:run -Pagent --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1"
+./gradlew :jakta-exp:run -Pagent --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --run-timeout-millis 50000 --temperature 0.1"
 
 # Copies the collected metadata
 ./gradlew :jakta-exp:metadataCopy
@@ -96,25 +96,25 @@ For authentication details, refer to: https://openrouter.ai/docs/api-reference/a
 Option 1: Gradle task
 
 ```shell
-./gradlew :jakta-exp:run --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1"
+./gradlew :jakta-exp:run --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --temperature 0.1"
 ```
 
 Option 2: fat JAR
 ```shell
 # Using Gradle wrapper
-./gradlew :jakta-exp:runShadow --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1"
+./gradlew :jakta-exp:runShadow --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --run-timeout-millis 50000 --temperature 0.1"
 
 # Or executes JAR directly (update api-key and jakta-version)
-API_KEY="<api-key>" java -jar ./jakta-exp/build/libs/jakta-exp-<jakta-version>-all.jar --lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1
+API_KEY="<api-key>" java -jar ./jakta-exp/build/libs/jakta-exp-<jakta-version>-all.jar --lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --temperature 0.1
 ```
 
 Option 3: native executable
 ```shell
 # Using Gradle wrapper
-./gradlew :jakta-exp:nativeRun -Pargs="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1"
+./gradlew :jakta-exp:nativeRun -Pargs="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --run-timeout-millis 50000 --temperature 0.1"
 
 # Or executes binary directly (update api-key)
-API_KEY="<api-key>" ./jakta-exp/build/native/nativeCompile/jakta-exp --lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1
+API_KEY="<api-key>" ./jakta-exp/build/native/nativeCompile/jakta-exp --lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --temperature 0.1
 ```
 
 ### Running ECAI Experiments
@@ -122,7 +122,7 @@ API_KEY="<api-key>" ./jakta-exp/build/native/nativeCompile/jakta-exp --lm-server
 Using a Gradle task:
 
 ```shell
-./gradlew :jakta-exp:runEcaiExperiment --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --exp-timeout-millis 50000 --temperature 0.1"
+./gradlew :jakta-exp:runEcaiExperiment --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --remarks prompt_snippets/ecai_explorer_remarks.txt --temperature 0.1"
 ```
 
 ## Replaying a past experiment
