@@ -2,53 +2,40 @@ package it.unibo.jakta.evals.retrievers.plandata
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import it.unibo.jakta.agents.bdi.engine.FileUtils.getResourceAsFile
 import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin
-import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin.engineJsonModule
-import it.unibo.jakta.exp.explorer.ModuleLoader.jsonModule
+import it.unibo.jakta.evals.SharedUtils.PGP_ID
+import it.unibo.jakta.evals.SharedUtils.testAgentLogFile
+import it.unibo.jakta.evals.SharedUtils.testMasLogFile
+import it.unibo.jakta.evals.SharedUtils.testPgpLogFile
+import it.unibo.jakta.exp.ecai.EcaiExpRunner.modulesToLoad
 
 class PlanDataRetrievalTest : FunSpec() {
     init {
-        JaktaKoin.loadAdditionalModules(engineJsonModule, jsonModule)
+        JaktaKoin.loadAdditionalModules(modulesToLoad)
 
         test("PlanDataRetriever should retrieve PlanData from streams") {
-            val masLogFile =
-                getResourceAsFile("/testLogs/Mas-fb90e237-4422-4c11-bdd2-6dc1058c2fca.jsonl")
-                    ?: error("Could not find mas test log file")
-            val agentLogFile =
-                getResourceAsFile(
-                    "/testLogs/Mas-fb90e237-4422-4c11-bdd2-6dc1058c2fca-ExplorerRobot-cc336e14-00da-4ea8-9815-b09550406dd3.jsonl",
-                )
-                    ?: error("Could not find agent test log file")
-            val pgpLogFile =
-                getResourceAsFile(
-                    "/testLogs/Mas-fb90e237-4422-4c11-bdd2-6dc1058c2fca-ExplorerRobot-cc336e14-00da-4ea8-9815-b09550406dd3-trusting_nightingale-37669cb0-20cf-4760-b9a6-1556f04dcd65.jsonl",
-                )
-                    ?: error("Could not find pgp test log file")
-
-            val masId = "fb90e237-4422-4c11-bdd2-6dc1058c2fca"
-            val agentId = "cc336e14-00da-4ea8-9815-b09550406dd3"
-            val pgpId = "37669cb0-20cf-4760-b9a6-1556f04dcd65"
-
-            val retriever =
-                PlanDataRetriever(
-                    masLogFile = masLogFile,
-                    agentLogFile = agentLogFile,
-                    pgpLogFile = pgpLogFile,
-                    masId = masId,
-                    agentId = agentId,
-                    pgpId = pgpId,
-                )
-
+            val retriever = EcaiPGPDataRetriever(testMasLogFile, testAgentLogFile, testPgpLogFile, PGP_ID)
             val planData = retriever.retrieve()
+            val pgpInvocation = planData.pgpInvocation
+            val invocationContext = planData.invocationContext
 
-            planData.pgpInvocation.history.forEach { println(it.content) }
+//            pgpInvocation.history.forEach { println(it.content) }
 
-            planData.invocationContext.plans.size shouldBe 0
-            planData.invocationContext.actions.size shouldBe 5
+            invocationContext.plans.size shouldBe 0
+            invocationContext.admissibleGoals.size shouldBe 1
+            invocationContext.admissibleBeliefs.size shouldBe 5
+            invocationContext.actions.size shouldBe 7
 
-            planData.pgpInvocation.generatedPlans.size shouldBe 4
-            planData.pgpInvocation.executable shouldBe true
+            pgpInvocation.history.size shouldBe 3
+            pgpInvocation.generatedPlans.size shouldBe 4
+            pgpInvocation.generatedAdmissibleGoals.size shouldBe 1
+            pgpInvocation.generatedAdmissibleBeliefs.size shouldBe 2
+            pgpInvocation.plansNotParsed shouldBe 0
+            pgpInvocation.admissibleGoalsNotParsed shouldBe 0
+            pgpInvocation.admissibleBeliefNotParsed shouldBe 0
+            pgpInvocation.completionTime shouldBe 37L
+            pgpInvocation.executable shouldBe true
+            pgpInvocation.achievesGoal shouldBe true
         }
     }
 }

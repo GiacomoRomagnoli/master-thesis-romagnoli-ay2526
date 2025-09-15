@@ -1,0 +1,70 @@
+2025-09-14 16:31:35.376048+02:00 [main] INFO  Mas - Added external action: move
+2025-09-14 16:31:35.384007+02:00 [main] INFO  Mas - Added external action: getDirectionToMove
+2025-09-14 16:31:35.422814+02:00 [main] INFO  Mas - Agent ExplorerRobot has been spawned in the environment
+2025-09-14 16:31:36.068075+02:00 [Thread-0] INFO  Mas - The robot moved
+2025-09-14 16:31:36.073432+02:00 [Thread-0] INFO  Mas - Environment has been updated with the new data: {state=GridWorldState(gridSize=5, agentPosition=Cell(x=3, y=2), objectsPosition={rock=Cell(x=1, y=0), home=Cell(x=4, y=4)}, obstaclesPosition=[Cell(x=2, y=3), Cell(x=1, y=3), Cell(x=3, y=3)], availableDirections=[NORTH, SOUTH, EAST, WEST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST, HERE], grid=it.unibo.jakta.playground.gridworld.model.Grid@6a491962)}
+2025-09-14 16:31:36.074497+02:00 [Thread-0] INFO  Mas - North is a direction
+2025-09-14 16:31:36.074770+02:00 [Thread-0] INFO  Mas - South is a direction
+2025-09-14 16:31:36.074926+02:00 [Thread-0] INFO  Mas - East is a direction
+2025-09-14 16:31:36.075067+02:00 [Thread-0] INFO  Mas - West is a direction
+2025-09-14 16:31:36.075227+02:00 [Thread-0] INFO  Mas - North_east is a direction
+2025-09-14 16:31:36.075390+02:00 [Thread-0] INFO  Mas - North_west is a direction
+2025-09-14 16:31:36.075726+02:00 [Thread-0] INFO  Mas - South_east is a direction
+2025-09-14 16:31:36.075924+02:00 [Thread-0] INFO  Mas - South_west is a direction
+2025-09-14 16:31:36.076859+02:00 [Thread-0] INFO  Mas - Here is a direction
+2025-09-14 16:31:36.077010+02:00 [Thread-0] INFO  Mas - Here denotes the null direction w.r.t. the agent's current location
+2025-09-14 16:31:36.077484+02:00 [Thread-0] INFO  Mas - Rock is an object
+2025-09-14 16:31:36.077806+02:00 [Thread-0] INFO  Mas - Home is an object
+2025-09-14 16:31:36.077988+02:00 [Thread-0] INFO  Mas - There is no obstacle to the north
+2025-09-14 16:31:36.078155+02:00 [Thread-0] INFO  Mas - There is an obstacle to the south
+2025-09-14 16:31:36.078286+02:00 [Thread-0] INFO  Mas - There is no obstacle to the east
+2025-09-14 16:31:36.078789+02:00 [Thread-0] INFO  Mas - There is no obstacle to the west
+2025-09-14 16:31:36.079241+02:00 [Thread-0] INFO  Mas - There is no obstacle to the north_east
+2025-09-14 16:31:36.079459+02:00 [Thread-0] INFO  Mas - There is no obstacle to the north_west
+2025-09-14 16:31:36.079834+02:00 [Thread-0] INFO  Mas - There is an obstacle to the south_east
+2025-09-14 16:31:36.079973+02:00 [Thread-0] INFO  Mas - There is an obstacle to the south_west
+2025-09-14 16:31:36.132657+02:00 [Thread-0] INFO  Mas - The robot moved
+2025-09-14 16:31:36.133279+02:00 [Thread-0] INFO  Mas - Environment has been updated with the new data: {state=GridWorldState(gridSize=5, agentPosition=Cell(x=4, y=3), objectsPosition={rock=Cell(x=1, y=0), home=Cell(x=4, y=4)}, obstaclesPosition=[Cell(x=2, y=3), Cell(x=1, y=3), Cell(x=3, y=3)], availableDirections=[NORTH, SOUTH, EAST, WEST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST, HERE], grid=it.unibo.jakta.playground.gridworld.model.Grid@6a491962)}
+2025-09-14 16:31:36.133819+02:00 [Thread-0] INFO  Mas - North is a direction
+2025-09-14 16:31:36.133984+02:00 [Thread-0] INFO  Mas - South is a direction
+2025-09-14 16:31:36.134104+02:00 [Thread-0] INFO  Mas - East is a direction
+2025-09-14 16:31:36.134224+02:00 [Thread-0] INFO  Mas - West is a direction
+2025-09-14 16:31:36.134335+02:00 [Thread-0] INFO  Mas - North_east is a direction
+2025-09-14 16:31:36.134449+02:00 [Thread-0] INFO  Mas - North_west is a direction
+2025-09-14 16:31:36.134561+02:00 [Thread-0] INFO  Mas - South_east is a direction
+2025-09-14 16:31:36.134713+02:00 [Thread-0] INFO  Mas - South_west is a direction
+2025-09-14 16:31:36.134829+02:00 [Thread-0] INFO  Mas - Here is a direction
+2025-09-14 16:31:36.134959+02:00 [Thread-0] INFO  Mas - Here denotes the null direction w.r.t. the agent's current location
+2025-09-14 16:31:36.135058+02:00 [Thread-0] INFO  Mas - Rock is an object
+2025-09-14 16:31:36.135155+02:00 [Thread-0] INFO  Mas - Home is an object
+2025-09-14 16:31:36.135248+02:00 [Thread-0] INFO  Mas - There is no obstacle to the north
+2025-09-14 16:31:36.135366+02:00 [Thread-0] INFO  Mas - There is an obstacle to the south
+2025-09-14 16:31:36.135472+02:00 [Thread-0] INFO  Mas - There is no obstacle to the east
+2025-09-14 16:31:36.135571+02:00 [Thread-0] INFO  Mas - There is no obstacle to the west
+2025-09-14 16:31:36.135712+02:00 [Thread-0] INFO  Mas - There is no obstacle to the north_east
+2025-09-14 16:31:36.135817+02:00 [Thread-0] INFO  Mas - There is no obstacle to the north_west
+2025-09-14 16:31:36.135930+02:00 [Thread-0] INFO  Mas - There is no obstacle to the south_east
+2025-09-14 16:31:36.136032+02:00 [Thread-0] INFO  Mas - There is an obstacle to the south_west
+2025-09-14 16:31:36.222314+02:00 [Thread-0] INFO  Mas - The robot moved
+2025-09-14 16:31:36.223995+02:00 [Thread-0] INFO  Mas - Environment has been updated with the new data: {state=GridWorldState(gridSize=5, agentPosition=Cell(x=4, y=4), objectsPosition={rock=Cell(x=1, y=0), home=Cell(x=4, y=4)}, obstaclesPosition=[Cell(x=2, y=3), Cell(x=1, y=3), Cell(x=3, y=3)], availableDirections=[NORTH, SOUTH, EAST, WEST, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST, HERE], grid=it.unibo.jakta.playground.gridworld.model.Grid@6a491962)}
+2025-09-14 16:31:36.224537+02:00 [Thread-0] INFO  Mas - North is a direction
+2025-09-14 16:31:36.224726+02:00 [Thread-0] INFO  Mas - South is a direction
+2025-09-14 16:31:36.224835+02:00 [Thread-0] INFO  Mas - East is a direction
+2025-09-14 16:31:36.224931+02:00 [Thread-0] INFO  Mas - West is a direction
+2025-09-14 16:31:36.225246+02:00 [Thread-0] INFO  Mas - North_east is a direction
+2025-09-14 16:31:36.225417+02:00 [Thread-0] INFO  Mas - North_west is a direction
+2025-09-14 16:31:36.225552+02:00 [Thread-0] INFO  Mas - South_east is a direction
+2025-09-14 16:31:36.225712+02:00 [Thread-0] INFO  Mas - South_west is a direction
+2025-09-14 16:31:36.225816+02:00 [Thread-0] INFO  Mas - Here is a direction
+2025-09-14 16:31:36.225906+02:00 [Thread-0] INFO  Mas - Here denotes the null direction w.r.t. the agent's current location
+2025-09-14 16:31:36.226045+02:00 [Thread-0] INFO  Mas - Rock is an object
+2025-09-14 16:31:36.226209+02:00 [Thread-0] INFO  Mas - Home is an object
+2025-09-14 16:31:36.226361+02:00 [Thread-0] INFO  Mas - There is no obstacle to the north
+2025-09-14 16:31:36.226592+02:00 [Thread-0] INFO  Mas - There is no obstacle to the south
+2025-09-14 16:31:36.226771+02:00 [Thread-0] INFO  Mas - There is an obstacle to the east
+2025-09-14 16:31:36.226920+02:00 [Thread-0] INFO  Mas - There is an obstacle to the west
+2025-09-14 16:31:36.227076+02:00 [Thread-0] INFO  Mas - There is an obstacle to the north_east
+2025-09-14 16:31:36.227199+02:00 [Thread-0] INFO  Mas - There is no obstacle to the north_west
+2025-09-14 16:31:36.227289+02:00 [Thread-0] INFO  Mas - There is an obstacle to the south_east
+2025-09-14 16:31:36.227374+02:00 [Thread-0] INFO  Mas - There is no obstacle to the south_west
+2025-09-14 16:31:36.227516+02:00 [Thread-0] INFO  Mas - There is a home to the south
