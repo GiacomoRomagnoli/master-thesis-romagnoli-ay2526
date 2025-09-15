@@ -21,8 +21,7 @@ dependencies {
     annotationProcessor(libs.log4j.core)
 }
 
-val expMainClass = "${project.group}.exp.explorer.ExplorerRunnerKt"
-
+val expMainClass = "${project.group}.exp.AblationExpRunner"
 val enableAgent = project.hasProperty("agent")
 val enableDebug = project.hasProperty("debug")
 
@@ -101,7 +100,15 @@ fun loadEnv(): Map<String, String> {
     }
 }
 
-listOf("run", "runShadow").forEach { taskName ->
+tasks.register<JavaExec>("runEcaiExperiment") {
+    description = "Run the explorer agent sample with the baseline plans."
+    group = "application"
+
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass = "${project.group}.exp.ecai.EcaiExpRunner"
+}
+
+listOf("run", "runEcaiExperiment", "runShadow").forEach { taskName ->
     tasks.named<JavaExec>(taskName).configure {
         environment(loadEnv())
     }
