@@ -4,7 +4,9 @@ import com.github.ajalt.clikt.core.main
 import it.unibo.jakta.evals.evaluators.run.BaseExpRunEvaluator
 import java.io.File
 
-class BaseExpEvalRun : EvalRun() {
+// TODO remove code duplication
+// CPD-OFF
+class BaseExpEvalRun : AbstractEvalRun() {
     override fun run() {
         val runEvaluator = BaseExpRunEvaluator(runDir, retrieveGenerationData, authToken)
         val result =
@@ -23,5 +25,6 @@ class BaseExpEvalRun : EvalRun() {
         }
     }
 }
+// CPD-ON
 
 fun main(args: Array<String>) = BaseExpEvalRun().main(args)

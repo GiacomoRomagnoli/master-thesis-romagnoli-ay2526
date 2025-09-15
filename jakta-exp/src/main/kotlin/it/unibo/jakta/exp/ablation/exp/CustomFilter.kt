@@ -1,4 +1,4 @@
-package it.unibo.jakta.exp.explorer
+package it.unibo.jakta.exp.ablation.exp
 
 import it.unibo.jakta.agents.bdi.engine.events.BeliefBaseAddition
 import it.unibo.jakta.agents.bdi.engine.plans.PlanLibrary

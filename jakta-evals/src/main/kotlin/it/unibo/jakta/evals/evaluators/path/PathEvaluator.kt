@@ -1,8 +1,8 @@
 package it.unibo.jakta.evals.evaluators.path
 
 import it.unibo.jakta.evals.evaluators.Evaluator
-import it.unibo.jakta.exp.gridworld.model.Grid
-import it.unibo.jakta.exp.gridworld.model.Position
+import it.unibo.jakta.exp.ablation.gridworld.model.Grid
+import it.unibo.jakta.exp.ablation.gridworld.model.Position
 
 class PathEvaluator(
     private val scenario: SearchScenario,

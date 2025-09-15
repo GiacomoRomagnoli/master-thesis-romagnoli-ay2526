@@ -22,7 +22,7 @@ import java.io.File
  * Command-line tool for evaluating the results of the experiments.
  */
 @OptIn(ExperimentalSerializationApi::class)
-abstract class EvalRun : CliktCommand() {
+abstract class AbstractEvalRun : CliktCommand() {
     val runDir: String by option()
         .default(DEFAULT_RUN_DIR)
         .help("The directory where the experiments' traces are stored.")

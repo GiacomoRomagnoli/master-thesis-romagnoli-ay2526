@@ -8,8 +8,8 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.enum
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.DefaultFilters.metaPlanFilter
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.DefaultFilters.printActionFilter
-import it.unibo.jakta.exp.explorer.CustomFilter.beliefBaseAdditionPlanFilter
-import it.unibo.jakta.exp.gridworld.configuration.EnvironmentType
+import it.unibo.jakta.exp.ablation.exp.CustomFilter.beliefBaseAdditionPlanFilter
+import it.unibo.jakta.exp.ablation.gridworld.configuration.EnvironmentType
 
 class PromptConfig : OptionGroup(name = "Prompt Configuration") {
     val withoutAdmissibleBeliefs: Boolean by option()

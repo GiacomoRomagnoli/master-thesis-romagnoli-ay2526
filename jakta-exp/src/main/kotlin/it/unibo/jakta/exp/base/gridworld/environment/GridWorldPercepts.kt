@@ -1,7 +1,7 @@
 package it.unibo.jakta.exp.base.gridworld.environment
 
 import it.unibo.jakta.agents.bdi.engine.beliefs.Belief
-import it.unibo.jakta.playground.gridworld.model.Direction
+import it.unibo.jakta.exp.sharedModel.Direction
 import it.unibo.jakta.playground.gridworld.model.Grid
 import it.unibo.tuprolog.core.Atom
 import it.unibo.tuprolog.core.Struct

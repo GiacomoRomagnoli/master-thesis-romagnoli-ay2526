@@ -15,6 +15,8 @@ import kotlin.collections.forEach
 import kotlin.collections.ifEmpty
 
 // TODO add path evaluation
+// TODO remove code duplication
+// CPD-OFF
 class AblationRunEvaluator(
     val expDir: String,
     val retrieveGenerationData: Boolean = false,
@@ -61,3 +63,4 @@ class AblationRunEvaluator(
         return runEvaluations
     }
 }
+// CPD-ON

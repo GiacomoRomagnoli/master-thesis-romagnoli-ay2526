@@ -1,6 +1,6 @@
-package it.unibo.jakta.playground.explorer.gridworld
+package it.unibo.jakta.exp
 
-import it.unibo.jakta.exp.gridworld.configuration.GridWorldConfigs.channelEnv
+import it.unibo.jakta.exp.ablation.gridworld.configuration.GridWorldConfigs.channelEnv
 
 fun main() {
     val gridWorld = channelEnv

@@ -11,11 +11,11 @@ import it.unibo.jakta.agents.bdi.engine.logging.loggers.MasLogger
 import it.unibo.jakta.agents.bdi.engine.messages.MessageQueue
 import it.unibo.jakta.agents.bdi.engine.perception.Perception
 import it.unibo.jakta.exp.GridWorldEnvironment
-import it.unibo.jakta.exp.gridworld.environment.GridWorldPercepts
-import it.unibo.jakta.exp.gridworld.environment.GridWorldState
 import it.unibo.tuprolog.core.Integer
 import kotlin.collections.forEach
 
+// TODO remove code duplication
+// CPD-OFF
 class AblationGridWorldEnvironment(
     agentIDs: Map<String, AgentID> = emptyMap(),
     externalActions: Map<String, ExternalAction> = emptyMap(),
@@ -116,3 +116,4 @@ class AblationGridWorldEnvironment(
         internal val defaultData = mapOf("state" to GridWorldState())
     }
 }
+// CPD-ON

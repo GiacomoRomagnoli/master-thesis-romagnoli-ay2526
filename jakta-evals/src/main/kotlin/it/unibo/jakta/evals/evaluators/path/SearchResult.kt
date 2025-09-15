@@ -1,6 +1,6 @@
 package it.unibo.jakta.evals.evaluators.path
 
-import it.unibo.jakta.exp.gridworld.model.Position
+import it.unibo.jakta.exp.ablation.gridworld.model.Position
 
 sealed class SearchResult {
     data class Success(

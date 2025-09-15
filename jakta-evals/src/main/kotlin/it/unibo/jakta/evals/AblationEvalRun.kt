@@ -4,7 +4,9 @@ import com.github.ajalt.clikt.core.main
 import it.unibo.jakta.evals.evaluators.run.AblationRunEvaluator
 import java.io.File
 
-class AblationEvalRun : EvalRun() {
+// TODO remove code duplication
+// CPD-OFF
+class AblationEvalRun : AbstractEvalRun() {
     override fun run() {
         val runEvaluator = AblationRunEvaluator(runDir, retrieveGenerationData, authToken)
         val result =
@@ -23,5 +25,6 @@ class AblationEvalRun : EvalRun() {
         }
     }
 }
+// CPD-ON
 
 fun main(args: Array<String>) = AblationEvalRun().main(args)

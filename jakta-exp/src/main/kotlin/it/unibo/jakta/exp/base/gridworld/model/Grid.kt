@@ -1,5 +1,8 @@
 package it.unibo.jakta.playground.gridworld.model
 
+import it.unibo.jakta.exp.base.gridworld.model.Cell
+import it.unibo.jakta.exp.sharedModel.Direction
+
 class Grid(
     val size: Int,
     val obstacles: Set<Cell> = emptySet(),

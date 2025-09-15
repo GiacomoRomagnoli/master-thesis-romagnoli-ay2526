@@ -16,6 +16,8 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result
 import it.unibo.jakta.exp.base.gridworld.logging.ObjectReachedEvent
 import java.io.File
 
+// TODO remove code duplication
+// CPD-OFF
 class BaseExpPGPDataRetriever(
     masLogFile: File,
     agentLogFile: File,
@@ -107,3 +109,4 @@ class BaseExpPGPDataRetriever(
         )
     }
 }
+// CPD-ON

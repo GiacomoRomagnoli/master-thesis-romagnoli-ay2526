@@ -24,6 +24,8 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result
 import java.io.File
 
 // TODO detect plans not subsumed by others that are never executed (using TrackGoalExecution)
+// TODO remove code duplication
+// CPD-OFF
 abstract class AbstractPGPDataRetriever(
     private val masLogFile: File,
     private val agentLogFile: File,
@@ -167,3 +169,4 @@ abstract class AbstractPGPDataRetriever(
         )
     }
 }
+// CPD-ON

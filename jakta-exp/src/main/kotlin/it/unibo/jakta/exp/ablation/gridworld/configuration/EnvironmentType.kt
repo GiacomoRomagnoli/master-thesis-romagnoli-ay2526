@@ -1,9 +1,9 @@
-package it.unibo.jakta.exp.gridworld.configuration
+package it.unibo.jakta.exp.ablation.gridworld.configuration
 
+import it.unibo.jakta.exp.ablation.gridworld.configuration.GridWorldConfigs.channelEnv
+import it.unibo.jakta.exp.ablation.gridworld.configuration.GridWorldConfigs.hShapeEnv
+import it.unibo.jakta.exp.ablation.gridworld.configuration.GridWorldConfigs.standardEnv
 import it.unibo.jakta.exp.ablation.gridworld.environment.AblationGridWorldEnvironment
-import it.unibo.jakta.exp.gridworld.configuration.GridWorldConfigs.channelEnv
-import it.unibo.jakta.exp.gridworld.configuration.GridWorldConfigs.hShapeEnv
-import it.unibo.jakta.exp.gridworld.configuration.GridWorldConfigs.standardEnv
 
 enum class EnvironmentType(
     val config: AblationGridWorldEnvironment,

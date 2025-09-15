@@ -8,8 +8,8 @@ import it.unibo.jakta.agents.bdi.engine.logging.LoggingConfig
 import it.unibo.jakta.exp.GridWorldEnvironment
 import it.unibo.jakta.exp.MasFactory
 import it.unibo.jakta.exp.ablation.AblationExpRunner.jsonModule
+import it.unibo.jakta.exp.ablation.explorer.ExplorerRobot.explorerRobot
 import it.unibo.jakta.exp.ablation.gridworld.environment.GridWorldDsl.gridWorld
-import it.unibo.jakta.exp.explorer.ExplorerRobot.explorerRobot
 
 internal class DefaultMasFactory : MasFactory {
     override fun createMas(

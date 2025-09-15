@@ -11,10 +11,12 @@ import it.unibo.jakta.agents.bdi.engine.logging.loggers.MasLogger
 import it.unibo.jakta.agents.bdi.engine.messages.MessageQueue
 import it.unibo.jakta.agents.bdi.engine.perception.Perception
 import it.unibo.jakta.exp.GridWorldEnvironment
-import it.unibo.jakta.playground.gridworld.model.Direction
+import it.unibo.jakta.exp.sharedModel.Direction
 import it.unibo.tuprolog.core.Atom
 import kotlin.collections.forEach
 
+// TODO remove code duplication
+// CPD-OFF
 class BaseExpGridWorld(
     agentIDs: Map<String, AgentID> = emptyMap(),
     externalActions: Map<String, ExternalAction> = emptyMap(),
@@ -100,3 +102,4 @@ class BaseExpGridWorld(
         internal val defaultData = mapOf("state" to GridWorldState())
     }
 }
+// CPD-ON

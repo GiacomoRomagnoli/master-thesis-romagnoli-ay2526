@@ -1,4 +1,4 @@
-package it.unibo.jakta.exp.gridworld.model
+package it.unibo.jakta.exp.sharedModel
 
 enum class Direction(
     val dx: Int,

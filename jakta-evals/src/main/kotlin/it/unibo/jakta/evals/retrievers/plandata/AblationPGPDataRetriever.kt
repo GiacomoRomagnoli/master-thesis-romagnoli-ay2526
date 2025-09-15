@@ -17,6 +17,8 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserSuccess
 import java.io.File
 
+// TODO remove code duplication
+// CPD-OFF
 class AblationPGPDataRetriever(
     masLogFile: File,
     agentLogFile: File,
@@ -114,3 +116,4 @@ class AblationPGPDataRetriever(
         )
     }
 }
+// CPD-ON

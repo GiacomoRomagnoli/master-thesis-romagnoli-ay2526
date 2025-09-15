@@ -1,5 +1,6 @@
-package it.unibo.jakta.exp.gridworld.model
+package it.unibo.jakta.exp.ablation.gridworld.model
 
+import it.unibo.jakta.exp.sharedModel.Direction
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

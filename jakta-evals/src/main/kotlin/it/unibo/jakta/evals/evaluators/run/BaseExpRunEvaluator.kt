@@ -10,6 +10,8 @@ import it.unibo.jakta.evals.retrievers.gendata.GenerationDataRetriever
 import it.unibo.jakta.evals.retrievers.plandata.BaseExpPGPDataRetriever
 import java.io.File
 
+// TODO remove code duplication
+// CPD-OFF
 class BaseExpRunEvaluator(
     val expDir: String,
     val retrieveGenerationData: Boolean = false,
@@ -55,3 +57,4 @@ class BaseExpRunEvaluator(
         return runEvaluations
     }
 }
+// CPD-ON

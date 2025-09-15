@@ -1,7 +1,7 @@
 package it.unibo.jakta.exp.base.gridworld.environment
 
-import it.unibo.jakta.playground.gridworld.model.Cell
-import it.unibo.jakta.playground.gridworld.model.Direction
+import it.unibo.jakta.exp.base.gridworld.model.Cell
+import it.unibo.jakta.exp.sharedModel.Direction
 import it.unibo.jakta.playground.gridworld.model.Grid
 
 data class GridWorldState(

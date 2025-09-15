@@ -1,4 +1,4 @@
-package it.unibo.jakta.exp.explorer
+package it.unibo.jakta.exp.ablation.explorer
 
 import it.unibo.jakta.agents.bdi.dsl.MasScope
 import it.unibo.jakta.agents.bdi.dsl.beliefs.BeliefMetadata.meaning

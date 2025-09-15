@@ -1,9 +1,9 @@
-package it.unibo.jakta.exp.gridworld.configuration
+package it.unibo.jakta.exp.ablation.gridworld.configuration
 
 import it.unibo.jakta.exp.ablation.gridworld.environment.AblationGridWorldEnvironment
-import it.unibo.jakta.exp.gridworld.environment.GridWorldState
-import it.unibo.jakta.exp.gridworld.model.Direction
-import it.unibo.jakta.exp.gridworld.model.Position
+import it.unibo.jakta.exp.ablation.gridworld.environment.GridWorldState
+import it.unibo.jakta.exp.ablation.gridworld.model.Position
+import it.unibo.jakta.exp.sharedModel.Direction
 
 object GridWorldConfigs {
     private const val GRID_HEIGHT = 7
