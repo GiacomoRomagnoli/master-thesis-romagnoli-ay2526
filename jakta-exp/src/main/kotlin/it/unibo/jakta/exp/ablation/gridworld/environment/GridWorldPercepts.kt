@@ -6,7 +6,25 @@ import it.unibo.jakta.exp.sharedModel.Direction
 import it.unibo.tuprolog.core.Atom
 import it.unibo.tuprolog.core.Struct
 
+// TODO remove code duplication
+// CPD-OFF
 class GridWorldPercepts {
+    fun createDirectionBeliefs(state: GridWorldState) =
+        state.availableDirections.map { dir ->
+            val functor = "direction"
+            val struct = Struct.of(functor, Atom.of(dir.id))
+            Belief.wrap(
+                struct,
+                wrappingTag = Belief.SOURCE_PERCEPT,
+                purpose = "${dir.id} is a $functor",
+            )
+        } +
+            Belief.wrap(
+                Struct.of("direction", Atom.of("here")),
+                wrappingTag = Belief.SOURCE_PERCEPT,
+                purpose = "here denotes the null direction w.r.t. the agent's current location",
+            )
+
     fun createGridSizeBelief(grid: Grid) =
         Belief.wrap(
             Struct.of("grid_size", Atom.of("${grid.width}"), Atom.of("${grid.height}")),
@@ -39,38 +57,51 @@ class GridWorldPercepts {
             )
         }
 
-    fun createObstacleBeliefs(grid: Grid) =
-        grid.obstacles.map { pos ->
-            Belief.wrap(
-                Struct.of("obstacle", Atom.of("${pos.x}"), Atom.of("${pos.y}")),
-                wrappingTag = Belief.SOURCE_PERCEPT,
-                purpose = "there is an obstacle at coordinates (${pos.x}, ${pos.y})",
-            )
-        }
-
-    fun createValidMoveBeliefs(
+    fun createObstacleBeliefs(
         grid: Grid,
         state: GridWorldState,
-    ) = state.availableDirections
-        .filter { it != Direction.HERE }
-        .mapNotNull { dir ->
-            val from = state.agentPosition
-            val to = from.translate(dir)
+    ) = state.availableDirections.filter { it != Direction.HERE }.map { direction ->
+        val isObstacle = grid.isObstacleInDirection(state.agentPosition, direction)
+        if (isObstacle) {
+            val struct = Struct.of("obstacle", Atom.of(direction.id))
+            Belief.wrap(
+                struct,
+                wrappingTag = Belief.SOURCE_PERCEPT,
+                purpose = "there is an obstacle to the ${direction.id}",
+            )
+        } else {
+            val struct = Struct.of("free", Atom.of(direction.id))
+            Belief.wrap(
+                struct,
+                wrappingTag = Belief.SOURCE_PERCEPT,
+                purpose = "there is no obstacle to the ${direction.id}",
+            )
+        }
+    }
 
-            if (grid.isInBoundaries(to) && !grid.isObstacle(to)) {
-                Belief.wrap(
+    fun createThereIsBeliefs(state: GridWorldState) =
+        state.objectsPosition.mapNotNull { (objectName, position) ->
+            val direction = state.agentPosition.directionTo(position)
+            if (direction != null &&
+                (
+                    state.agentPosition.isAdjacentTo(position) ||
+                        state.agentPosition.isOn(position)
+                )
+            ) {
+                val struct =
                     Struct.of(
-                        "valid_move",
-                        Atom.of("${from.x}"),
-                        Atom.of("${from.y}"),
-                        Atom.of("${to.x}"),
-                        Atom.of("${to.y}"),
-                    ),
+                        "there_is",
+                        Atom.of(objectName),
+                        Atom.of(direction.id),
+                    )
+                Belief.wrap(
+                    struct,
                     wrappingTag = Belief.SOURCE_PERCEPT,
-                    purpose = "the agent can move from (${from.x}, ${from.y}) to (${to.x}, ${to.y})",
+                    purpose = "there is a $objectName to the ${direction.id}",
                 )
             } else {
                 null
             }
         }
 }
+// CPD-ON

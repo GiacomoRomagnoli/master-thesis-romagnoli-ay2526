@@ -3,9 +3,9 @@ package it.unibo.jakta.exp
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.groups.provideDelegate
 import com.github.ajalt.clikt.parameters.options.default
-import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.help
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.boolean
 import com.github.ajalt.clikt.parameters.types.long
 import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin
 import it.unibo.jakta.agents.bdi.engine.logging.LoggingConfig
@@ -20,6 +20,8 @@ import kotlin.system.exitProcess
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.DurationUnit
 
+// TODO remove code duplication
+// CPD-OFF
 class Experiment(
     val masFactory: MasFactory,
     val loggingConfigFactory: LoggingConfigFactory,
@@ -43,7 +45,8 @@ class Experiment(
         .help("Time in milliseconds before the termination of the run.")
 
     val replayExp: Boolean by option()
-        .flag()
+        .boolean()
+        .default(false)
         .help("Whether to replay a past experiment or create a new one.")
 
     val expReplayPath: String? by option()
@@ -64,7 +67,7 @@ class Experiment(
         val logConfig = loggingConfigFactory.createLoggingConfig(runId, expLoggingConfig)
         expRunnerLogger.info(logConfig)
 
-        val genStrat =
+        val genStrategy =
             genStrategyFactory.createGenerationStrategy(
                 serverConfig,
                 modelConfig,
@@ -72,7 +75,7 @@ class Experiment(
                 replayExp,
                 expReplayPath,
             )
-        val mas = masFactory.createMas(logConfig, genStrat, promptConfig.environmentType.config)
+        val mas = masFactory.createMas(logConfig, genStrategy, promptConfig.environmentType.config)
         expRunnerLogger.info("Shutting down in $runTimeoutMillis milliseconds")
 
         mas.start()
@@ -87,3 +90,4 @@ class Experiment(
         val DEFAULT_RUN_TIMEOUT = 2.minutes.toLong(DurationUnit.MILLISECONDS)
     }
 }
+// CPD-ON

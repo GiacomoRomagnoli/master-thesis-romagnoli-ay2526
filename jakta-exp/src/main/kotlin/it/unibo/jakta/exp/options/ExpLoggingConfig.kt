@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.help
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.boolean
 import com.github.ajalt.clikt.parameters.types.enum
 import it.unibo.jakta.exp.Experiment.Companion.urlRegex
 
@@ -20,7 +21,8 @@ class ExpLoggingConfig : OptionGroup(name = "Logging Configuration") {
         .help("Whether to output log to std output.")
 
     val logToFile: Boolean by option()
-        .flag()
+        .boolean()
+        .default(false)
         .help("Whether to output logs to the local filesystem.")
 
     val logDir: String by option()
@@ -28,7 +30,8 @@ class ExpLoggingConfig : OptionGroup(name = "Logging Configuration") {
         .help("Directory where the logs should be stored.")
 
     val logToServer: Boolean by option()
-        .flag()
+        .boolean()
+        .default(false)
         .help("Whether to output logs to a log server.")
 
     val logServerUrl: String by option()

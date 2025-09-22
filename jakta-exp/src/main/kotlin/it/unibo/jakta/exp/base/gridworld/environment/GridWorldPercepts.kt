@@ -7,6 +7,8 @@ import it.unibo.tuprolog.core.Atom
 import it.unibo.tuprolog.core.Struct
 import kotlin.collections.plus
 
+// TODO remove code duplication
+// CPD-OFF
 class GridWorldPercepts {
     fun createDirectionBeliefs(state: GridWorldState) =
         state.availableDirections.map { dir ->
@@ -82,3 +84,4 @@ class GridWorldPercepts {
             }
         }
 }
+// CPD-ON

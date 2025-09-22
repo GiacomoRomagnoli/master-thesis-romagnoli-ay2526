@@ -4,7 +4,7 @@ import it.unibo.jakta.agents.bdi.dsl.loggingConfig
 import it.unibo.jakta.exp.LoggingConfigFactory
 import it.unibo.jakta.exp.options.ExpLoggingConfig
 
-internal class DefaultLoggingConfigFactory : LoggingConfigFactory {
+class DefaultLoggingConfigFactory : LoggingConfigFactory {
     override fun createLoggingConfig(
         runId: String,
         expCfg: ExpLoggingConfig,

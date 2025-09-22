@@ -21,13 +21,30 @@ object GridWorldDsl {
         environment {
             from(gridWorldEnvironment)
             actions {
-                action(move).meaning {
-                    "move in the given ${args[0]}"
-                }
-                action(getDirectionToMove).meaning {
-                    "provides a ${args[0]} free of obstacles where the agent can then move"
+                action(move)
+                action(getDirectionToMove)
+            }
+        }
+
+    val move =
+        externalAction("move", "direction") {
+            val env = environment as? BaseExpGridWorld
+            if (env != null) {
+                val updatedEnvState = env.parseAction(actionName)
+                val oldPosition = env.data.state()?.agentPosition
+                if (updatedEnvState != null && oldPosition != null) {
+                    updateData("state" to updatedEnvState)
+                    val newPosition = updatedEnvState.agentPosition
+                    val feedback =
+                        updatedEnvState.objectsPosition.entries
+                            .find { it.value == newPosition }
+                            ?.let { ObjectReachedEvent(it.key, arguments) }
+                            ?: MoveActionSuccess(oldPosition, newPosition, arguments)
+                    addFeedback(feedback)
                 }
             }
+        }.meaning {
+            "move in the given ${args[0]}"
         }
 
     val getDirectionToMove =
@@ -50,24 +67,7 @@ object GridWorldDsl {
             if (output != null) {
                 addResults(Substitution.unifier(output to dir))
             }
-        }
-
-    val move =
-        externalAction("move", "direction") {
-            val env = environment as? BaseExpGridWorld
-            if (env != null) {
-                val updatedEnvState = env.parseAction(actionName)
-                val oldPosition = env.data.state()?.agentPosition
-                if (updatedEnvState != null && oldPosition != null) {
-                    updateData("state" to updatedEnvState)
-                    val newPosition = updatedEnvState.agentPosition
-                    val feedback =
-                        updatedEnvState.objectsPosition.entries
-                            .find { it.value == newPosition }
-                            ?.let { ObjectReachedEvent(it.key, arguments) }
-                            ?: MoveActionSuccess(oldPosition, newPosition, arguments)
-                    addFeedback(feedback)
-                }
-            }
+        }.meaning {
+            "provides a ${args[0]} free of obstacles where the agent can then move"
         }
 }

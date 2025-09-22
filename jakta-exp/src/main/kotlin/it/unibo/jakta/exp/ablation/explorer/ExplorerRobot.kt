@@ -6,6 +6,8 @@ import it.unibo.jakta.agents.bdi.dsl.goals.TriggerMetadata.meaning
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.strategy.LMGenerationStrategy
 
+// TODO remove code duplication
+// CPD-OFF
 object ExplorerRobot {
     fun MasScope.explorerRobot(
         plans: Iterable<Plan>? = null,
@@ -39,14 +41,21 @@ object ExplorerRobot {
                 +fact { "object"("Object", "X", "Y") }.meaning {
                     "${args[0]} is at coordinates (${args[1]}, ${args[2]})"
                 }
-                +fact { "obstacle"("X", "Y") }.meaning {
-                    "there is an obstacle at coordinates (${args[0]}, ${args[1]})"
+                +fact { "obstacle"("Direction") }.meaning {
+                    "there is an $functor to the ${args[0]}"
                 }
-                +fact { "valid_move"("XStart", "YStart", "XEnd", "YEnd") }.meaning {
-                    "the agent can move from (${args[0]}, ${args[1]}) to (${args[2]}, ${args[3]})"
+                +fact { "free"("Direction") }.meaning {
+                    "there isn't an obstacle to the ${args[0]}"
+                }
+                +fact { "there_is"("Object", "Direction") }.meaning {
+                    "there is an ${args[0]} in the given ${args[1]}"
+                }
+                +fact { "direction"("Direction") }.meaning {
+                    "${args[0]} is a direction"
                 }
             }
         }
         plans?.let { plans(it) }
     }
 }
+// CPD-ON

@@ -11,7 +11,7 @@ import it.unibo.jakta.exp.ablation.AblationExpRunner.jsonModule
 import it.unibo.jakta.exp.ablation.explorer.ExplorerRobot.explorerRobot
 import it.unibo.jakta.exp.ablation.gridworld.environment.GridWorldDsl.gridWorld
 
-internal class DefaultMasFactory : MasFactory {
+class DefaultMasFactory : MasFactory {
     override fun createMas(
         logConfig: LoggingConfig,
         genStrat: GenerationStrategy?,

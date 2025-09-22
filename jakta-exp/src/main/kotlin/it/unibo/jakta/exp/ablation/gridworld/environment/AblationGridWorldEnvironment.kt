@@ -11,7 +11,8 @@ import it.unibo.jakta.agents.bdi.engine.logging.loggers.MasLogger
 import it.unibo.jakta.agents.bdi.engine.messages.MessageQueue
 import it.unibo.jakta.agents.bdi.engine.perception.Perception
 import it.unibo.jakta.exp.GridWorldEnvironment
-import it.unibo.tuprolog.core.Integer
+import it.unibo.jakta.exp.sharedModel.Direction
+import it.unibo.tuprolog.core.Atom
 import kotlin.collections.forEach
 
 // TODO remove code duplication
@@ -36,13 +37,14 @@ class AblationGridWorldEnvironment(
         return if (currentState != null) {
             val grid = currentState.grid
 
+            val availableDirections = perceptsFactory.createDirectionBeliefs(currentState)
             val gridSize = listOf(perceptsFactory.createGridSizeBelief(grid))
             val currentPos = listOf(perceptsFactory.createCurrentPositionBelief(currentState))
             val objects = perceptsFactory.createObjectBeliefs(currentState)
-            val obstacles = perceptsFactory.createObstacleBeliefs(grid)
-            val validMoves = perceptsFactory.createValidMoveBeliefs(grid, currentState)
+            val obstacles = perceptsFactory.createObstacleBeliefs(grid, currentState)
+            val validMoves = perceptsFactory.createThereIsBeliefs(currentState)
 
-            gridSize + currentPos + objects + obstacles + validMoves
+            availableDirections + gridSize + currentPos + objects + obstacles + validMoves
         } else {
             emptyList()
         }
@@ -58,34 +60,31 @@ class AblationGridWorldEnvironment(
             getPercepts().forEach { b -> logger?.info { b.purpose?.capitalize() } }
         }
 
-    private fun Integer?.toIntOrNull(): Int? = this?.toString()?.toIntOrNull()
-
     fun parseAction(actionName: String): GridWorldState? {
         val state = data.state() ?: return null
         val action = tangleStruct(actionName)
         return when {
             action?.functor == "move" -> {
                 if (action.args.isNotEmpty()) {
-                    val xStart = action.args[0].asInteger().toIntOrNull()
-                    val yStart = action.args[1].asInteger().toIntOrNull()
-                    val xEnd = action.args[2].asInteger().toIntOrNull()
-                    val yEnd = action.args[3].asInteger().toIntOrNull()
-
-                    if (xStart != null && yStart != null && xEnd != null && yEnd != null) {
-                        state.move(xStart, yStart, xEnd, yEnd).also {
-                            logger?.info {
-                                "The robot moved from ($xStart, $yStart) to ($xEnd, $yEnd)"
-                            }
-                        }
-                    } else {
-                        null.also {
-                            logger?.info {
-                                "The robot could not move with the provided arguments ${action.args}"
+                    val direction = action.args[0] as? Atom
+                    direction?.value?.let { dir ->
+                        val parsedDirection = Direction.fromId(dir)
+                        parsedDirection?.let {
+                            val curPos = state.agentPosition
+                            val newPos = curPos.translate(parsedDirection)
+                            state.move(curPos.x, curPos.y, newPos.x, newPos.y).also {
+                                logger?.info {
+                                    "The robot moved from (${curPos.x}, ${curPos.y}) to (${newPos.x}, ${newPos.y})"
+                                }
                             }
                         }
                     }
                 } else {
-                    null // invalid action
+                    null.also {
+                        logger?.info {
+                            "The robot could not move with the provided arguments ${action.args}"
+                        }
+                    }
                 }
             }
 

@@ -10,6 +10,7 @@ import com.github.ajalt.clikt.parameters.types.enum
 import com.github.ajalt.clikt.parameters.types.int
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_MODEL_ID
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.ReasoningEffort
 
 class ModelConfig : OptionGroup(name = "Model Configuration") {
     val modelId: String by option()

@@ -22,7 +22,7 @@ object GridWorldConfigs {
         y: Int,
     ) = xRange.map { Position(it, y) }.toSet()
 
-    val hShapeEnv =
+    val channelEnv =
         AblationGridWorldEnvironment(
             data =
                 mapOf(
@@ -34,14 +34,14 @@ object GridWorldConfigs {
                             objectsPosition = goalPosition,
                             obstaclesPosition =
                                 buildSet {
-                                    addAll(positions(2, 0..6))
+                                    addAll(positions(2, 0..5))
                                 },
                             availableDirections = manhattanDirections,
                         ),
                 ),
         )
 
-    val channelEnv =
+    val hShapeEnv =
         AblationGridWorldEnvironment(
             data =
                 mapOf(

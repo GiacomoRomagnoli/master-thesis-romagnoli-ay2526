@@ -10,7 +10,7 @@ interface GenerationStrategyFactory {
         lmServerCfg: LmServerConfig,
         modelCfg: ModelConfig,
         promptCfg: PromptConfig,
-        replayExp: Boolean,
-        expReplayPath: String?,
+        replayExp: Boolean = false,
+        expReplayPath: String? = null,
     ): GenerationStrategy?
 }

@@ -16,34 +16,50 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.logging.LogFileUtils.extractPgpLogFiles
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.logging.events.LMMessageReceived
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.generation.LMPlanGenerator
-import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.Parser
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.asl.AgentSpeakParser
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.yaml.YamlParser
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.request.RequestHandler
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.strategy.LMGenerationStrategy
+import java.io.File
 import kotlin.collections.component2
 
 object MockGenerationStrategy {
     private var callCount = 0
 
-    // TODO handle a reference to a file that stores the conversation in addition to a directory with the logs
     fun getChatMessages(expPath: String): List<ChatMessage> {
         val history = mutableListOf<ChatMessage>()
-        val masFiles = findMasLogFiles(expPath)
-        val masLogFile = masFiles.keys.firstOrNull()
-        val masId = masFiles.values.firstOrNull()
-        println("test")
-        if (masLogFile != null && masId != null) {
-            extractAgentLogFiles(expPath, masId).forEach { (_, agentId) ->
-                extractPgpLogFiles(expPath, agentId).forEach { (pgpLogFile, _) ->
-                    processLog(pgpLogFile) { logEntry ->
-                        val event = logEntry.message.event
-                        if (event is LMMessageReceived) {
-                            event.chatMessage.let { history.add(it) }
+        val expFile = File(expPath)
+
+        if (expFile.isFile()) {
+            extractPgpLogFiles(expPath, "").forEach { (pgpLogFile, _) ->
+                processLog(pgpLogFile) { logEntry ->
+                    val event = logEntry.message.event
+                    if (event is LMMessageReceived) {
+                        event.chatMessage.let { history.add(it) }
+                    }
+                    true
+                }
+            }
+        } else {
+            val masFiles = findMasLogFiles(expPath)
+            val masLogFile = masFiles?.keys?.firstOrNull()
+            val masId = masFiles?.values?.firstOrNull()
+
+            if (masLogFile != null && masId != null) {
+                extractAgentLogFiles(expPath, masId).forEach { (_, agentId) ->
+                    extractPgpLogFiles(expPath, agentId).forEach { (pgpLogFile, _) ->
+                        processLog(pgpLogFile) { logEntry ->
+                            val event = logEntry.message.event
+                            if (event is LMMessageReceived) {
+                                event.chatMessage.let { history.add(it) }
+                            }
+                            true
                         }
-                        true
                     }
                 }
             }
         }
+
         return history
     }
 
@@ -78,7 +94,7 @@ object MockGenerationStrategy {
         }
 
         val requestHandler = RequestHandler.of(generationConfig = config, api = api)
-        val responseParser = Parser.create()
+        val responseParser = if (config.useAslSyntax) AgentSpeakParser() else YamlParser()
         val planGenerator = LMPlanGenerator.of(requestHandler, responseParser)
         return LMGenerationStrategy.of(planGenerator, config)
     }

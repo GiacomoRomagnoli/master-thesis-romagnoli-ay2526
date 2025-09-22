@@ -6,6 +6,8 @@ import it.unibo.jakta.agents.bdi.dsl.goals.TriggerMetadata.meaning
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.strategy.LMGenerationStrategy
 
+// TODO remove code duplication
+// CPD-OFF
 object ExplorerRobot {
     fun MasScope.explorerRobot(
         plans: Iterable<Plan>? = null,
@@ -23,8 +25,14 @@ object ExplorerRobot {
         }
         beliefs {
             admissible {
+                +fact { "object"("Object") }.meaning {
+                    "${args[0]} is an object"
+                }
                 +fact { "obstacle"("Direction") }.meaning {
                     "there is an $functor to the ${args[0]}"
+                }
+                +fact { "free"("Direction") }.meaning {
+                    "there isn't an obstacle to the ${args[0]}"
                 }
                 +fact { "there_is"("Object", "Direction") }.meaning {
                     "there is an ${args[0]} in the given ${args[1]}"
@@ -32,14 +40,9 @@ object ExplorerRobot {
                 +fact { "direction"("Direction") }.meaning {
                     "${args[0]} is a direction"
                 }
-                +fact { "object"("Object") }.meaning {
-                    "${args[0]} is an object"
-                }
-                +fact { "free"("Direction") }.meaning {
-                    "there is no obstacle to the ${args[0]}"
-                }
             }
         }
         plans?.let { plans(it) }
     }
 }
+// CPD-ON
