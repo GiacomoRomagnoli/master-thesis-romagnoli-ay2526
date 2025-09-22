@@ -11,7 +11,7 @@ object ActionMetadata {
         val args = action.actionSignature.parameterNames.map { "`${it.capitalize()}`" }
     }
 
-    fun Action<*, *, *>.meaning(block: ActionContext.() -> String): Action<*, *, *> {
+    fun <T : Action<*, *, *>> T.meaning(block: ActionContext.() -> String): T {
         val context = ActionContext(this)
         val purpose = context.block()
         this.purpose = purpose

@@ -9,19 +9,22 @@ import java.io.File
 import java.net.URI
 
 object LogFileUtils {
-    fun findMasLogFiles(expDir: String): Map<File, String> =
+    fun findMasLogFiles(expDir: String): Map<File, String>? =
         File(expDir)
             .listFiles { f -> f.extension == LOG_FILE_EXTENSION }
-            .mapNotNull { f ->
-                var id: String? = null
-                processLog(f) { logEntry ->
-                    id = logEntry.logLogger
-                    false // just process the first line and then stop
-                }
-                id
-                    ?.takeIf { it.matches(logFileRegex) && extractLastComponent(it) == "Mas" }
-                    ?.let { f to it }
-            }.toMap()
+            ?.let {
+                it
+                    .mapNotNull { f ->
+                        var id: String? = null
+                        processLog(f) { logEntry ->
+                            id = logEntry.logLogger
+                            false // just process the first line and then stop
+                        }
+                        id
+                            ?.takeIf { it.matches(logFileRegex) && extractLastComponent(it) == "Mas" }
+                            ?.let { f to it }
+                    }.toMap()
+            }
 
     fun extractAgentLogFiles(
         expDir: String,
