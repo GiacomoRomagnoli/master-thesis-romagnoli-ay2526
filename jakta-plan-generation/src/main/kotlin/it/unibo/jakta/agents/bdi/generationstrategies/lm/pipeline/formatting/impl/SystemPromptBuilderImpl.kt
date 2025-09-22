@@ -7,18 +7,14 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.Pro
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.SystemPromptBuilder
 
 internal class SystemPromptBuilderImpl(
-    messageName: String,
     block: PromptScope.(AgentContextProperties) -> Unit,
 ) : SystemPromptBuilder,
     PromptBuilder by PromptBuilderImpl(
-        messageName = messageName,
         role = ChatRole.System,
         block = block,
     ) {
     companion object {
-        fun system(
-            messageName: String,
-            block: PromptScope.(AgentContextProperties) -> Unit,
-        ): SystemPromptBuilder = SystemPromptBuilderImpl(messageName, block)
+        fun system(block: PromptScope.(AgentContextProperties) -> Unit): SystemPromptBuilder =
+            SystemPromptBuilderImpl(block)
     }
 }

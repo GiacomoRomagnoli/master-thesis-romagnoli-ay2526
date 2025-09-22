@@ -8,15 +8,16 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_MODEL_ID
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_REQUEST_TIMEOUT
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_SOCKET_TIMEOUT
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_SYNTAX_IS_ASL
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_TEMPERATURE
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_TOKEN
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.DefaultGenerationConfig.DEFAULT_TOP_P
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.ContextFilter
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.DefaultFilters.metaPlanFilter
-import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.DefaultPromptBuilder.defaultSystemPrompt
-import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.DefaultPromptBuilder.userPromptWithHintsAndRemarks
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.SystemPromptBuilder
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.SystemPromptBuilder.Companion.createSystemPrompt
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.UserPromptBuilder
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.UserPromptBuilder.Companion.createUserPrompt
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -30,12 +31,9 @@ sealed interface LMGenerationConfig : GenerationConfig {
     val lmServerUrl: String?
     val lmServerToken: String?
     val contextFilters: Iterable<ContextFilter>
-    val contextFiltersNames: List<String>
+    val useAslSyntax: Boolean
     val systemPromptBuilder: SystemPromptBuilder?
-    val systemPromptBuilderName: String?
     val userPromptBuilder: UserPromptBuilder?
-    val userPromptBuilderName: String?
-    val remarks: Iterable<Remark>?
     val requestTimeout: Long?
     val connectTimeout: Long?
     val socketTimeout: Long?
@@ -53,14 +51,11 @@ sealed interface LMGenerationConfig : GenerationConfig {
         override val lmServerToken: String = DEFAULT_TOKEN,
         @Transient
         override val contextFilters: List<ContextFilter> = listOf(metaPlanFilter),
+        override val useAslSyntax: Boolean = DEFAULT_SYNTAX_IS_ASL,
         @Transient
-        override val systemPromptBuilder: SystemPromptBuilder? = defaultSystemPrompt,
+        override val systemPromptBuilder: SystemPromptBuilder? = createSystemPrompt(),
         @Transient
-        override val userPromptBuilder: UserPromptBuilder = userPromptWithHintsAndRemarks,
-        override val contextFiltersNames: List<String> = contextFilters.map { it.name },
-        override val systemPromptBuilderName: String? = systemPromptBuilder?.name,
-        override val userPromptBuilderName: String? = userPromptBuilder.name,
-        override val remarks: List<Remark> = emptyList(),
+        override val userPromptBuilder: UserPromptBuilder = createUserPrompt(),
         override val requestTimeout: Long = DEFAULT_REQUEST_TIMEOUT,
         override val connectTimeout: Long = DEFAULT_CONNECT_TIMEOUT,
         override val socketTimeout: Long = DEFAULT_SOCKET_TIMEOUT,
@@ -79,14 +74,11 @@ sealed interface LMGenerationConfig : GenerationConfig {
         override val lmServerToken: String? = null,
         @Transient
         override val contextFilters: List<ContextFilter> = emptyList(),
+        override val useAslSyntax: Boolean,
         @Transient
         override val systemPromptBuilder: SystemPromptBuilder? = null,
         @Transient
         override val userPromptBuilder: UserPromptBuilder? = null,
-        override val contextFiltersNames: List<String> = emptyList(),
-        override val systemPromptBuilderName: String? = null,
-        override val userPromptBuilderName: String? = null,
-        override val remarks: List<Remark>? = null,
         override val requestTimeout: Long? = null,
         override val connectTimeout: Long? = null,
         override val socketTimeout: Long? = null,
@@ -102,13 +94,9 @@ sealed interface LMGenerationConfig : GenerationConfig {
                 contextFilters = contextFilters.ifEmpty { base.contextFilters },
                 systemPromptBuilder = systemPromptBuilder ?: base.systemPromptBuilder,
                 userPromptBuilder = userPromptBuilder ?: base.userPromptBuilder,
-                remarks = remarks ?: base.remarks,
                 requestTimeout = requestTimeout ?: base.requestTimeout,
                 connectTimeout = connectTimeout ?: base.connectTimeout,
                 socketTimeout = socketTimeout ?: base.socketTimeout,
-                contextFiltersNames = (contextFilters.ifEmpty { base.contextFilters }).map { it.name },
-                systemPromptBuilderName = (systemPromptBuilder ?: base.systemPromptBuilder)?.name,
-                userPromptBuilderName = (userPromptBuilder ?: base.userPromptBuilder).name,
             )
     }
 }

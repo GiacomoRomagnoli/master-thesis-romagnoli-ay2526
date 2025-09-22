@@ -1,4 +1,4 @@
-package it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.impl
+package it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.yaml
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

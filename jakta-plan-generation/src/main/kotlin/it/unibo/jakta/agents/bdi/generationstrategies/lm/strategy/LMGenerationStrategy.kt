@@ -11,7 +11,8 @@ import it.unibo.jakta.agents.bdi.engine.generation.GenerationStrategy
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationConfig.LMGenerationConfigContainer
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.generation.LMPlanGenerator
-import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.Parser
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.asl.AgentSpeakParser
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.yaml.YamlParser
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.request.RequestHandler
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.request.RequestProcessor
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.strategy.impl.LMGenerationStrategyImpl
@@ -36,7 +37,7 @@ interface LMGenerationStrategy : GenerationStrategy {
             val api = createOpenAIApi(lmGenCfg)
             val requestProcessor = RequestProcessor.of()
             val requestHandler = RequestHandler.of(lmGenCfg, api, requestProcessor)
-            val responseParser = Parser.create()
+            val responseParser = if (lmGenCfg.useAslSyntax) AgentSpeakParser() else YamlParser()
             val planGenerator = LMPlanGenerator.of(requestHandler, responseParser)
 
             return LMGenerationStrategyImpl(planGenerator, lmGenCfg)

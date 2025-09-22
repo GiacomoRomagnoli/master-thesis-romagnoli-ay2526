@@ -5,6 +5,7 @@ import com.aallam.openai.api.chat.ChatRole
 import it.unibo.jakta.agents.bdi.engine.generation.GenerationResult
 import it.unibo.jakta.agents.bdi.engine.goals.GeneratePlan
 import it.unibo.jakta.agents.bdi.engine.plans.PartialPlan
+import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationFailure
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationResult
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationState
@@ -30,26 +31,26 @@ internal class LMPlanGeneratorImpl(
         requestResult: RequestResult,
         generationState: LMGenerationState,
     ): GenerationResult =
-        when (val reqRes = requestResult) {
+        when (requestResult) {
             is RequestSuccess.NewRequestResult -> {
-                val chatMessage = ChatMessage(ChatRole.Assistant, reqRes.parserResult.rawContent)
+                val chatMessage = ChatMessage(ChatRole.Assistant, requestResult.parserResult.rawContent)
                 val updatedState =
                     generationState
                         .copy(
                             chatHistory = generationState.chatHistory + chatMessage,
                         ).also {
                             generationState.logger?.log {
-                                LMMessageReceived(reqRes.chatCompletionId, chatMessage)
+                                LMMessageReceived(requestResult.chatCompletionId, chatMessage)
                             }
                         }
 
-                when (val parserRes = reqRes.parserResult) {
+                when (val parserRes = requestResult.parserResult) {
                     is ParserFailure.EmptyResponse -> handleEmptyResponse(updatedState)
                     is ParserFailure -> handleParserFailure(updatedState)
                     is ParserSuccess.NewResult -> handleNewResult(updatedState, parserRes)
                 }
             }
-            is RequestFailure.NetworkRequestFailure -> handleRequestFailure(generationState, reqRes)
+            is RequestFailure.NetworkRequestFailure -> handleRequestFailure(generationState, requestResult)
         }
 
     private fun handleNewResult(
@@ -62,7 +63,7 @@ internal class LMPlanGeneratorImpl(
 
     private fun handleNewPlan(
         initialGoal: GeneratePlan,
-        res: ParserSuccess.NewPlan,
+        res: Plan,
     ): PartialPlan? =
         if (res.goals.isNotEmpty()) {
             PartialPlan.of(

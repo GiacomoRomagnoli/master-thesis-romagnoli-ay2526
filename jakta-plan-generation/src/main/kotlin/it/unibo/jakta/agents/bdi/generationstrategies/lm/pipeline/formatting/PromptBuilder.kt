@@ -8,8 +8,6 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.Remark
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.ContextFilter
 
 interface PromptBuilder {
-    val name: String
-
     fun build(
         initialGoal: GeneratePlan,
         context: AgentContext,

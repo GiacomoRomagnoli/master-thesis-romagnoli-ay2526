@@ -1,6 +1,6 @@
 package it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result
 
-import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.impl.PlanData
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.yaml.PlanData
 
 sealed interface ParserFailure : ParserResult {
     data class GenericParseFailure(

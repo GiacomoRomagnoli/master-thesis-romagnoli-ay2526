@@ -11,6 +11,9 @@ object DefaultGenerationConfig {
     const val DEFAULT_MAX_TOKENS = 2048
     const val DEFAULT_LM_SERVER_URL = "http://localhost:8080"
     const val DEFAULT_TOKEN = ""
+    const val DEFAULT_SYNTAX_IS_ASL = false
+    val DEFAULT_PROMPT_TECHNIQUE = PromptTechnique.NoCoT
+    val DEFAULT_EXPLANATION_LEVEL = ExplanationLevel.Standard
     val DEFAULT_REQUEST_TIMEOUT = 2.minutes.toLong(DurationUnit.MILLISECONDS)
     val DEFAULT_CONNECT_TIMEOUT = 10.seconds.toLong(DurationUnit.MILLISECONDS)
     val DEFAULT_SOCKET_TIMEOUT = 1.minutes.toLong(DurationUnit.MILLISECONDS)

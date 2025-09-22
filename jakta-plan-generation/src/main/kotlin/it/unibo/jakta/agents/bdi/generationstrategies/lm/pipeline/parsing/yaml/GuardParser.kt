@@ -1,10 +1,9 @@
-package it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing
+package it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.yaml
 
 import it.unibo.jakta.agents.bdi.engine.Jakta.toLeftNestedAnd
 import it.unibo.jakta.agents.bdi.engine.JaktaParser.tangleStruct
 import it.unibo.jakta.agents.bdi.engine.Prolog2Jakta
 import it.unibo.jakta.agents.bdi.engine.visitors.SourceWrapperVisitor
-import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.impl.PlanData
 import it.unibo.tuprolog.core.Struct
 import it.unibo.tuprolog.core.Truth
 import kotlin.text.replace

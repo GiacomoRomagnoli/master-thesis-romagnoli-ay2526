@@ -14,12 +14,9 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.Exte
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.PromptBuilder
 
 internal class PromptBuilderImpl(
-    messageName: String,
     private val role: ChatRole,
     private val block: PromptScope.(AgentContextProperties) -> Unit,
 ) : PromptBuilder {
-    override val name = messageName
-
     override fun build(
         initialGoal: GeneratePlan,
         context: AgentContext,

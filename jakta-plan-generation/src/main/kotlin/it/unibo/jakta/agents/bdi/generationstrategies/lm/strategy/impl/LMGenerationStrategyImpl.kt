@@ -50,7 +50,6 @@ internal class LMGenerationStrategyImpl(
                 context,
                 externalActions,
                 generationConfig.contextFilters,
-                generationConfig.remarks,
             )
         val userMsg =
             generationConfig.userPromptBuilder.build(
@@ -58,7 +57,6 @@ internal class LMGenerationStrategyImpl(
                 context,
                 externalActions,
                 generationConfig.contextFilters,
-                generationConfig.remarks,
             )
 
         val name = RandomNameGenerator().randomName()

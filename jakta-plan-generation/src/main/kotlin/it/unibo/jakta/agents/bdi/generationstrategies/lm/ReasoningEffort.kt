@@ -1,4 +1,4 @@
-package it.unibo.jakta.exp.options
+package it.unibo.jakta.agents.bdi.generationstrategies.lm
 
 import com.aallam.openai.api.chat.Effort
 

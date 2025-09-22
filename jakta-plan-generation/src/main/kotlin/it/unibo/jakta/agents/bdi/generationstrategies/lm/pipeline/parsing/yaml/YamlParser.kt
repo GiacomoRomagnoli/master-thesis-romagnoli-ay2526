@@ -1,4 +1,4 @@
-package it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.impl
+package it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.yaml
 
 import com.charleskorn.kaml.Yaml
 import it.unibo.jakta.agents.bdi.engine.Jakta.dropBackticks
@@ -13,8 +13,8 @@ import it.unibo.jakta.agents.bdi.engine.events.AchievementGoalInvocation
 import it.unibo.jakta.agents.bdi.engine.events.AdmissibleGoal
 import it.unibo.jakta.agents.bdi.engine.events.Trigger
 import it.unibo.jakta.agents.bdi.engine.goals.EmptyGoal
+import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.engine.plans.PlanID
-import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.GuardParser.processGuard
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.Parser
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserFailure
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserFailure.AdmissibleBeliefParseFailure
@@ -24,14 +24,17 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserFailure.PlanParseFailure
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserResult
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserSuccess
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.yaml.GuardParser.processGuard
 import kotlinx.serialization.builtins.ListSerializer
 
-internal class ParserImpl : Parser {
+// TODO remove code duplication
+// CPD-OFF
+class YamlParser : Parser {
     private val yaml = Yaml.default
 
     override fun parse(input: String): ParserResult {
         val blocks = extractCodeBlocks(input)
-        val newPlans = mutableListOf<ParserSuccess.NewPlan>()
+        val newPlans = mutableListOf<Plan>()
         val newAdmissibleBeliefs = mutableSetOf<AdmissibleBelief>()
         val newAdmissibleGoals = mutableSetOf<AdmissibleGoal>()
         val errors = mutableListOf<ParserFailure>()
@@ -107,7 +110,7 @@ internal class ParserImpl : Parser {
         }
     }
 
-    private fun convertToPlan(plan: PlanData): ParserSuccess.NewPlan? {
+    private fun convertToPlan(plan: PlanData): Plan? {
         val trigger = parseTriggerWithAchieveFallback(plan.event)
         val guard = processGuard(plan)
         val goals =
@@ -120,12 +123,7 @@ internal class ParserImpl : Parser {
             }
 
         return if (trigger != null && guard != null) {
-            ParserSuccess.NewPlan(
-                id = PlanID(trigger, guard),
-                trigger = trigger,
-                guard = guard,
-                goals = goals,
-            )
+            Plan.of(PlanID(trigger, guard), goals)
         } else {
             null
         }
@@ -160,3 +158,4 @@ internal class ParserImpl : Parser {
             }.toList()
     }
 }
+// CPD-ON

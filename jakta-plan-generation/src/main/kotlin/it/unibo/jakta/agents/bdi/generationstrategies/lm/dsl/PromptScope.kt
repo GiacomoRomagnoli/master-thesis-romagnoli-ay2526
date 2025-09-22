@@ -3,6 +3,7 @@ package it.unibo.jakta.agents.bdi.generationstrategies.lm.dsl
 import com.aallam.openai.api.chat.ChatMessage
 import com.aallam.openai.api.core.Role
 import it.unibo.jakta.agents.bdi.dsl.ScopeBuilder
+import java.io.File
 
 class PromptScope(
     private val headingLevel: Int = 1,
@@ -18,6 +19,11 @@ class PromptScope(
     }
 
     fun fromFile(filePath: String) {
+        val text = File(filePath).bufferedReader().use { it.readText() }
+        sections.add(PromptSection(text = text))
+    }
+
+    fun fromResource(filePath: String) {
         val text = readResourceFile(filePath)
         sections.add(PromptSection(text = text))
     }
