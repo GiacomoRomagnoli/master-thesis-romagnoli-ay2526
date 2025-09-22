@@ -1,8 +1,0 @@
-doc
-logs
-.devenv
-notebooks/.ipynb_checkpoints
-.devenv.flake.nix
-devenv.nix
-devenv.lock
-experiments

@@ -141,7 +141,7 @@ Where `<run-id>` is the id of a previous experiment, which is printed on console
 
 Once an experiment is executed in one of the ways outlined before, the expected directory structure, relative to the root of the repo, will be:
 
-```shell
+```
 .
 └── jakta-exp
     └── logs
@@ -172,7 +172,7 @@ Given this directory structure, the gradle task `evalRun` can be run:
 
 This will create the `metrics/` directory under the `jakta-evals` module:
 
-```shell
+```
 .
 └── jakta-evals
     └── metrics

@@ -13,7 +13,7 @@ COPY jakta-evals/build.gradle* /app/jakta-evals/
 COPY jakta-exp/build.gradle* /app/jakta-exp/
 COPY jakta-konsist-test/build.gradle* /app/jakta-konsist-test/
 COPY jakta-plan-generation/build.gradle* /app/jakta-plan-generation/
-COPY jakta-playground/build.gradle* /app/jakta-playground/
+COPY jakta-exp-scheduler/build.gradle* /app/jakta-exp-scheduler/
 COPY jakta-state-machine/build.gradle* /app/jakta-state-machine/
 
 # Copy git repo for the semantic versioning gradle plugin (otherwise build fails)
@@ -35,24 +35,52 @@ RUN microdnf install findutils git
 # Copy prepared project (with cached deps)
 COPY --from=gradle-builder /app /app
 
-# Run with agent property to generate config
-RUN ./gradlew :jakta-exp:run -Pagent --no-daemon
+# Generate config for and build the executable of jakta-lm-invoker
+RUN ./gradlew :jakta-lm-invoker:run \
+    -Pagent \
+    --args="--run-id test-run \
+            --lm-server-url https://openrouter.ai/api/v1/ \
+            --model-id deepseek/deepseek-chat-v3.1:free \
+            --log-to-file \
+            --remarks prompt_snippets/base_exp_explorer_remarks.txt \
+            --temperature 0.1" \
+    --no-daemon
+RUN ./gradlew :jakta-lm-invoker:metadataCopy --no-daemon
+RUN ./gradlew :jakta-lm-invoker:nativeCompile --no-daemon
 
-# Build native executable
+# Generate config for and build the executable of jakta-exp
+RUN ./gradlew :jakta-exp:run \
+    -Pagent \
+    --args="--run-id test-run
+            --replay-exp true
+            --exp-replay-path ../jakta-lm-invoker/logs/test-run" \
+    --no-daemon
+RUN ./gradlew :jakta-exp:metadataCopy --no-daemon
 RUN ./gradlew :jakta-exp:nativeCompile --no-daemon
+
+# Generate config for and build the executable of jakta-evals
+RUN ./gradlew :jakta-evals:run \
+    -Pagent \
+    --args="--run-dir ../jakta-exp/logs/test-run" \
+    --no-daemon
+RUN ./gradlew :jakta-evals:metadataCopy --no-daemon
+RUN ./gradlew :jakta-evals:nativeCompile --no-daemon
 
 # ---------- Stage 2: Fat JAR ----------
 FROM gradle-builder AS jar-builder
 WORKDIR /app
 
-RUN ./gradlew :jakta-evals:buildFatJar --no-daemon
+RUN ./gradlew :jakta-exp-scheduler:buildFatJar --no-daemon
 
 # ---------- Stage 3: Runtime ----------
 FROM eclipse-temurin:21-jre-alpine AS runtime
 WORKDIR /app
 
-COPY --from=jar-builder /app/jakta-evals/build/libs/jakta-evals-all.jar /app/jakta-evals.jar
-COPY --from=native-builder /app/jakta-exp/build/native/nativeCompile/jakta-exp /app/jakta-exp
+COPY --from=jar-builder /app/jakta-scheduler/build/libs/jakta-scheduler-all.jar /app/jakta-scheduler.jar
+
+COPY --from=native-builder /app/jakta-lm-invoker/build/native/nativeCompile/invoker /app/invoker
+COPY --from=native-builder /app/jakta-exp/build/native/nativeCompile/simulator /app/simulator
+COPY --from=native-builder /app/jakta-evals/build/native/nativeCompile/evaluator /app/evaluator
 
 # Add non-root user
 RUN adduser -D -u 1000 appuser

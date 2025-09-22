@@ -16,6 +16,7 @@ koin = "4.0.3"
 kotestKoin = "1.3.0"
 alchemist = "37.1.6"
 shadow = "8.1.1"
+graalvmTools = "0.11.0"
 
 [libraries]
 alchemist-api = { module = "it.unibo.alchemist:alchemist-api", version.ref = "alchemist" }
@@ -121,3 +122,4 @@ taskTree = { id = "com.dorongold.task-tree", version = "4.0.0" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinx = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinxPlugin"}
 shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+graalvm = { id = "org.graalvm.buildtools.native", version.ref = "graalvmTools" }
