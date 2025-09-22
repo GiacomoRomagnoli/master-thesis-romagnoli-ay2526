@@ -1,0 +1,21 @@
+Always format plans as:
+```yaml
+EVENT: achieve event to be pursued
+CONDITIONS:
+  - condition to be satisfied
+  - other conditions to be satisfied
+OPERATIONS:
+  - [execute|achieve|add|remove|update] operation to be performed
+  - [execute|achieve|add|remove|update] other operations to be performed
+```
+
+Separate multiple plans with `---`. Use `<none>` for empty conditions or operations.
+
+Always format newly invented admissible goals and beliefs as:
+```yaml
+- goal: `my_goal(X)`
+  purpose: natural language interpretation of my_goal for a general X
+- belief: `my_belief(Y)`
+  purpose: natural language interpretation of my_belief for a general Y
+- ...
+```

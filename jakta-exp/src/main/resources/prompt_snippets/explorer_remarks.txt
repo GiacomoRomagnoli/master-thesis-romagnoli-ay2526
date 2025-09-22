@@ -1,1 +1,0 @@
-"The belief `current_position` is provided by a sensor and updated automatically, so you must not update it manually"

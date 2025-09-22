@@ -1,0 +1,42 @@
+Always format AgentSpeak plans using the following syntax:
+
+```asl
++!goal_name(Args) : condition1 & condition2 & ~negated_condition <- action1; action2; +belief; -old_belief; +!subgoal
++belief_name(Args) : guard_condition <- response_action; +new_belief
+-belief_name(Args) : context <- cleanup_action; -related_belief
+```
+
+Plan Structure:
+- **Trigger**: `+!goal` (achievement), `+belief` (belief addition), `-belief` (belief removal)
+- **Context/Guard**: Conditions after `:` using `&` (and), `|` (or), `~` (not)
+- **Body**: Actions after `<-` separated by `;`
+
+Supported Operations in Plan Body:
+- `action_name(args)` - Execute external action
+- `+belief_name(args)` - Add belief to belief base
+- `-belief_name(args)` - Remove belief from belief base
+- `+!goal_name(args)` - Pursue achievement goal
+
+Operators:
+- `&` - Logical AND (conjunction)
+- `|` - Logical OR (disjunction)
+- `~` - Logical NOT (negation)
+- `:` - Separates trigger from context conditions
+- `<-` - Separates plan head from body
+- `;` - Sequential composition of actions
+
+Examples:
+```asl
++!move_to(X) : location(Y) & ~blocked(path(Y,X)) <- move(X)
++temperature(T) : T > 30 <- turn_on(ac); +belief(cooling_active)
++obstacle_detected : moving <- stop; +belief(obstacle_present); +!find_path
+-goal_completed : task(T) <- cleanup(T); -task(T); +belief(available)
+```
+
+Notes:
+- All plans must have a trigger (event that activates the plan)
+- Context conditions are optional (use no `:` if no conditions)
+- Plan body must contain at least one action
+- Variables start with uppercase letters (Prolog convention)
+- Atoms and predicate names start with lowercase letters
+```

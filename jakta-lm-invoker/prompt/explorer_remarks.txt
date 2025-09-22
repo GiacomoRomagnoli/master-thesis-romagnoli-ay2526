@@ -1,0 +1,3 @@
+The belief `current_position` is provided by a sensor and updated automatically, so you must not update it manually.
+The there_is belief is only present in the belief base if the agent is adjacent to an object. At the start, the Home object is not in the perceptive field of the agent, so you need to create plans that handle the absence of the there_is belief.
+To assess whether you are nearer destination, you can use the `getDistance` action and compare the `Distance` before moving with the one after the move.

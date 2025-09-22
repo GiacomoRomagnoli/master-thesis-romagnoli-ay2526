@@ -1,0 +1,58 @@
+Agent needs to achieve: achieve reach(home).
+
+Admissible beliefs:
+- obstacle(Direction): there is an obstacle to the `Direction`
+- there_is(Object, Direction): there is an `Object` in the given `Direction`
+- direction(Direction): `Direction` is a direction
+- object(Object): `Object` is an object
+
+Admissible goals:
+- achieve reach(Object): reach a situation where `Object` is in the position of the agent (i.e. there_is(`Object`, here))
+
+Admissible actions:
+- fail(): makes the agent fail its current intention
+- stop(): stops the agent
+- pause(): pauses the agent
+- sleep(Time): makes the agent sleep for `Time` milliseconds
+- move(Direction): move in the given direction: `Direction`
+- getDirectionToMove(Direction): provides a Direction free of obstacles where the agent can then move
+
+Example output:
+
+```yaml
+EVENT: achieve reach(home)
+CONDITIONS:
+  - there_is(home, here)
+OPERATIONS:
+  - <none>
+```
+
+---
+
+```yaml
+EVENT: achieve reach(home)
+CONDITIONS:
+  - there_is(home, Direction)
+  - direction(Direction)
+OPERATIONS:
+  - execute getDirectionToMove(Direction)
+  - execute move(Direction)
+```
+
+---
+
+```yaml
+EVENT: achieve reach(home)
+CONDITIONS:
+  - <none>
+OPERATIONS:
+  - execute getDirectionToMove(Direction)
+  - execute move(Direction)
+  - achieve reach(home)
+```
+
+Example new admissible elements:
+
+```yaml
+- <none>
+```

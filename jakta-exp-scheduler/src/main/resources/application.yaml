@@ -3,4 +3,4 @@ ktor:
         port: 8080
     application:
         modules:
-            - it.unibo.jakta.evals.server.ApplicationKt.module
+            - it.unibo.jakta.scheduler.server.ApplicationKt.module
