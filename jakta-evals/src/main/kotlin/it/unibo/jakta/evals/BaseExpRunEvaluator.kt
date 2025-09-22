@@ -6,7 +6,7 @@ import java.io.File
 
 // TODO remove code duplication
 // CPD-OFF
-class BaseExpEvalRun : AbstractEvalRun() {
+class BaseExpRunEvaluator : AbstractRunEvaluator() {
     override fun run() {
         val runEvaluator = BaseExpRunEvaluator(runDir, retrieveGenerationData, authToken)
         val result =
@@ -24,7 +24,10 @@ class BaseExpEvalRun : AbstractEvalRun() {
                 ?.let { writeChatHistory(metricsDirectory, it, "chat_history") }
         }
     }
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) = BaseExpRunEvaluator().main(args)
+    }
 }
 // CPD-ON
-
-fun main(args: Array<String>) = BaseExpEvalRun().main(args)

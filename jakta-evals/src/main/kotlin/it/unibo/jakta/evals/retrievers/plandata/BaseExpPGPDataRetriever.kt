@@ -10,9 +10,10 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationConfig
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.logging.events.LMGenerationRequested
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.logging.events.LMMessageReceived
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.logging.events.LMMessageSent
-import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.Parser
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.asl.AgentSpeakParser
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserFailure
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.result.ParserSuccess
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.yaml.YamlParser
 import it.unibo.jakta.exp.base.gridworld.logging.ObjectReachedEvent
 import java.io.File
 
@@ -49,7 +50,7 @@ class BaseExpPGPDataRetriever(
         var plansNotParsed = 0
         var admissibleGoalsNotParsed = 0
         var admissibleBeliefNotParsed = 0
-        val parser = Parser.create()
+        val parser = if (genCfg?.useAslSyntax == true) AgentSpeakParser() else YamlParser()
         rawMessageContents.forEach {
             when (val result = parser.parse(it)) {
                 is ParserSuccess.NewResult -> {

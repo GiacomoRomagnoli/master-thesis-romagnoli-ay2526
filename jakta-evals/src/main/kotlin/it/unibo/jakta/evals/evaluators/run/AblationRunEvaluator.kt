@@ -23,10 +23,10 @@ class AblationRunEvaluator(
     val authToken: String? = null,
 ) : Evaluator<List<RunEvaluation>> {
     override fun eval(): List<RunEvaluation> {
-        val masLogFiles = findMasLogFiles(expDir).ifEmpty { return emptyList() }
+        val masLogFiles = findMasLogFiles(expDir)?.ifEmpty { return emptyList() }
         val runEvaluations = mutableListOf<RunEvaluation>()
 
-        masLogFiles.forEach { (masLogFile, masId) ->
+        masLogFiles?.forEach { (masLogFile, masId) ->
             println("Found $masLogFile")
             extractAgentLogFiles(expDir, masId).forEach { (agentLogFile, agentId) ->
                 println("Found $agentLogFile")

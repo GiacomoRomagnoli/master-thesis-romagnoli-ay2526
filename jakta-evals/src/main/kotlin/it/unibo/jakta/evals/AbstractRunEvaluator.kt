@@ -3,9 +3,9 @@ package it.unibo.jakta.evals
 import com.aallam.openai.api.chat.ChatMessage
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
-import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.help
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.boolean
 import it.unibo.jakta.agents.bdi.engine.FileUtils.writeToFile
 import it.unibo.jakta.agents.bdi.engine.Jakta.capitalize
 import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin
@@ -22,13 +22,14 @@ import java.io.File
  * Command-line tool for evaluating the results of the experiments.
  */
 @OptIn(ExperimentalSerializationApi::class)
-abstract class AbstractEvalRun : CliktCommand() {
+abstract class AbstractRunEvaluator : CliktCommand() {
     val runDir: String by option()
         .default(DEFAULT_RUN_DIR)
         .help("The directory where the experiments' traces are stored.")
 
     val retrieveGenerationData: Boolean by option()
-        .flag()
+        .boolean()
+        .default(false)
         .help("Whether to retrieve generation data from OpenRouter or not.")
 
     val metricsDir: String by option()

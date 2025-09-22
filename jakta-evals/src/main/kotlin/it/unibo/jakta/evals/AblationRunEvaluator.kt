@@ -6,7 +6,7 @@ import java.io.File
 
 // TODO remove code duplication
 // CPD-OFF
-class AblationEvalRun : AbstractEvalRun() {
+class AblationRunEvaluator : AbstractRunEvaluator() {
     override fun run() {
         val runEvaluator = AblationRunEvaluator(runDir, retrieveGenerationData, authToken)
         val result =
@@ -24,7 +24,10 @@ class AblationEvalRun : AbstractEvalRun() {
                 ?.let { writeChatHistory(metricsDirectory, it, "chat_history") }
         }
     }
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) = AblationRunEvaluator().main(args)
+    }
 }
 // CPD-ON
-
-fun main(args: Array<String>) = AblationEvalRun().main(args)
