@@ -12,19 +12,15 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.ExplanationLevel
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.PromptTechnique
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.DefaultFilters.metaPlanFilter
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.filtering.DefaultFilters.printActionFilter
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.DefaultPromptBuilderSnippetsPath.DEFAULT_PROMPT_DIR
 import it.unibo.jakta.exp.ablation.exp.CustomFilter.beliefBaseAdditionPlanFilter
 import it.unibo.jakta.exp.ablation.gridworld.configuration.EnvironmentType
 
 class PromptConfig : OptionGroup(name = "Prompt Configuration") {
-    val withoutAdmissibleBeliefs: Boolean by option()
+    val withoutAdmissibleBeliefsAndGoals: Boolean by option()
         .boolean()
         .default(false)
-        .help("Whether to exclude or not admissible beliefs from the prompt.")
-
-    val withoutAdmissibleGoals: Boolean by option()
-        .boolean()
-        .default(false)
-        .help("Whether to exclude or not admissible goals from the prompt.")
+        .help("Whether to exclude or not admissible beliefs and goals from the prompt.")
 
     val expectedResultExplanationLevel: ExplanationLevel by option()
         .enum<ExplanationLevel>()
@@ -73,6 +69,10 @@ class PromptConfig : OptionGroup(name = "Prompt Configuration") {
         .enum<EnvironmentType>()
         .default(DEFAULT_ENV_TYPE)
         .help("The type of environment to use.")
+
+    val promptSnippetsPath: String by option()
+        .default(DEFAULT_PROMPT_DIR)
+        .help("The directory where the snippets used to build prompts are stored.")
 
     val contextFilters =
         listOf(

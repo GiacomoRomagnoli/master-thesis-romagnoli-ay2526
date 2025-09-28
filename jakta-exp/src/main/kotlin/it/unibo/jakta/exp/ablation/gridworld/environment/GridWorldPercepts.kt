@@ -4,6 +4,7 @@ import it.unibo.jakta.agents.bdi.engine.beliefs.Belief
 import it.unibo.jakta.exp.ablation.gridworld.model.Grid
 import it.unibo.jakta.exp.sharedModel.Direction
 import it.unibo.tuprolog.core.Atom
+import it.unibo.tuprolog.core.Numeric
 import it.unibo.tuprolog.core.Struct
 
 // TODO remove code duplication
@@ -27,7 +28,7 @@ class GridWorldPercepts {
 
     fun createGridSizeBelief(grid: Grid) =
         Belief.wrap(
-            Struct.of("grid_size", Atom.of("${grid.width}"), Atom.of("${grid.height}")),
+            Struct.of("grid_size", Numeric.of(grid.width), Numeric.of(grid.height)),
             wrappingTag = Belief.SOURCE_PERCEPT,
             purpose = "the grid has width ${grid.width} and height ${grid.height}",
         )
@@ -36,8 +37,8 @@ class GridWorldPercepts {
         Belief.wrap(
             Struct.of(
                 "current_position",
-                Atom.of("${state.agentPosition.x}"),
-                Atom.of("${state.agentPosition.y}"),
+                Numeric.of(state.agentPosition.x),
+                Numeric.of(state.agentPosition.y),
             ),
             wrappingTag = Belief.SOURCE_PERCEPT,
             purpose = "the agent is at coordinates (${state.agentPosition.x}, ${state.agentPosition.y})",
@@ -49,8 +50,8 @@ class GridWorldPercepts {
                 Struct.of(
                     "object",
                     Atom.of(objectName),
-                    Atom.of("${pos.x}"),
-                    Atom.of("${pos.y}"),
+                    Numeric.of(pos.x),
+                    Numeric.of(pos.y),
                 ),
                 wrappingTag = Belief.SOURCE_PERCEPT,
                 purpose = "$objectName is at coordinates (${pos.x}, ${pos.y})",
@@ -81,7 +82,7 @@ class GridWorldPercepts {
 
     fun createThereIsBeliefs(state: GridWorldState) =
         state.objectsPosition.mapNotNull { (objectName, position) ->
-            val direction = state.agentPosition.directionTo(position)
+            val direction = state.agentPosition.directionTo(state.availableDirections, position)
             if (direction != null &&
                 (
                     state.agentPosition.isAdjacentTo(position) ||

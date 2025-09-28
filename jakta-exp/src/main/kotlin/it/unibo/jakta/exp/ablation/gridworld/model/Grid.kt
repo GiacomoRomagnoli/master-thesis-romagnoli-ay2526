@@ -16,13 +16,6 @@ data class Grid(
             pos.y in 0 until height &&
             !obstacles.contains(pos)
 
-    fun addObstacle(
-        x: Int,
-        y: Int,
-    ): Grid = copy(obstacles = obstacles + Position(x, y))
-
-    fun addObstacles(positions: List<Position>) = copy(obstacles = obstacles + positions)
-
     fun isObstacle(position: Position): Boolean = obstacles.contains(position)
 
     fun isObstacleInDirection(
@@ -46,25 +39,5 @@ data class Grid(
             .map { dir ->
                 Position(pos.x + dir.x, pos.y + dir.y)
             }.filter { isInBoundaries(it) }
-    }
-
-    fun printGrid(
-        path: List<Position> = emptyList(),
-        start: Position? = null,
-        goal: Position? = null,
-    ) {
-        for (y in height - 1 downTo 0) {
-            for (x in 0 until width) {
-                val pos = Position(x, y)
-                when {
-                    pos == start -> print("S ")
-                    pos == goal -> print("G ")
-                    obstacles.contains(pos) -> print("# ")
-                    path.contains(pos) -> print("* ")
-                    else -> print(". ")
-                }
-            }
-            println()
-        }
     }
 }

@@ -3,6 +3,7 @@ package it.unibo.jakta.exp.ablation.explorer
 import it.unibo.jakta.agents.bdi.dsl.MasScope
 import it.unibo.jakta.agents.bdi.dsl.beliefs.BeliefMetadata.meaning
 import it.unibo.jakta.agents.bdi.dsl.goals.TriggerMetadata.meaning
+import it.unibo.jakta.agents.bdi.dsl.plans.PlanMetadata.meaning
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.strategy.LMGenerationStrategy
 
@@ -24,9 +25,10 @@ object ExplorerRobot {
         }
         plans {
             +"current_position"(X, Y).fromPercept onlyIf {
-                "object"("home", X, Y)
+                "object"(O, X, Y).fromPercept
             } then {
-                add("reached"("home"))
+                add("reached"(O))
+                execute("print"("reached object: ", O))
                 execute("stop")
             }
         }

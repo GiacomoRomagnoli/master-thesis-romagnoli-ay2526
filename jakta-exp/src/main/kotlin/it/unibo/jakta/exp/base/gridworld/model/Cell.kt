@@ -1,6 +1,7 @@
 package it.unibo.jakta.exp.base.gridworld.model
 
 import it.unibo.jakta.exp.sharedModel.Direction
+import it.unibo.jakta.exp.sharedModel.Direction.Companion.fromDeltas
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.abs
@@ -13,10 +14,13 @@ data class Cell(
 ) {
     fun move(direction: Direction): Cell = Cell(x + direction.dx, y + direction.dy)
 
-    fun directionTo(other: Cell): Direction? {
+    fun directionTo(
+        directions: Set<Direction>,
+        other: Cell,
+    ): Direction? {
         val dx = (other.x - x).coerceIn(-1, 1)
         val dy = (other.y - y).coerceIn(-1, 1)
-        return Direction.fromDeltas(dx, dy)
+        return directions.fromDeltas(dx, dy)
     }
 
     fun isAdjacentTo(other: Cell): Boolean {

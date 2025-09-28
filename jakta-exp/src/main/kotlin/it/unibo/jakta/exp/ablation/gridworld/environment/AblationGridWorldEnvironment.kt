@@ -73,8 +73,14 @@ class AblationGridWorldEnvironment(
                             val curPos = state.agentPosition
                             val newPos = curPos.translate(parsedDirection)
                             state.move(curPos.x, curPos.y, newPos.x, newPos.y).also {
-                                logger?.info {
-                                    "The robot moved from (${curPos.x}, ${curPos.y}) to (${newPos.x}, ${newPos.y})"
+                                if (it == null) {
+                                    logger?.warn {
+                                        "The robot could not move from (${curPos.x}, ${curPos.y}) to (${newPos.x}, ${newPos.y})"
+                                    }
+                                } else {
+                                    logger?.info {
+                                        "The robot moved from (${curPos.x}, ${curPos.y}) to (${newPos.x}, ${newPos.y})"
+                                    }
                                 }
                             }
                         }

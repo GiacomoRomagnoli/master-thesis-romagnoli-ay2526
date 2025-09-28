@@ -61,7 +61,7 @@ class GridWorldPercepts {
 
     fun createThereIsBeliefs(state: GridWorldState) =
         state.objectsPosition.mapNotNull { (objectName, position) ->
-            val direction = state.agentPosition.directionTo(position)
+            val direction = state.agentPosition.directionTo(state.availableDirections, position)
             if (direction != null &&
                 (
                     state.agentPosition.isAdjacentTo(position) ||

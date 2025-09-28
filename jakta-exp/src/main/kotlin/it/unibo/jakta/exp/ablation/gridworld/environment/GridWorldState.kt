@@ -15,25 +15,25 @@ data class GridWorldState(
         fromY: Int,
         toX: Int,
         toY: Int,
-    ): GridWorldState {
+    ): GridWorldState? {
         val current = this.agentPosition
         if (current.x != fromX || current.y != fromY) {
-            return this // invalid move
+            return null // invalid move
         }
 
         val newPosition = Position(toX, toY)
         return if (grid.isInBoundaries(newPosition) && !grid.isObstacle(newPosition)) {
             this.copy(agentPosition = newPosition)
         } else {
-            this // invalid move
+            null // invalid move
         }
     }
 
     companion object {
         fun of(
-            gridWidth: Int,
-            gridHeight: Int,
-            obstaclesPosition: Set<Position>,
+            gridWidth: Int = DEFAULT_GRID_SIZE,
+            gridHeight: Int = DEFAULT_GRID_SIZE,
+            obstaclesPosition: Set<Position> = defaultObstacles,
             agentPosition: Position = DEFAULT_START_POSITION,
             objectsPosition: Map<String, Position> = defaultObjects,
             availableDirections: Set<Direction> = defaultDirections,

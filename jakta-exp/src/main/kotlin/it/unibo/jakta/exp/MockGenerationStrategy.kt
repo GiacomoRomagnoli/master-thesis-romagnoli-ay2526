@@ -31,13 +31,22 @@ object MockGenerationStrategy {
         val expFile = File(expPath)
 
         if (expFile.isFile()) {
-            extractPgpLogFiles(expPath, "").forEach { (pgpLogFile, _) ->
-                processLog(pgpLogFile) { logEntry ->
-                    val event = logEntry.message.event
-                    if (event is LMMessageReceived) {
-                        event.chatMessage.let { history.add(it) }
+            val pgpFiles = extractPgpLogFiles(expPath, "")
+            if (pgpFiles?.isNotEmpty() == true) {
+                pgpFiles.forEach { (pgpLogFile, _) ->
+                    processLog(pgpLogFile) { logEntry ->
+                        val event = logEntry.message.event
+                        if (event is LMMessageReceived) {
+                            event.chatMessage.let { history.add(it) }
+                        }
+                        true
                     }
-                    true
+                }
+            } else {
+                val msgContent = expFile.readText()
+                if (msgContent.isNotBlank()) {
+                    val chatMessage = ChatMessage(ChatRole.Assistant, msgContent)
+                    history.add(chatMessage)
                 }
             }
         } else {
@@ -47,7 +56,7 @@ object MockGenerationStrategy {
 
             if (masLogFile != null && masId != null) {
                 extractAgentLogFiles(expPath, masId).forEach { (_, agentId) ->
-                    extractPgpLogFiles(expPath, agentId).forEach { (pgpLogFile, _) ->
+                    extractPgpLogFiles(expPath, agentId)?.forEach { (pgpLogFile, _) ->
                         processLog(pgpLogFile) { logEntry ->
                             val event = logEntry.message.event
                             if (event is LMMessageReceived) {

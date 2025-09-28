@@ -1,6 +1,7 @@
 package it.unibo.jakta.exp.ablation.gridworld.model
 
 import it.unibo.jakta.exp.sharedModel.Direction
+import it.unibo.jakta.exp.sharedModel.Direction.Companion.fromDeltas
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlin.math.abs
@@ -13,10 +14,13 @@ data class Position(
 ) {
     fun manhattanDistance(other: Position): Int = abs(x - other.x) + abs(y - other.y)
 
-    fun directionTo(other: Position): Direction? {
+    fun directionTo(
+        directions: Set<Direction>,
+        other: Position,
+    ): Direction? {
         val dx = (other.x - x).coerceIn(-1, 1)
         val dy = (other.y - y).coerceIn(-1, 1)
-        return Direction.fromDeltas(dx, dy)
+        return directions.fromDeltas(dx, dy)
     }
 
     fun isAdjacentTo(other: Position): Boolean {

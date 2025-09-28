@@ -39,7 +39,7 @@ object GridWorldDsl {
         }
 
     val manhattanDistanceFromObject =
-        externalAction("getDistance", "Object", "Distance") {
+        externalAction("get_distance", "Object", "Distance") {
             val percepts = environment.perception.percept()
             val objectToSearch = arguments[0].asAtom()
             val output = arguments[1].asVar()
@@ -62,26 +62,26 @@ object GridWorldDsl {
         predicate: String,
         subject: Term? = null,
     ): Position? {
-        val x = Var.of("X")
-        val y = Var.of("Y")
+        val xVar = Var.of("X")
+        val yVar = Var.of("Y")
 
         val queryStruct =
             if (subject != null) {
-                Struct.of(predicate, subject, x, y)
+                Struct.of(predicate, subject, xVar, yVar)
             } else {
-                Struct.of(predicate, x, y)
+                Struct.of(predicate, xVar, yVar)
             }
 
         val query = Belief.wrap(queryStruct, wrappingTag = Belief.SOURCE_PERCEPT)
 
         return percepts.solve(query, ignoreSource = true).let {
             val x =
-                it.substitution[x]
+                it.substitution[xVar]
                     ?.asInteger()
                     ?.intValue
                     ?.toInt()
             val y =
-                it.substitution[y]
+                it.substitution[yVar]
                     ?.asInteger()
                     ?.intValue
                     ?.toInt()

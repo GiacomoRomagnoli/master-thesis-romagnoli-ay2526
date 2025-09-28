@@ -2,6 +2,7 @@ package it.unibo.jakta.exp.ablation.gridworld.configuration
 
 import it.unibo.jakta.exp.ablation.gridworld.configuration.GridWorldConfigs.channelEnv
 import it.unibo.jakta.exp.ablation.gridworld.configuration.GridWorldConfigs.hShapeEnv
+import it.unibo.jakta.exp.ablation.gridworld.configuration.GridWorldConfigs.sparseObstaclesEnv
 import it.unibo.jakta.exp.ablation.gridworld.configuration.GridWorldConfigs.standardEnv
 import it.unibo.jakta.exp.ablation.gridworld.environment.AblationGridWorldEnvironment
 
@@ -10,5 +11,6 @@ enum class EnvironmentType(
 ) {
     HShape(hShapeEnv),
     Channel(channelEnv),
+    Sparse(sparseObstaclesEnv),
     Standard(standardEnv),
 }

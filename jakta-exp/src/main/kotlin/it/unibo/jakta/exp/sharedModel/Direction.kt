@@ -19,11 +19,11 @@ enum class Direction(
     companion object {
         fun fromId(id: String): Direction? = entries.find { it.id == id }
 
-        fun fromDeltas(
+        fun Set<Direction>.fromDeltas(
             dx: Int,
             dy: Int,
         ): Direction? =
-            entries.find {
+            this.find {
                 it.dx == dx.coerceIn(-1, 1) && it.dy == dy.coerceIn(-1, 1)
             }
     }

@@ -36,7 +36,8 @@ class Experiment(
     val expLoggingConfig by ExpLoggingConfig()
     val promptConfig by PromptConfig()
 
-    val runId: String? by option()
+    val runId: String by option()
+        .default(UUID.randomUUID().toString())
         .help("The UUID that identifies the experimental run.")
 
     val runTimeoutMillis: Long by option()
@@ -62,7 +63,6 @@ class Experiment(
     }
 
     override fun run() {
-        val runId = runId ?: UUID.randomUUID().toString()
         expRunnerLogger.info("Started experiment with run id: $runId")
         val logConfig = loggingConfigFactory.createLoggingConfig(runId, expLoggingConfig)
         expRunnerLogger.info(logConfig)
@@ -72,6 +72,7 @@ class Experiment(
                 serverConfig,
                 modelConfig,
                 promptConfig,
+                expRunnerLogger,
                 replayExp,
                 expReplayPath,
             )

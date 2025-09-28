@@ -65,4 +65,15 @@ object GridWorldConfigs {
         )
 
     val standardEnv = AblationGridWorldEnvironment(data = mapOf("state" to GridWorldState()))
+
+    val sparseObstaclesEnv =
+        AblationGridWorldEnvironment(
+            data =
+                mapOf(
+                    "state" to
+                        GridWorldState.of(
+                            availableDirections = manhattanDirections,
+                        ),
+                ),
+        )
 }

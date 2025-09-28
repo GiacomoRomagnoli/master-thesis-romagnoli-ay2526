@@ -12,6 +12,7 @@ import it.unibo.jakta.exp.MockGenerationStrategy.getChatMessages
 import it.unibo.jakta.exp.options.LmServerConfig
 import it.unibo.jakta.exp.options.ModelConfig
 import it.unibo.jakta.exp.options.PromptConfig
+import org.apache.logging.log4j.Logger
 import java.io.File
 import java.io.FileNotFoundException
 import kotlin.time.DurationUnit
@@ -22,6 +23,7 @@ class DefaultGenStrategyFactory : GenerationStrategyFactory {
         lmServerCfg: LmServerConfig,
         modelCfg: ModelConfig,
         promptCfg: PromptConfig,
+        logger: Logger,
         replayExp: Boolean,
         expReplayPath: String?,
     ): GenerationStrategy =
@@ -60,21 +62,27 @@ class DefaultGenStrategyFactory : GenerationStrategyFactory {
                     promptCfg.fewShot,
                     promptCfg.promptTechnique,
                     promptCfg.useAslSyntax,
+                    promptCfg.promptSnippetsPath,
                 )
             userPromptBuilder =
                 createUserPrompt(
-                    promptCfg.withoutAdmissibleBeliefs,
-                    promptCfg.withoutAdmissibleGoals,
+                    promptCfg.withoutAdmissibleBeliefsAndGoals,
                     promptCfg.withoutLogicDescription,
                     promptCfg.withoutNlDescription,
                     promptCfg.promptTechnique,
+                    promptCfg.useAslSyntax,
                     promptCfg.expectedResultExplanationLevel,
                     remarks,
                 )
         }.let { cfg ->
             if (replayExp && expReplayPath != null) {
                 val lmResponses = getChatMessages(expReplayPath).mapNotNull { msg -> msg.content }
-                createLMGenStrategyWithMockedAPI(cfg, lmResponses)
+                if (lmResponses.isEmpty()) {
+                    logger.error("No language model's responses found")
+                    createLMGenStrategyWithMockedAPI(cfg, listOf(""))
+                } else {
+                    createLMGenStrategyWithMockedAPI(cfg, lmResponses)
+                }
             } else {
                 LMGenerationStrategy.of(cfg)
             }
