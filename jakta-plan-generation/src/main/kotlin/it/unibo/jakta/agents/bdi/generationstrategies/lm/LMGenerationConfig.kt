@@ -53,7 +53,7 @@ sealed interface LMGenerationConfig : GenerationConfig {
         override val contextFilters: List<ContextFilter> = listOf(metaPlanFilter),
         override val useAslSyntax: Boolean = DEFAULT_SYNTAX_IS_ASL,
         @Transient
-        override val systemPromptBuilder: SystemPromptBuilder? = createSystemPrompt(),
+        override val systemPromptBuilder: SystemPromptBuilder = createSystemPrompt(),
         @Transient
         override val userPromptBuilder: UserPromptBuilder = createUserPrompt(),
         override val requestTimeout: Long = DEFAULT_REQUEST_TIMEOUT,

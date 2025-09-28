@@ -8,6 +8,7 @@ import it.unibo.jakta.agents.bdi.generationstrategies.lm.PromptTechnique
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.DefaultPromptBuilderSnippetsPath.DEFAULT_ASL_OUTPUT_FORMAT
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.DefaultPromptBuilderSnippetsPath.DEFAULT_BDI_AGENT_DEF_PROMPT_DIR
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.DefaultPromptBuilderSnippetsPath.DEFAULT_FEW_SHOT_PROMPT_DIR
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.DefaultPromptBuilderSnippetsPath.DEFAULT_PROMPT_DIR
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.DefaultPromptBuilderSnippetsPath.DEFAULT_YAML_OUTPUT_FORMAT
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.formatting.impl.SystemPromptBuilderImpl.Companion.system
 
@@ -19,13 +20,13 @@ interface SystemPromptBuilder : PromptBuilder {
             fewShot: Boolean = false,
             promptTechnique: PromptTechnique = DEFAULT_PROMPT_TECHNIQUE,
             useAslSyntax: Boolean = DEFAULT_SYNTAX_IS_ASL,
+            promptSnippetsPath: String = DEFAULT_PROMPT_DIR,
         ) = system {
             section("System Message") {
-                // I7
                 if (withBdiAgentDefinition) {
                     fromString("You are a Belief-Desire-Intention (BDI) agent that devises plans to pursue goals.")
                 } else {
-                    fromFile(DEFAULT_BDI_AGENT_DEF_PROMPT_DIR)
+                    fromFile(promptSnippetsPath + DEFAULT_BDI_AGENT_DEF_PROMPT_DIR)
                 }
 
                 section("Core Principles") {
@@ -77,11 +78,11 @@ interface SystemPromptBuilder : PromptBuilder {
                     if (promptTechnique != PromptTechnique.CoTMulti) {
                         if (useAslSyntax) {
                             when (aslSyntaxExplanationLevel) {
-                                ExplanationLevel.Standard -> fromFile(DEFAULT_ASL_OUTPUT_FORMAT)
+                                ExplanationLevel.Standard -> fromFile(promptSnippetsPath + DEFAULT_ASL_OUTPUT_FORMAT)
                                 ExplanationLevel.Detailed -> TODO()
                             }
                         } else {
-                            fromFile(DEFAULT_YAML_OUTPUT_FORMAT)
+                            fromFile(promptSnippetsPath + DEFAULT_YAML_OUTPUT_FORMAT)
                         }
                     } else {
                         fromString(
@@ -96,7 +97,7 @@ interface SystemPromptBuilder : PromptBuilder {
 
                 if (fewShot) {
                     section("Example") {
-                        fromFile(DEFAULT_FEW_SHOT_PROMPT_DIR)
+                        fromFile(promptSnippetsPath + DEFAULT_FEW_SHOT_PROMPT_DIR)
                     }
                 }
 

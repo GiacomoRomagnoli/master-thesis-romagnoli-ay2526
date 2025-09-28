@@ -45,7 +45,7 @@ internal class LMGenerationStrategyImpl(
         loggingConfig: LoggingConfig?,
     ): GenerationState {
         val systemMsg =
-            generationConfig.systemPromptBuilder?.build(
+            generationConfig.systemPromptBuilder.build(
                 initialGoal,
                 context,
                 externalActions,
@@ -76,7 +76,7 @@ internal class LMGenerationStrategyImpl(
             logger = logger,
             chatHistory = listOfNotNull(systemMsg, userMsg),
         ).also {
-            systemMsg?.let { logger?.log { LMMessageSent(systemMsg) } }
+            systemMsg.let { logger?.log { LMMessageSent(systemMsg) } }
             logger?.log { LMMessageSent(userMsg) }
         }
     }

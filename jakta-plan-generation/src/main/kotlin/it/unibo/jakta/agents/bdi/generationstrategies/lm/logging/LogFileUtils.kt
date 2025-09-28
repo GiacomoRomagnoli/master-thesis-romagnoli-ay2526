@@ -10,10 +10,10 @@ object LogFileUtils {
     fun extractPgpLogFiles(
         expDir: String,
         agentId: String,
-    ): Map<File, String> =
+    ): Map<File, String>? =
         File(expDir)
             .listFiles { f -> f.extension == LOG_FILE_EXTENSION }
-            .mapNotNull { f ->
+            ?.mapNotNull { f ->
                 var id: String? = null
                 processLog(f) { logEntry ->
                     id = logEntry.logLogger
@@ -25,5 +25,5 @@ object LogFileUtils {
                             countUuids(id) == 3 &&
                             id.startsWith(agentId.substringBeforeLast("-"))
                     }?.let { f to it }
-            }.toMap()
+            }?.toMap()
 }

@@ -31,11 +31,13 @@ internal class RequestProcessorImpl : RequestProcessor {
             val parserResult = parser.parse(messageContent)
             RequestSuccess.NewRequestResult(completionResponse.id, parserResult)
         } catch (e: TimeoutCancellationException) {
-            logger?.error { "Request timed out: ${e.message}" }
-            NetworkRequestFailure("Request timed out")
+            val timeoutMsg = "Request timed out: ${e.message}"
+            logger?.error { timeoutMsg }
+            NetworkRequestFailure(timeoutMsg)
         } catch (e: Exception) {
-            logger?.error { "Error during request generation: ${e.message}" }
-            NetworkRequestFailure("Error during request generation: ${e.message}")
+            val errorMsg = "Error during request generation: ${e.message}"
+            logger?.error { errorMsg }
+            NetworkRequestFailure(errorMsg)
         }
     }
 }
