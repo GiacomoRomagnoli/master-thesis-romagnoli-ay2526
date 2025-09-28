@@ -2,9 +2,11 @@ package it.unibo.jakta.invoker
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.groups.provideDelegate
-import com.github.ajalt.clikt.parameters.options.flag
+import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.help
 import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.types.boolean
+import it.unibo.jakta.agents.bdi.engine.AgentLifecycle
 import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin
 import it.unibo.jakta.agents.bdi.engine.executionstrategies.feedback.PGPSuccess
 import it.unibo.jakta.agents.bdi.engine.generation.PgpID
@@ -36,11 +38,13 @@ class LMInvoker(
     private val delegate = LoggerFactory.create("LMInvoker", LoggingConfig())
     private val invokerLogger = delegate.logger
 
-    val runId: String? by option()
+    val runId: String by option()
+        .default(UUID.randomUUID().toString())
         .help("The UUID that identifies the invocation run.")
 
     val dryRun: Boolean by option()
-        .flag()
+        .boolean()
+        .default(false)
         .help("Whether to only log the prompt or also invoke the LM.")
 
     val modelConfig by ModelConfig()
@@ -48,26 +52,39 @@ class LMInvoker(
     val loggingConfig by ExpLoggingConfig()
     val promptConfig by PromptConfig()
 
-    val initialGoal = GeneratePlan.of(Achieve.of(Struct.of("achieve", Atom.of("home"))))
+    val initialGoal = GeneratePlan.of(Achieve.of(Struct.of("reach", Atom.of("home"))))
+    val nCyclesForInitialization = 4
 
     init {
         JaktaKoin.loadAdditionalModules(modulesToLoad)
     }
 
     override fun run() {
-        val runId = runId ?: UUID.randomUUID().toString()
         invokerLogger.info("Started the language model invoker with id $runId")
         val logConfig = loggingConfigFactory.createLoggingConfig(runId, loggingConfig)
         invokerLogger.info(logConfig)
 
-        val genStrategy = genStrategyFactory.createGenerationStrategy(serverConfig, modelConfig, promptConfig)
+        val genStrategy =
+            genStrategyFactory.createGenerationStrategy(
+                serverConfig,
+                modelConfig,
+                promptConfig,
+                invokerLogger,
+            )
         val mas = masFactory.createMas(logConfig, genStrategy, promptConfig.environmentType.config)
 
         val externalActions =
             mas.environment.externalActions.values
                 .toList()
         val explorerAgent = mas.agents.firstOrNull()
-        val agentContext = explorerAgent?.context
+        val explorerAgentLifecycle = explorerAgent?.let { AgentLifecycle.newLifecycleFor(explorerAgent) }
+
+        repeat(nCyclesForInitialization) {
+            val sideEffects = explorerAgentLifecycle?.runOneCycle(mas.environment)
+            sideEffects?.let { mas.applyEnvironmentEffects(sideEffects) }
+        }
+
+        val agentContext = explorerAgentLifecycle?.agent?.context
 
         if (agentContext != null && genStrategy != null) {
             val generationState =
@@ -92,6 +109,8 @@ class LMInvoker(
                             genResult.generatedAdmissibleBeliefs,
                         )
                     }
+                } else {
+                    invokerLogger.error("Generation failed")
                 }
             }
         }
