@@ -77,12 +77,16 @@ internal class UnavailablePlanStrategyImpl(
                     .map {
                         val ignoreSource = it is PartialPlan
                         it.checkApplicability(selectedEvent, context.beliefBase, ignoreSource)
-                    }.filter { it.error == null && it.trigger != null && it.guards != null }
-                    .also {
-                        it.forEach { plan ->
+                    }.filter { it.trigger != null && it.guards != null }
+                    .also { planApp ->
+                        planApp.forEach { plan ->
                             logger?.warn { "Plan ${plan.trigger?.value} is not applicable" }
                             plan.guards?.forEach { guard ->
-                                if (!guard.value) logger?.warn { "Failing guard ${guard.key}" }
+                                if (!guard.value) {
+                                    logger?.warn {
+                                        "Failing guard ${guard.key} due to error ${plan.error}"
+                                    }
+                                }
                             }
                         }
                     },

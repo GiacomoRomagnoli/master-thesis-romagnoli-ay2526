@@ -48,6 +48,8 @@ object LoggerConfigurator {
 
     const val TCP_APPENDER_NAME = "JsonTcp"
 
+    const val FILE_APPEND = false
+
     init {
         configBuilder.setStatusLevel(Level.ERROR)
         configBuilder.setConfigurationName("JaktaLoggingConfig")
@@ -85,7 +87,7 @@ object LoggerConfigurator {
                 .newAppender(name, "File")
                 .apply {
                     addAttribute("fileName", fileName)
-                    addAttribute("append", true)
+                    addAttribute("append", FILE_APPEND)
                     add(layout)
                 }.let {
                     configBuilder.add(it)

@@ -94,62 +94,82 @@ object DefaultFormatters {
         itemToString: (T) -> String?,
         purposeProvider: (T) -> String? = { null },
         includePurpose: Boolean = true,
+        onlyPurpose: Boolean = false,
     ) = Formatter<T> { item ->
         itemToString(item)
             .let { base ->
                 if (includePurpose) {
                     purposeProvider(item)?.let { "$base: $it" } ?: base
+                } else if (onlyPurpose) {
+                    purposeProvider(item)
                 } else {
                     base
                 }
             }?.dropWordsWithTrailingNumbers()
     }
 
-    fun createBeliefsFormatter(includePurpose: Boolean = true) =
-        Formatter<Belief> { belief ->
-            termFormatter
-                .format(belief.rule.head.removeSource())
-                .let { base ->
-                    if (includePurpose) {
-                        belief.purpose?.let { "$base: $it" } ?: base
-                    } else {
-                        base
-                    }
-                }.takeUnless { it.contains(META_PLAN_BELIEF_FUNCTOR) }
-                ?.dropWordsWithTrailingNumbers()
-        }
-
-    fun createAdmissibleBeliefsFormatter(includePurpose: Boolean = true) =
-        createFormatter(
-            itemToString = { termFormatter.format(it.rule.head.removeSource()) },
-            purposeProvider = AdmissibleBelief::purpose,
-            includePurpose = includePurpose,
-        )
-
-    fun createAdmissibleGoalsFormatter(includePurpose: Boolean = true) =
-        createFormatter<AdmissibleGoal>(
-            itemToString = { triggerFormatter.format(it.trigger) },
-            purposeProvider = { it.trigger.purpose },
-            includePurpose = includePurpose,
-        )
-
-    fun createActionsFormatter(includePurpose: Boolean = true) =
-        Formatter<Action<*, *, *>> { action ->
-            buildString {
-                val signature = action.actionSignature
-                append(signature.name, "(")
-                append(
-                    signature.parameterNames
-                        .takeIf { it.isNotEmpty() }
-                        ?.joinToString { it.capitalize() }
-                        ?: (1..signature.arity).joinToString { "Parameter$it" },
-                )
-                append(")")
+    fun createBeliefsFormatter(
+        includePurpose: Boolean = true,
+        onlyPurpose: Boolean = false,
+    ) = Formatter<Belief> { belief ->
+        termFormatter
+            .format(belief.rule.head.removeSource())
+            .let { base ->
                 if (includePurpose) {
-                    action.purpose?.let { append(": $it") }
+                    belief.purpose?.let { "$base: $it" } ?: base
+                } else if (onlyPurpose) {
+                    belief.purpose
+                } else {
+                    base
                 }
-            }.dropWordsWithTrailingNumbers()
-        }
+            }.takeUnless { it?.contains(META_PLAN_BELIEF_FUNCTOR) == true }
+            ?.dropWordsWithTrailingNumbers()
+    }
+
+    fun createAdmissibleBeliefsFormatter(
+        includePurpose: Boolean = true,
+        onlyPurpose: Boolean = false,
+    ) = createFormatter(
+        itemToString = { termFormatter.format(it.rule.head.removeSource()) },
+        purposeProvider = AdmissibleBelief::purpose,
+        includePurpose = includePurpose,
+        onlyPurpose = onlyPurpose,
+    )
+
+    fun createAdmissibleGoalsFormatter(
+        includePurpose: Boolean = true,
+        onlyPurpose: Boolean = false,
+    ) = createFormatter<AdmissibleGoal>(
+        itemToString = { triggerFormatter.format(it.trigger) },
+        purposeProvider = { it.trigger.purpose },
+        includePurpose = includePurpose,
+        onlyPurpose = onlyPurpose,
+    )
+
+    fun createActionsFormatter(
+        includePurpose: Boolean = true,
+        onlyPurpose: Boolean = false,
+    ) = Formatter<Action<*, *, *>> { action ->
+        buildString {
+            val signature = action.actionSignature
+            append(signature.name, "(")
+            append(
+                signature.parameterNames
+                    .takeIf { it.isNotEmpty() }
+                    ?.joinToString { it.capitalize() }
+                    ?: (1..signature.arity).joinToString { "Parameter$it" },
+            )
+            append(")")
+        }.let { base ->
+            if (includePurpose) {
+                action.purpose?.let { "$base: $it" } ?: base
+            } else if (onlyPurpose) {
+                action.purpose
+            } else {
+                base
+            }
+        }?.dropWordsWithTrailingNumbers()
+    }
 
     val planFormatter =
         Formatter<Plan> { plan ->
@@ -178,4 +198,9 @@ object DefaultFormatters {
     val admissibleBeliefsFormatterWithoutHints = createAdmissibleBeliefsFormatter(includePurpose = false)
     val admissibleGoalsFormatterWithoutHints = createAdmissibleGoalsFormatter(includePurpose = false)
     val actionsFormatterWithoutHints = createActionsFormatter(includePurpose = false)
+
+    val beliefsFormatterOnlyHints = createBeliefsFormatter(onlyPurpose = true)
+    val admissibleBeliefsFormatterOnlyHints = createAdmissibleBeliefsFormatter(onlyPurpose = true)
+    val admissibleGoalsFormatterOnlyHints = createAdmissibleGoalsFormatter(onlyPurpose = true)
+    val actionsFormatterOnlyHints = createActionsFormatter(onlyPurpose = true)
 }

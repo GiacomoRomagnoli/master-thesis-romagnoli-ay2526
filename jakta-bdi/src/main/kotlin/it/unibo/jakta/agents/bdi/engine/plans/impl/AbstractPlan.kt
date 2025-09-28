@@ -6,8 +6,8 @@ import it.unibo.jakta.agents.bdi.engine.executionstrategies.feedback.PlanApplica
 import it.unibo.jakta.agents.bdi.engine.goals.Goal
 import it.unibo.jakta.agents.bdi.engine.plans.ActivationRecord
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
-import it.unibo.jakta.agents.bdi.engine.visitors.GuardFlattenerVisitor.Companion.flatten
 import it.unibo.tuprolog.core.Struct
+import it.unibo.tuprolog.solve.Solution
 import it.unibo.tuprolog.unify.Unificator.Companion.mguWith
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -23,10 +23,23 @@ internal abstract class AbstractPlan : Plan {
         if (isRelevant(event)) {
             val mgu = event.trigger.value mguWith this.trigger.value
             val actualGuard = guard.apply(mgu).castToStruct()
-            // TODO what if the conditions are not only in and?
-            // -> The result of the check becomes misleading even if the check itself isn't
-            val guards = actualGuard.flatten().associateWith { beliefBase.solve(it, ignoreSource).isYes }
-            PlanApplicabilityResult(event.trigger, guards)
+            when (val result = beliefBase.solve(actualGuard, ignoreSource)) {
+                is Solution.Yes -> PlanApplicabilityResult(event.trigger, mapOf(actualGuard to true))
+                is Solution.No -> {
+                    PlanApplicabilityResult(
+                        event.trigger,
+                        mapOf(actualGuard to false),
+                        result.exception?.message ?: "Resolution failed",
+                    )
+                }
+                is Solution.Halt -> {
+                    PlanApplicabilityResult(
+                        event.trigger,
+                        mapOf(actualGuard to false),
+                        result.exception.message,
+                    )
+                }
+            }
         } else {
             PlanApplicabilityResult(
                 error = "could not check applicability since the provided plan is not relevant",
