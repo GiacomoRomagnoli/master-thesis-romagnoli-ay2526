@@ -6,4 +6,5 @@ enum class RunStatus {
     COMPLETED,
     FAILED,
     CANCELLED,
+    CACHED,
 }

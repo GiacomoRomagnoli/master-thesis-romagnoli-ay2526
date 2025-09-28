@@ -34,12 +34,14 @@ class JobClient(
 
     suspend fun createJob(request: JobRequest): String? =
         try {
-            val response: CreateJobResponse =
+            val responseS =
                 client
                     .post("$baseUrl/api/jobs") {
                         contentType(ContentType.Application.Json)
                         setBody(request)
-                    }.body()
+                    }
+
+            val response: CreateJobResponse = responseS.body()
 
             println("Created job: ${request.name} (ID: ${response.id})")
             response.id

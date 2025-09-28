@@ -11,6 +11,7 @@ import io.ktor.server.routing.routing
 import it.unibo.jakta.scheduler.server.JobScheduler
 import it.unibo.jakta.scheduler.server.domain.ScheduledJob
 import it.unibo.jakta.scheduler.server.domain.jobRequests.JobRequest
+import java.util.UUID
 
 fun Application.apiRoutes(scheduler: JobScheduler) =
     routing {
@@ -36,6 +37,7 @@ fun Application.apiRoutes(scheduler: JobScheduler) =
                     val request = call.receive<JobRequest>()
                     val scheduledJob =
                         ScheduledJob(
+                            id = UUID.randomUUID().toString(),
                             name = request.name,
                             commandTemplate = request.commandTemplate,
                             parameters = request.parameters,

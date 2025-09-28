@@ -7,17 +7,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ChatCompletionJobRequest(
     override val name: String,
-    override val parameters: Map<String, List<String>>,
+    override val parameters: Map<String, Set<String>>,
     override val maxParallel: Int,
     override val executablePath: String,
     override val cachePath: String? = null,
 ) : JobRequest {
     override val commandTemplate: List<String> =
         buildList {
-            add(executablePath)
+            executablePath.split(" ").forEach { add(it) }
             buildList {
                 add("run-id")
+                add("dry-run")
 
+                add("model-id")
                 add("temperature")
                 add("top-p")
                 add("reasoning-effort")
@@ -47,6 +49,7 @@ data class ChatCompletionJobRequest(
                 add("prompt-technique")
                 add("remarks")
                 add("environment-type")
+                add("prompt-snippets-path")
             }.map { l ->
                 l.let {
                     parameters[it]?.let { _ ->
