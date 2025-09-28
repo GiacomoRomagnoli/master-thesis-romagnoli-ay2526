@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.boolean
 import it.unibo.jakta.agents.bdi.engine.FileUtils.writeToFile
 import it.unibo.jakta.agents.bdi.engine.Jakta.capitalize
+import it.unibo.jakta.agents.bdi.engine.Jakta.separator
 import it.unibo.jakta.agents.bdi.engine.depinjection.JaktaKoin
 import it.unibo.jakta.agents.bdi.engine.formatters.DefaultFormatters.planFormatter
 import it.unibo.jakta.agents.bdi.engine.serialization.modules.JaktaJsonComponent
@@ -17,12 +18,17 @@ import it.unibo.jakta.exp.base.BaseExpRunner.modulesToLoad
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.encodeToStream
 import java.io.File
+import java.util.UUID
 
 /**
  * Command-line tool for evaluating the results of the experiments.
  */
 @OptIn(ExperimentalSerializationApi::class)
 abstract class AbstractRunEvaluator : CliktCommand() {
+    val runId: String by option()
+        .default(UUID.randomUUID().toString())
+        .help("The UUID that identifies the invocation run.")
+
     val runDir: String by option()
         .default(DEFAULT_RUN_DIR)
         .help("The directory where the experiments' traces are stored.")
@@ -45,9 +51,9 @@ abstract class AbstractRunEvaluator : CliktCommand() {
     }
 
     companion object {
-        const val DEFAULT_RUN_DIR = "experiments/"
+        val DEFAULT_RUN_DIR = "experiments$separator"
         const val DEFAULT_TOKEN = ""
-        const val DEFAULT_METRICS_DIR = "metrics/"
+        val DEFAULT_METRICS_DIR = "metrics$separator"
 
         fun writeEvaluationResult(
             metricsDir: File,

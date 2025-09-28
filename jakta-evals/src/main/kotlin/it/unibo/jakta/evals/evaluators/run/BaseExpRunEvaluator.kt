@@ -25,7 +25,7 @@ class BaseExpRunEvaluator(
             println("Found $masLogFile")
             extractAgentLogFiles(expDir, masId).forEach { (agentLogFile, agentId) ->
                 println("Found $agentLogFile")
-                extractPgpLogFiles(expDir, agentId).forEach { (pgpLogFile, pgpId) ->
+                extractPgpLogFiles(expDir, agentId)?.forEach { (pgpLogFile, pgpId) ->
                     println("Found $pgpLogFile")
                     val planDataRetriever = BaseExpPGPDataRetriever(masLogFile, agentLogFile, pgpLogFile, pgpId)
                     val planData = planDataRetriever.retrieve()
