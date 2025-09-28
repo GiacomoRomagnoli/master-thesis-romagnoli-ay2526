@@ -1,7 +1,8 @@
+import com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer
+
 plugins {
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlinx)
-    id("graalvm-native")
 }
 
 dependencies {
@@ -22,12 +23,20 @@ dependencies {
     implementation(libs.bundles.kotlin.testing)
 }
 
-val appImageName = "invoker"
 val appMainClass = "${project.group}.invoker.AblationExpLMInvokerKt"
 
-graalvmNativeConfig {
-    imageName.set(appImageName)
-    mainClass.set(appMainClass)
+tasks.shadowJar {
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to appMainClass,
+                "Multi-Release" to "true",
+            ),
+        )
+    }
+
+    transform(Log4j2PluginsCacheFileTransformer())
+    mergeServiceFiles()
 }
 
 application {

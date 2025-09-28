@@ -4,7 +4,6 @@ plugins {
     application
     alias(libs.plugins.shadow)
     alias(libs.plugins.kotlinx)
-    id("graalvm-native")
 }
 
 dependencies {
@@ -19,10 +18,10 @@ dependencies {
     annotationProcessor(libs.log4j.core)
 }
 
-val appImageName = "simulator"
 val appMainClass = "${project.group}.exp.ablation.AblationExpRunner"
 
 tasks.shadowJar {
+    archiveFileName.set("jakta-exp-all.jar")
     manifest {
         attributes(
             mapOf(
@@ -34,11 +33,6 @@ tasks.shadowJar {
 
     transform(Log4j2PluginsCacheFileTransformer())
     mergeServiceFiles()
-}
-
-graalvmNativeConfig {
-    imageName.set(appImageName)
-    mainClass.set(appMainClass)
 }
 
 application {
