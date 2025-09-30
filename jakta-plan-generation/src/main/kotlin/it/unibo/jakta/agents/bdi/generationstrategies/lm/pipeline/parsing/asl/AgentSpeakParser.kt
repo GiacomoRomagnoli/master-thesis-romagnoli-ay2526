@@ -27,23 +27,27 @@ class AgentSpeakParser : Parser {
         val regex = """```(?:\w*\n)?([\s\S]*?)```""".toRegex()
         val matches = regex.findAll(input)
 
-        return matches
-            .flatMap { matchResult ->
-                val blockContent = matchResult.groupValues[1].trim()
-                if (blockContent.contains("\n---\n")) {
-                    blockContent.split("\n---\n").map { it.trim() }
-                } else {
-                    listOf(blockContent)
-                }
-            }.toList()
+        return if (matches.none()) {
+            listOf(input)
+        } else {
+            matches
+                .flatMap { matchResult ->
+                    val blockContent = matchResult.groupValues[1].trim()
+                    if (blockContent.contains("\n---\n")) {
+                        blockContent.split("\n---\n").map { it.trim() }
+                    } else {
+                        blockContent.split("\n").filterNot { it.isBlank() }
+                    }
+                }.toList()
+        }
     }
 
-    private fun parseTerm(input: String): Term {
-        val normalized = normalizer.normalize(input)
+    fun parseTerm(input: String): Term {
+        val normalized = normalizer.normalize(input).replace("()", "")
         return parser.parseTerm(normalized)
     }
 
-    private fun toPlan(planTerm: Term): Plan? = planParser.toPlan(planTerm)
+    fun toPlan(planTerm: Term): Plan? = planParser.toPlan(planTerm)
 
     companion object {
         private val AGENTSPEAK_OPERATORS =

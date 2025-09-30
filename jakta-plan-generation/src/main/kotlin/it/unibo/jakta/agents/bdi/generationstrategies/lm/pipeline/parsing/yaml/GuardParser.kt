@@ -8,8 +8,8 @@ import it.unibo.tuprolog.core.Struct
 import it.unibo.tuprolog.core.Truth
 import kotlin.text.replace
 
-internal object GuardParser {
-    private fun wrapBelief(struct: Struct): Struct = SourceWrapperVisitor.wrapSelectively(struct).castToStruct()
+object GuardParser {
+    fun wrapBelief(struct: Struct): Struct = SourceWrapperVisitor.wrapSelectively(struct).castToStruct()
 
     fun processGuard(plan: PlanData): Struct? {
         val individualConditions =

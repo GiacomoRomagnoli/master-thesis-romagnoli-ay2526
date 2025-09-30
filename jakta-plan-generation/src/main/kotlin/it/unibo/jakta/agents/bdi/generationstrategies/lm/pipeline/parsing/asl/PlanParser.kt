@@ -2,6 +2,7 @@ package it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.asl
 
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.engine.plans.PlanID
+import it.unibo.jakta.agents.bdi.generationstrategies.lm.pipeline.parsing.yaml.GuardParser
 import it.unibo.tuprolog.core.Struct
 import it.unibo.tuprolog.core.Term
 import it.unibo.tuprolog.core.Truth
@@ -14,8 +15,6 @@ class PlanParser(
         val context: Term,
         val body: Term,
     )
-
-    fun isPlan(term: Term): Boolean = term is Struct && term.functor == "<-"
 
     fun extractPlanComponents(plan: Term): PlanComponents? {
         if (plan !is Struct) return null
@@ -43,8 +42,10 @@ class PlanParser(
 
         val trigger = converter.createTrigger(components.trigger) ?: return null
         val guard = components.context as? Struct ?: Truth.TRUE
+        val processedGuard = if (guard != Truth.TRUE) GuardParser.wrapBelief(guard) else guard
+
         val goals = converter.flattenBody(components.body)
 
-        return Plan.of(PlanID(trigger, guard), goals)
+        return Plan.of(PlanID(trigger, processedGuard), goals)
     }
 }

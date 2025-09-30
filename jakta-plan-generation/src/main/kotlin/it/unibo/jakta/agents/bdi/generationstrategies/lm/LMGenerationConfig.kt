@@ -31,7 +31,7 @@ sealed interface LMGenerationConfig : GenerationConfig {
     val lmServerUrl: String?
     val lmServerToken: String?
     val contextFilters: Iterable<ContextFilter>
-    val useAslSyntax: Boolean
+    val useAslSyntax: Boolean?
     val systemPromptBuilder: SystemPromptBuilder?
     val userPromptBuilder: UserPromptBuilder?
     val requestTimeout: Long?
@@ -74,7 +74,7 @@ sealed interface LMGenerationConfig : GenerationConfig {
         override val lmServerToken: String? = null,
         @Transient
         override val contextFilters: List<ContextFilter> = emptyList(),
-        override val useAslSyntax: Boolean,
+        override val useAslSyntax: Boolean? = null,
         @Transient
         override val systemPromptBuilder: SystemPromptBuilder? = null,
         @Transient
@@ -88,10 +88,12 @@ sealed interface LMGenerationConfig : GenerationConfig {
                 modelId = modelId ?: base.modelId,
                 temperature = temperature ?: base.temperature,
                 topP = topP ?: base.topP,
+                reasoningEffort = reasoningEffort ?: base.reasoningEffort,
                 maxTokens = maxTokens ?: base.maxTokens,
                 lmServerUrl = lmServerUrl ?: base.lmServerUrl,
                 lmServerToken = lmServerToken ?: base.lmServerToken,
                 contextFilters = contextFilters.ifEmpty { base.contextFilters },
+                useAslSyntax = useAslSyntax ?: base.useAslSyntax,
                 systemPromptBuilder = systemPromptBuilder ?: base.systemPromptBuilder,
                 userPromptBuilder = userPromptBuilder ?: base.userPromptBuilder,
                 requestTimeout = requestTimeout ?: base.requestTimeout,

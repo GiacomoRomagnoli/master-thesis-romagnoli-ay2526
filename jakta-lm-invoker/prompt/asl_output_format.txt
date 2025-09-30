@@ -2,7 +2,9 @@ Always format AgentSpeak plans using the following syntax:
 
 ```asl
 +!goal_name(Args) : condition1 & condition2 & ~negated_condition <- action1; action2; +belief; -old_belief; +!subgoal
+---
 +belief_name(Args) : guard_condition <- response_action; +new_belief
+---
 -belief_name(Args) : context <- cleanup_action; -related_belief
 ```
 
@@ -28,8 +30,11 @@ Operators:
 Examples:
 ```asl
 +!move_to(X) : location(Y) & ~blocked(path(Y,X)) <- move(X)
+---
 +temperature(T) : T > 30 <- turn_on(ac); +belief(cooling_active)
+---
 +obstacle_detected : moving <- stop; +belief(obstacle_present); +!find_path
+---
 -goal_completed : task(T) <- cleanup(T); -task(T); +belief(available)
 ```
 
@@ -39,4 +44,5 @@ Notes:
 - Plan body must contain at least one action
 - Variables start with uppercase letters (Prolog convention)
 - Atoms and predicate names start with lowercase letters
+- Separate multiple plans with `---`
 ```
