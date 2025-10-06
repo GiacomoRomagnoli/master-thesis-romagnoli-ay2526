@@ -152,7 +152,7 @@ interface UserPromptBuilder : PromptBuilder {
                             Output only the final set of plans with no alternatives or intermediate attempts.
                             """.trimIndent(),
                         )
-                    PromptTechnique.CoTMulti -> {} // TODO
+                    PromptTechnique.CoTMulti -> TODO()
                 }
             }
         }

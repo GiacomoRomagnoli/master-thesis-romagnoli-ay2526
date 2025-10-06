@@ -7,7 +7,6 @@ fun main() {
 
     val examples =
         listOf(
-            "+!choose_move(O) : object(O, Xg, Yg) & current_position(X, Y) & ~(X < Xg & free(east)) & ~(X > Xg & free(west)) & ~(Y < Yg & free(north)) & ~(Y > Yg & free(south)) <- fail",
             "+!go(X) : location(Y) & ~blocked(path(Y,X)) <- move(X)",
             "+temperature(T) : T > 30 <- turn_on(ac)",
             "+belief(something) <- action1; action2; +!goal(param)",

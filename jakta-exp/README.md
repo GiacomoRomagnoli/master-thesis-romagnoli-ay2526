@@ -8,8 +8,6 @@ There are two kinds of experiment:
 ## Prerequisites
 
 - Unix shell environment with the root of the repo as working directory
-- For native executable compilation: [GraalVM JDK](https://www.graalvm.org/jdk21/docs/) is required. 
-If [SDKMAN](https://sdkman.io/) is available, the community edition can be installed by running `sdk install java 21.0.2-graalce`
 
 ## Building
 
@@ -19,22 +17,6 @@ To build the fat jar with all dependencies included:
 ```shell
 ./gradlew :jakta-exp:shadowJar
 ```
-
-### Native Executable
-To build a native executable using GraalVM Native Image. This process requires three steps:
-
-```shell
-# Runs with the agent to collect metadata for native compilation
-./gradlew :jakta-exp:run -Pagent --args="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --run-timeout-millis 50000 --temperature 0.1"
-
-# Copies the collected metadata
-./gradlew :jakta-exp:metadataCopy
-
-# Compiles to a native executable
-./gradlew :jakta-exp:nativeCompile
-```
-
-**Note:** The first step runs the application with GraalVM's tracing agent (`-Pagent`) to collect metadata about reflection usage, dynamic class loading, and other runtime behaviors needed for native compilation.
 
 ## Configuration
 
@@ -77,8 +59,7 @@ For authentication details, refer to: https://openrouter.ai/docs/api-reference/a
 - `--log-server-url`: URL of the log server (default: http://localhost:8081)
 
 ### Prompt Configuration
-- `--without-admissible-beliefs`: Whether to exclude or not admissible beliefs from the prompt (default: false)
-- `--without-admissible-goals`: Whether to exclude or not admissible goals from the prompt (default: false)
+- `--without-admissible-beliefs-and-goals`: Whether to exclude or not admissible beliefs and goals from the prompt (default: false)
 - `--expected-result-explanation-level`: The level of detail with which the expected result is explained in the prompt (one of {standard (default), detailed})
 - `--asl-syntax-explanation-level`: The level of detail with which the AgentSpeak syntax is explained in the prompt (one of {standard (default), detailed})
 - `--with-bdi-agent-definition`: Whether to include or not a definition of what a BDI agent is in the prompt (default: false)
@@ -86,8 +67,10 @@ For authentication details, refer to: https://openrouter.ai/docs/api-reference/a
 - `--without-logic-description`: Whether to exclude or not logic descriptions of beliefs and goals from the prompt (default: false)
 - `--without-nl-description`: Whether to exclude or not natural language descriptions of beliefs and goals from the prompt (default: false)
 - `--prompt-technique`: The kind of technique to use for prompting (one of {NoCoT (default), CoT, CoTMulti})
+- `--use-asl-syntax`: Whether to use the AgentSpeak syntax or the hybrid YAML/Prolog syntax in the prompt (default: false)
 - `--remarks`: Path to the file that stores remarks to include in the prompt (default: none)
 - `--environment-type`: The type of environment to use (one of {Standard (default), HSpace or Channel})
+- `--prompt-snippets-path`: The directory where the snippets used to build prompts are stored (default: "prompt/")
 
 ## Running Experiments
 
@@ -114,15 +97,6 @@ Option 2: fat JAR
 
 # Or executes JAR directly (update api-key and jakta-version)
 API_KEY="<api-key>" java -jar ./jakta-exp/build/libs/jakta-exp-<jakta-version>-all.jar --lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --temperature 0.1
-```
-
-Option 3: native executable
-```shell
-# Using Gradle wrapper
-./gradlew :jakta-exp:nativeRun -Pargs="--lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --run-timeout-millis 50000 --temperature 0.1"
-
-# Or executes binary directly (update api-key)
-API_KEY="<api-key>" ./jakta-exp/build/native/nativeCompile/jakta-exp --lm-server-url https://openrouter.ai/api/v1/ --model-id deepseek/deepseek-chat-v3.1:free --log-to-file --temperature 0.1
 ```
 
 ## Replaying a past experiment

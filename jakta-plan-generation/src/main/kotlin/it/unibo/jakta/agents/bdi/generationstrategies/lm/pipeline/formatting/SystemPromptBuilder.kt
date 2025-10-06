@@ -73,7 +73,6 @@ interface SystemPromptBuilder : PromptBuilder {
                     )
                 }
 
-                // TODO
                 section("Output Format") {
                     if (promptTechnique != PromptTechnique.CoTMulti) {
                         if (useAslSyntax) {

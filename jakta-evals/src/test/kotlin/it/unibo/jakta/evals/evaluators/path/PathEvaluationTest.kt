@@ -8,7 +8,6 @@ import it.unibo.jakta.exp.ablation.gridworld.model.Position
 
 class PathEvaluationTest :
     FunSpec({
-
         test("LLM path matches optimal path") {
             val grid = Grid(5, 5, emptySet())
             val start = Position(0, 0)
