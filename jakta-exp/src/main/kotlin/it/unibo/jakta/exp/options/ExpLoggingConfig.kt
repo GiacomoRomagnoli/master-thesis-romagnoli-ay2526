@@ -3,7 +3,6 @@ package it.unibo.jakta.exp.options
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.options.check
 import com.github.ajalt.clikt.parameters.options.default
-import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.help
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.boolean
@@ -17,7 +16,8 @@ class ExpLoggingConfig : OptionGroup(name = "Logging Configuration") {
         .help("The minimum log level")
 
     val logToConsole: Boolean by option()
-        .flag(default = true)
+        .boolean()
+        .default(true)
         .help("Whether to output log to std output.")
 
     val logToFile: Boolean by option()
