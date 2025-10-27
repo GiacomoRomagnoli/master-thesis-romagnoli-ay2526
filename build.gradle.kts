@@ -63,6 +63,12 @@ allprojects {
         }
     }
 
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+    }
+
 //    multiJvm {
 //        jvmVersionForCompilation.set(21)
 //    }
