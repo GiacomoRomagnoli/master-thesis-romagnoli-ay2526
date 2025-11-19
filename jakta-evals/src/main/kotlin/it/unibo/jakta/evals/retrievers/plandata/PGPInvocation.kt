@@ -25,4 +25,5 @@ data class PGPInvocation(
     val achievesGoal: Boolean = true,
     val generationConfig: LMGenerationConfig? = null,
     val chatCompletionId: String? = null,
+    val actionFailures: Int = 0,
 )

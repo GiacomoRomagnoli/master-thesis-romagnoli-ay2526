@@ -5,6 +5,7 @@ import it.unibo.jakta.agents.bdi.dsl.actions.ActionMetadata.meaning
 import it.unibo.jakta.agents.bdi.dsl.externalAction
 import it.unibo.jakta.agents.bdi.engine.beliefs.Belief
 import it.unibo.jakta.agents.bdi.engine.beliefs.BeliefBase
+import it.unibo.jakta.agents.bdi.engine.executionstrategies.feedback.ActionFailure
 import it.unibo.jakta.exp.GridWorldEnvironment
 import it.unibo.jakta.exp.ablation.gridworld.environment.AblationGridWorldEnvironment.Companion.state
 import it.unibo.jakta.exp.ablation.gridworld.model.Position
@@ -30,8 +31,9 @@ object GridWorldDsl {
             if (env != null) {
                 val updatedEnvState = env.parseAction(actionName)
                 val oldPosition = env.data.state()?.agentPosition
-                if (updatedEnvState != null && oldPosition != null) {
-                    updateData("state" to updatedEnvState)
+                when (updatedEnvState) {
+                    null -> addFeedback(ActionFailure.GenericActionFailure(actionSignature, arguments))
+                    else -> if (oldPosition != null) updateData("state" to updatedEnvState)
                 }
             }
         }.meaning {

@@ -6,6 +6,7 @@ import it.unibo.jakta.agents.bdi.engine.actions.effects.BeliefChange
 import it.unibo.jakta.agents.bdi.engine.beliefs.AdmissibleBelief
 import it.unibo.jakta.agents.bdi.engine.context.ContextUpdate
 import it.unibo.jakta.agents.bdi.engine.events.AdmissibleGoal
+import it.unibo.jakta.agents.bdi.engine.executionstrategies.feedback.ActionFailure
 import it.unibo.jakta.agents.bdi.engine.executionstrategies.feedback.PGPSuccess
 import it.unibo.jakta.agents.bdi.engine.plans.Plan
 import it.unibo.jakta.agents.bdi.generationstrategies.lm.LMGenerationConfig
@@ -72,16 +73,19 @@ class AblationPGPDataRetriever(
 
         var reachesDestination = false
         var timeOfCompletion: Long? = 0L
+        var actionFailures = 0
         val generatedPlans = mutableListOf<Plan>()
         val generatedAdmissibleGoals = mutableListOf<AdmissibleGoal>()
         val generatedAdmissibleBeliefs = mutableListOf<AdmissibleBelief>()
-
         processLog(agentLogStream) { logEntry ->
             when (val ev = logEntry.message.event) {
                 is PGPSuccess.GenerationCompleted -> {
                     generatedPlans.addAll(ev.plans)
                     generatedAdmissibleGoals.addAll(ev.admissibleGoals)
                     generatedAdmissibleBeliefs.addAll(ev.admissibleBeliefs)
+                }
+                is ActionFailure.GenericActionFailure -> {
+                    actionFailures++
                 }
                 is BeliefChange -> {
                     if (ev.changeType == ContextUpdate.ADDITION &&
