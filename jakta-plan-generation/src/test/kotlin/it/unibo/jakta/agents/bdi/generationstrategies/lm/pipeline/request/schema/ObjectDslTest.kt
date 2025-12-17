@@ -15,7 +15,6 @@ class ObjectDslTest :
             schema["type"] shouldBe primitive("object")
             schema["properties"] shouldBe null
             schema["required"] shouldBe null
-            schema["oneOf"] shouldBe null
         }
 
         test("single property schema") {
@@ -23,7 +22,6 @@ class ObjectDslTest :
             schema["type"] shouldBe primitive("object")
             schema["properties"] shouldBe obj("a" to obj("type" to primitive("string")))
             schema["required"] shouldBe null
-            schema["oneOf"] shouldBe null
         }
 
         test("required fields schema") {
@@ -40,19 +38,6 @@ class ObjectDslTest :
                     "b" to obj("type" to primitive("string")),
                 )
             schema["required"] shouldBe array("a")
-            schema["oneOf"] shouldBe null
-        }
-
-        test("oneOf schema") {
-            val schema = schema { oneOf(obj { property("a", string) }, obj { property("b", string) }) }
-            schema["type"] shouldBe null
-            schema["properties"] shouldBe null
-            schema["required"] shouldBe null
-            schema["oneOf"] shouldBe
-                array(
-                    obj("type" to primitive("object"), "properties" to obj("a" to obj("type" to primitive("string")))),
-                    obj("type" to primitive("object"), "properties" to obj("b" to obj("type" to primitive("string")))),
-                )
         }
     }) {
     companion object {

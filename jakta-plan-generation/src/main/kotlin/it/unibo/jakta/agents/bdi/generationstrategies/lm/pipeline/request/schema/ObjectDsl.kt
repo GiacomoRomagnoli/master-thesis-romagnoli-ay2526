@@ -6,7 +6,6 @@ import kotlinx.serialization.json.JsonPrimitive
 
 class ObjectDsl {
     private val required = mutableListOf<JsonPrimitive>()
-    private val oneOf = mutableListOf<JsonObject>()
     private val properties: MutableMap<String, JsonObject> = mutableMapOf()
     val string = JsonObject(mapOf(TYPE to STRING))
     val number = JsonObject(mapOf(TYPE to NUMBER))
@@ -21,46 +20,29 @@ class ObjectDsl {
 
     fun array(items: JsonObject) = JsonObject(mapOf(TYPE to ARRAY, ITEMS to items))
 
-    fun array(vararg items: JsonObject) = JsonObject(mapOf(TYPE to ARRAY, ITEMS to obj { oneOf(*items) }))
-
-    fun obj(block: ObjectDsl.() -> Unit): JsonObject {
-        val builder = ObjectDsl()
-        builder.block()
-        return builder.build()
-    }
-
-    fun oneOf(vararg schemas: JsonObject) = oneOf.addAll(schemas)
+    fun array(block: ObjectDsl.() -> Unit) = array(schema(block))
 
     fun required(vararg keys: String) = required.addAll(keys.map { JsonPrimitive(it) })
 
-    // TODO: introdurre la descrizione come parametro
     fun property(
         key: String,
         value: JsonObject,
-    ) {
-        properties[key] = value
+        description: String? = null,
+    ) = when (description) {
+        null -> properties[key] = value
+        else -> properties[key] = JsonObject(value + (DESCRIPTION to JsonPrimitive(description)))
     }
 
     fun property(
         key: String,
-        vararg value: JsonObject,
-    ) {
-        properties[key] = obj { oneOf(*value) }
-    }
-
-    fun property(
-        key: String,
+        description: String? = null,
         block: ObjectDsl.() -> Unit,
-    ) {
-        val builder = ObjectDsl()
-        builder.block()
-        properties[key] = builder.build()
-    }
+    ) = property(key, schema(block), description)
 
     fun build(): JsonObject =
         JsonObject(
             mapOf(
-                if (oneOf.isEmpty()) (TYPE to OBJECT) else (ONE_OF to JsonArray(oneOf)),
+                TYPE to OBJECT,
             ).let {
                 if (required.isNotEmpty()) it + (REQUIRED to JsonArray(required)) else it
             }.let {
@@ -74,16 +56,16 @@ class ObjectDsl {
         private const val REQUIRED = "required"
         private const val ITEMS = "items"
         private const val PROPERTIES = "properties"
-        private const val ONE_OF = "oneOf"
+        private const val DESCRIPTION = "description"
         private val STRING = JsonPrimitive("string")
         private val NUMBER = JsonPrimitive("number")
         private val ARRAY = JsonPrimitive("array")
         private val OBJECT = JsonPrimitive("object")
 
         fun schema(block: ObjectDsl.() -> Unit): JsonObject {
-            val builder = ObjectDsl()
-            builder.block()
-            return builder.build()
+            val scope = ObjectDsl()
+            scope.block()
+            return scope.build()
         }
     }
 }
