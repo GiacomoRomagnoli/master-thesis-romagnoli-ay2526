@@ -6,7 +6,7 @@ java -version
 # CONFIGURAZIONE
 ######################################
 JAR_PATH="build/libs/jakta-exp-all.jar"
-DEFAULT_INSTANCES=5
+DEFAULT_INSTANCES=3
 ENV_FILE="../.env"
 ######################################
 
@@ -37,15 +37,16 @@ echo "====================================="
 # Avvia le istanze in parallelo
 for ((i=1; i<=INSTANCES; i++)); do
   echo "[INFO] Avvio esperimento $i..."
+  echo "====================================="
 
   API_KEY="$API_KEY" java -jar "$JAR_PATH" \
-    --log-to-file false \
+    --log-to-file true \
     --log-to-console false \
-    --lm-server-url "https://openrouter.ai/api/v1/" \
-    --model-id "deepseek/deepseek-chat-v3.1:free" \
-    --temperature 0.1 &
-
-  sleep 1
+    --lm-server-url "https://generativelanguage.googleapis.com/v1beta/openai/" \
+    --model-id "gemini-2.5-flash" \
+    --temperature 0.1
+  echo "====================================="
+  # sleep 2
 done
 
 echo "Tutti gli esperimenti sono stati avviati."
